@@ -9,5 +9,11 @@ server.listen(88, "0.0.0.0", function(){
 });
 
 app.use(express.static(__dirname+'/'));
+if(!null){
+    console.log(Number(null))
+}
+else {
 
 
+    console.log("Not NULL")
+}
