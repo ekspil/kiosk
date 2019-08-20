@@ -60,7 +60,7 @@ var app = new Vue({
                     },
                     {
                         n: "Ваш соус",
-                        set: [8, 9, 10]
+                        set: [1, 11, 20, 26]
                     },
                     {
                         n: "Ваша закуска",
@@ -82,28 +82,37 @@ var app = new Vue({
 },
     methods: {
         addToCart: function(newItem){
+            let tempItem = {};
+            for (var key in newItem) {
+                tempItem[key] = newItem[key];
+            }
 
-            let tempItem = newItem
             if(newItem.set){
+
                 this.thisSet = tempItem;
                 UIkit.modal('#modal-set').show();
-            }
+            }else if(newItem.help){
 
-
-            const [checkItem] = this.cart.filter(cartItem => cartItem.id === newItem.id)
-            if(!checkItem){
-                newItem.count = 1
-                this.cart.push(newItem)
             }else{
-                const arr = this.cart.map(itemCart => {
-                    if (newItem.id === itemCart.id){
-                        itemCart.count++
 
-                    }
-                    return itemCart
-                })
-                this.cart = arr
+
+                const [checkItem] = this.cart.filter(cartItem => cartItem.id === tempItem.id)
+                if(!checkItem){
+                    tempItem.count = 1
+                    this.cart.push(tempItem)
+                }else{
+                    const arr = this.cart.map(itemCart => {
+                        if (tempItem.id === itemCart.id){
+                            itemCart.count++
+
+                        }
+                        return itemCart
+                    })
+                    this.cart = arr
+                }
             }
+
+
 
             return true
         },
@@ -151,7 +160,7 @@ var app = new Vue({
             return selection.img
         },
         setSelect: function (it, sets) {
-            console.log(sets)
+
             const [selection_list] = this.list.filter(item => item.id == it);
             let selection = {
                 groupId: selection_list.groupId,
@@ -163,11 +172,49 @@ var app = new Vue({
                 set: selection_list.set,
                 n: sets.n
             }
+            function compare(a, b) {
+                if (a.n > b.n) return 1; // если первое значение больше второго
+                if (a.n == b.n) return 0; // если равны
+                if (a.n < b.n) return -1; // если первое значение меньше второго
+            }
             this.selection = this.selection.filter(item => item.n != sets.n);
             this.selection.push(selection)
-            console.log(this.selection)
-            console.log(sets.n)
+            this.selection.sort(compare)
 
+
+        },
+        clearTemp: function () {
+            this.thisSet = null
+            this.selection = []
+        },
+        addSetToCart: function (selectedProducts) {
+            if(selectedProducts.length != this.thisSet.set.length){
+                UIkit.modal('#modal-error-count').show();
+                return false
+            }
+            this.thisSet.selected = selectedProducts
+            let date = new Date()
+            this.thisSet.id = String(this.thisSet.id)+"-"+date.getDate()+date.getUTCHours()+date.getUTCMinutes()+date.getSeconds()
+
+            const [checkItem] = this.cart.filter(cartItem => cartItem.id === this.thisSet.id)
+            if(!checkItem){
+                this.thisSet.count = 1
+                this.cart.push(this.thisSet)
+            }else{
+                const arr = this.cart.map(itemCart => {
+                    if (this.thisSet.id === itemCart.id){
+                        itemCart.count++
+
+                    }
+                    return itemCart
+                })
+                this.cart = arr
+            }
+            this.clearTemp()
+            UIkit.modal('#modal-set').hide();
+        },
+        showModalSet: function () {
+            UIkit.modal('#modal-set').show();
         }
     }
 })

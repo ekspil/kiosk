@@ -80,15 +80,15 @@
 
          </ul>
 
-         <a class="uk-position-center-left uk-position-small " href="#" uk-slidenav-previous uk-slider-item="previous"></a>
-         <a class="uk-position-center-right uk-position-small " href="#" uk-slidenav-next uk-slider-item="next"></a>
+         <a class="uk-position-center-left uk-position-small uk-slidenav-large" href="#" uk-slidenav-previous uk-slider-item="previous"></a>
+         <a class="uk-position-center-right uk-position-small uk-slidenav-large" href="#" uk-slidenav-next uk-slider-item="next"></a>
 
      </div>
     <ul class="uk-slider-nav uk-dotnav uk-flex-center uk-margin"></ul>
 </div>
      <div  class="uk-text-center uk-position-bottom pay-buttons" uk-grid>
          <button class="uk-button  uk-width-1-2 uk-button-primary">Отмена</button>
-         <button class="uk-button  uk-width-1-2 uk-button-secondary">Оплатить</button>
+         <button class="uk-button  uk-width-1-2 uk-button-secondary">Перейти к оформлению</button>
      </div>
 
 
@@ -112,35 +112,52 @@
 
 
             <div class="uk-modal-header uk-text-center">
-                <h2 class="uk-modal-title">Выберите состав набора:</h2>
+                <h2 v-if="thisSet" class="uk-modal-title">Выберите все {{thisSet.set.length}} позиции набора:</h2>
             </div>
 
             <div v-if="thisSet" class="uk-modal-body uk-text-center" uk-overflow-auto>
 
 
-                <div v-for="sets in thisSet.set" class="uk-position-relative uk-visible-toggle uk-dark"  tabindex="-1"  uk-slider="finite: true">
+                <div v-for="sets in thisSet.set" class="uk-position-relative uk-visible-toggle uk-light"  tabindex="-1"  uk-slider="finite: true">
                     <ul class="uk-text-center uk-slider-items uk-child-width-1-3" >
                         <li v-for="item in sets.set"><a href="#"><img @click="setSelect(item, sets)" :src="getImgById(item)" alt="" >{{getNameById(item)}}</a></li>
                     </ul>
-                    <a class="uk-position-center-left uk-position-small " href="#" uk-slidenav-previous uk-slider-item="previous"></a>
-                    <a class="uk-position-center-right uk-position-small " href="#" uk-slidenav-next uk-slider-item="next"></a>
+                    <a class="uk-position-center-left uk-position-small uk-slidenav-large" href="#" uk-slidenav-previous uk-slider-item="previous"></a>
+                    <a class="uk-position-center-right uk-position-small uk-slidenav-large" href="#" uk-slidenav-next uk-slider-item="next"></a>
                 </div>
 
             </div>
             <div class="uk-modal-header uk-text-center">
-                <h2 v-if="thisSet" class="uk-modal-title">Ваш: {{thisSet.name}}</h2>
+                <h2 v-if="thisSet" class="uk-modal-title">Ваш {{thisSet.name}}:</h2>
             </div>
             <div v-if="thisSet" class="uk-flex uk-flex-center">
-                <div v-for="select in selection" class="uk-card uk-card-default uk-card-body uk-text-center "><img  :src="getImgById(select.id)" alt="" >{{getNameById(select.id)}}</div>
+                <div v-for="select in selection" class="uk-card  uk-card-body uk-text-center "><img  :src="getImgById(select.id)" alt="" >{{getNameById(select.id)}}</div>
             </div>
 
             <div class="uk-modal-footer uk-text-center">
-                <button class="uk-button uk-button-modal-default uk-modal-close" type="button">Передумал</button>
-                <button class="uk-button uk-button-modal-ok" type="button">Выбрал</button>
+                <button class="uk-button uk-button-modal-default uk-modal-close" @click="clearTemp()" type="button">Передумал</button>
+                <button class="uk-button uk-button-modal-ok" @click="addSetToCart(selection)" type="button">Выбрал</button>
             </div>
 
         </div>
     </div>
+
+
+
+
+    <div id="modal-error-count" class="uk-flex-top uk-text-center" uk-modal="bg-close: false">
+        <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical uk-text-center">
+
+
+            <p>Вы выбрали не все позиции!</p>
+            <p> </p>
+            <button class="uk-button uk-button-primary uk-text-center" type="button" @click="showModalSet()">Продолжить выбор</button>
+
+        </div>
+    </div>
+
+
+
 </div>
 
 
