@@ -125,7 +125,9 @@ svg{
 .pay-buttons{
     height: 25%;
 }
-
+.uk-button-coupon{
+    background-color: #ff570a;
+}
 
 
 ::-webkit-scrollbar-button {

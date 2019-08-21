@@ -215,6 +215,9 @@ var app = new Vue({
         },
         showModalSet: function () {
             UIkit.modal('#modal-set').show();
+        },
+        coupon: function () {
+            UIkit.modal('#modal-coupon').show();
         }
     }
 })
