@@ -8,8 +8,12 @@ var app = new Vue({
         message: 'Привет!',
         groupId: 1,
         orderType: 1,
+        litera: "F",
+        orderNumber: 254,
+        payed: 0,
         timer: 60,
         defaultTimer: 90,
+        payHelper: "Следуйте указаниям на пинпаде...",
         menuClasses: {
             normal: "uk-button uk-button-menu uk-width-1-1 uk-inline",
             active: "uk-button uk-button-active uk-button-menu uk-width-1-1 uk-inline",
@@ -35,13 +39,13 @@ var app = new Vue({
             {groupId: 1, price: 112, helper: "Попробуйте еще и маффин", id: 2, img: 'img/prod/nag.jpg', name: 'Негетсы(8шт)', type: 1},
             {groupId: 1, price: 112, helper: "Не забудьте соус", id: 3, img: 'img/prod/nag.jpg', name: 'Негетсы(8шт)', type: 1},
             {groupId: 1, price: 112, id: 4, img: 'img/prod/nag.jpg', name: 'Негетсы(8шт)', type: 1},
-            {groupId: 1, price: 112, id: 5, img: 'img/prod/nag.jpg', name: 'Негетсы(8шт)', type: 1},
+            {groupId: 1, price: 112, id: 5, img: '', name: 'Негетсы(8шт)', type: 1},
             {groupId: 1, price: 112, id: 6, img: 'img/prod/nag.jpg', name: 'Негетсы(8шт)', type: 1},
             {groupId: 1, price: 112, id: 7, img: 'img/prod/nag.jpg', name: 'Негетсы(8шт)', type: 1},
             {groupId: 2, price: 89, helper: "Не забудьте картошку", id: 8, img: 'img/prod/koffe.jpg', name: 'Капучино', type: 1},
             {groupId: 2, price: 89, id: 9, img: 'img/prod/koffe.jpg', name: 'Капучино', type: 1},
             {groupId: 2, price: 89, id: 10, img: 'img/prod/koffe.jpg', name: 'Капучино', type: 1},
-            {groupId: 2, price: 89, id: 11, img: 'img/prod/koffe.jpg', name: 'Капучино', type: 1},
+            {groupId: 2, price: 89, id: 11, img: '', name: 'Капучино', type: 1},
             {groupId: 2, price: 89, id: 12, img: 'img/prod/koffe.jpg', name: 'Капучино', type: 1},
             {groupId: 2, price: 89, id: 13, img: 'img/prod/koffe.jpg', name: 'Капучино', type: 1},
             {groupId: 3, price: 259, id: 14, img: 'img/prod/graf.jpg', name: 'Граф де Чиз', type: 1},
@@ -292,9 +296,11 @@ var app = new Vue({
         },
         start: function () {
             this.clearTemp();
+            this.payed = 0;
             this.thisCoupon = [];
             this.thisCouponHolder="0000";
             this.cart=[];
+            this.payHelper = "Следуйте указаниям на пинпаде...";
             UIkit.modal('#modal-start').show();
 
         },
@@ -327,7 +333,13 @@ var app = new Vue({
             UIkit.modal('#modal-cart').hide();
         },
         pay: function () {
-
+            this.timer=this.defaultTimer*3;
+            UIkit.modal('#modal-pay').show();
+            setTimeout(()=>{this.payHelper = "Печатаем чек..."}, 2000)
+            setTimeout(()=>{this.payHelper = "Выводим информацию на кухонные мониторы..."}, 4000)
+            setTimeout(()=>{this.payHelper = "Готово! Ваш заказ F-001"}, 6000)
+            setTimeout(()=>{this.payed = 1}, 6050)
+            setTimeout(this.start, 20000)
         }
     }
 })

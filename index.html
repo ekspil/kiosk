@@ -52,7 +52,7 @@
 
 
 <a v-for="pos in list" v-if="pos.groupId === groupId && !pos.coupon" href="#" :id="pos.id" @click="addToCart(pos)"><div class="uk-card uk-card-small uk-animation-scale-up">
-             <div class="uk-card-media-top"><img :data-src="pos.img" width="100%" height="100%" alt="" uk-img></div>
+             <div class="uk-card-media-top"><img :data-src="pos.img || 'img/prod/default.jpg'" width="100%" height="100%" alt="" uk-img></div>
              <div class="uk-card-body">
                  <h3 class="uk-card-title">{{pos.name}}</h3>
                  <p>{{pos.price}} руб.</p>
@@ -76,7 +76,7 @@
 
          <ul class="uk-slider-items uk-child-width-1-6 ">
              <li v-for="item in cart" class="uk-animation-shake ">
-                 <img :src="item.img" alt="" >
+                 <img :src="item.img || 'img/prod/default.jpg'" alt="" >
                  <div class="uk-position-center uk-panel"><h1><span class="cart-minus" @click="minusCart(item)">- </span><span> {{item.count}} </span><span @click="plusCart(item)" class="cart-plus"> +</span></h1></div>
              </li>
 
@@ -122,7 +122,7 @@
 
                 <div v-for="sets in thisSet.set" class="uk-position-relative uk-visible-toggle uk-light"  tabindex="-1"  uk-slider="finite: true">
                     <ul class="uk-text-center uk-slider-items uk-child-width-1-3" >
-                        <li v-for="item in sets.set"><a href="#"><img @click="setSelect(item, sets)" :src="getImgById(item)" alt="" >{{getNameById(item)}}</a></li>
+                        <li v-for="item in sets.set"><a href="#"><img @click="setSelect(item, sets)" :src="getImgById(item)  || 'img/prod/default.jpg'" alt="" >{{getNameById(item)}}</a></li>
                     </ul>
                     <a class="uk-position-center-left uk-position-small uk-slidenav-large" href="#" uk-slidenav-previous uk-slider-item="previous"></a>
                     <a class="uk-position-center-right uk-position-small uk-slidenav-large" href="#" uk-slidenav-next uk-slider-item="next"></a>
@@ -133,7 +133,7 @@
                 <h2 v-if="thisSet" class="uk-modal-title">Ваш {{thisSet.name}}:</h2>
             </div>
             <div v-if="thisSet" class="uk-flex uk-flex-center">
-                <div v-for="select in selection" class="uk-card  uk-card-body uk-text-center "><img  :src="getImgById(select.id)" alt="" >{{getNameById(select.id)}}</div>
+                <div v-for="select in selection" class="uk-card  uk-card-body uk-text-center "><img  :src="getImgById(select.id)  || 'img/prod/default.jpg'" alt="" >{{getNameById(select.id)}}</div>
             </div>
 
             <div class="uk-modal-footer uk-text-center">
@@ -243,7 +243,7 @@
 
 
                 <a v-for="pos in cart" v-if="cart" href="#" :id="pos.id" @click="addToCart(pos)"><div class="uk-card uk-card-small uk-animation-scale-up">
-                    <div class="uk-card-media-top"><img :data-src="pos.img" width="100%" height="100%" alt="" uk-img></div>
+                    <div class="uk-card-media-top"><img :data-src="pos.img  || 'img/prod/default.jpg'" width="100%" height="100%" alt="" uk-img></div>
                     <div class="uk-card-body">
                         <h3 class="uk-card-title">{{pos.count}} x {{pos.name}}</h3>
                         <p>{{pos.price*pos.count}} руб.</p>
@@ -265,6 +265,26 @@
     </div>
 
 
+
+    <div id="modal-pay" class="uk-modal-full" uk-modal>
+        <div class="uk-modal-dialog">
+            <div class="uk-grid-collapse uk-child-width-1-2@s uk-flex-middle" uk-grid>
+                <div class="uk-background-cover" style="background-image: url('img/service/pay.png');" uk-height-viewport></div>
+                <div v-if="payed==0" class="uk-padding-large uk-text-center">
+                    <h1>Организуем процедуру оплаты</h1>
+                    <p id="loading"><span  id="spinner" uk-spinner="ratio: 4.5"></span></p>
+                    <p>{{payHelper}}</p>
+                </div>
+                <div v-if="payed==1" class="uk-padding-large uk-text-center">
+
+                    <h1>Заказ номер:</h1>
+                    <p class="orderNumber">{{litera}}-{{orderNumber}}</p>
+                    <p id="loading"><img data-src='img/service/ok.png' width="100%" height="100%" alt="" uk-img></p>
+                    <p>Ожидайте выдачи заказа</p>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 
