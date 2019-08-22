@@ -9,6 +9,8 @@ var app = new Vue({
         groupId: 1,
         orderType: 1,
         litera: "F",
+        pincode: [],
+        pincodeReal: "1234",
         orderNumber: 254,
         payed: 0,
         timer: 60,
@@ -117,6 +119,14 @@ var app = new Vue({
 
             this.timer=this.defaultTimer;
             return this.thisCoupon.reduce((sum, arr) => {
+                return sum + arr
+
+            }, "")
+        },
+        pincodeString: function () {
+
+            this.timer=this.defaultTimer;
+            return this.pincode.reduce((sum, arr) => {
                 return sum + arr
 
             }, "")
@@ -294,13 +304,17 @@ var app = new Vue({
             UIkit.modal('#modal-coupon').hide();
             this.addToCart(coupon);
         },
-        start: function () {
+        start: function (atr) {
+            if(atr){
+                return true
+            }
             this.clearTemp();
             this.payed = 0;
             this.thisCoupon = [];
             this.thisCouponHolder="0000";
             this.cart=[];
             this.payHelper = "Следуйте указаниям на пинпаде...";
+            this.pincode=[];
             UIkit.modal('#modal-start').show();
 
         },
@@ -340,6 +354,24 @@ var app = new Vue({
             setTimeout(()=>{this.payHelper = "Готово! Ваш заказ F-001"}, 6000)
             setTimeout(()=>{this.payed = 1}, 6050)
             setTimeout(this.start, 20000)
+        },
+        adminPanel: function () {
+            this.timer=this.defaultTimer;
+            UIkit.modal('#modal-pin').show();
+        },
+        checkAdminPin: function () {
+            if(this.pincodeString != this.pincodeReal){
+                this.pincode = []
+                return false
+            }
+            this.timer=this.defaultTimer*10;
+            UIkit.modal('#modal-admin').show();
+        },
+        thisGroup: function (pos) {
+            [group] = this.groups.filter(gr => gr.id == pos.groupId)
+            return group.name
+
+
         }
     }
 })

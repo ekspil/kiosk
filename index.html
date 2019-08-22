@@ -217,7 +217,7 @@
 
     <div id="modal-start" class="uk-modal-full"  uk-modal="bg-close: false">
         <div class="uk-modal-dialog start-modal" >
-
+            <div class="uk-position-top-right uk-overlay "><span @dblclick="adminPanel(pincode)"  uk-icon="icon: cog; ratio: 1"></span></div>
             <div class="uk-grid-collapse uk-child-width-1-1 " uk-grid>
                 <div class="uk-background-cover"  ><img src="img/service/bg.jpg"   alt="" uk-img></div>
                 <div class="uk-padding-large uk-text-center">
@@ -285,6 +285,117 @@
             </div>
         </div>
     </div>
+
+
+
+
+
+    <!-- ВВОД ПИНКОДА -->
+
+
+    <div id="modal-pin" class="uk-flex-top" uk-modal v-on:hidden="start(pincodeString==pincodeReal)">
+
+        <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical uk-text-center">
+            <button class="uk-modal-close-default" type="button" uk-close></button>
+            <div class="uk-modal-header uk-text-center">
+                <h2  class="uk-modal-title">Вход в панель менеджера</h2>
+            </div>
+            <form class="uk-search uk-search-large uk-width-1-1 uk-text-center">
+
+                <input class="uk-search-input uk-text-center" type="search" placeholder="Введите пинкод" :value="pincodeString" maxlength="6" >
+            </form>
+
+
+            <div>
+                <div class="uk-button-group">
+                    <button class="uk-button uk-button-cupnum  uk-button-large uk-button-border-right" @click="pincode.push('1')">1</button>
+                    <button class="uk-button uk-button-cupnum uk-button-large uk-button-border-right uk-button-border-left" @click="pincode.push('2')">2</button>
+                    <button class="uk-button uk-button-cupnum uk-button-large uk-button-border-left" @click="pincode.push('3')">3</button>
+                </div>
+            </div>
+
+            <div >
+                <div class="uk-button-group">
+                    <button class="uk-button uk-button-cupnum uk-button-large uk-button-border-right uk-button-border-top" @click="pincode.push('4')">4</button>
+                    <button class="uk-button uk-button-cupnum uk-button-large uk-button-border-right uk-button-border-left uk-button-border-top" @click="pincode.push('5')">5</button>
+                    <button class="uk-button uk-button-cupnum uk-button-large uk-button-border-left uk-button-border-top" @click="pincode.push('6')">6</button>
+                </div>
+            </div>
+
+            <div>
+                <div class="uk-button-group">
+                    <button class="uk-button uk-button-cupnum uk-button-large uk-button-border-right uk-button-border-top" @click="pincode.push('7')">7</button>
+                    <button class="uk-button uk-button-cupnum uk-button-large uk-button-border-right uk-button-border-left uk-button-border-top" @click="pincode.push('8')">8</button>
+                    <button class="uk-button uk-button-cupnum uk-button-large uk-button-border-left uk-button-border-top" @click="pincode.push('9')">9</button>
+                </div>
+            </div>
+
+            <div>
+                <div class="uk-button-group">
+                    <button class="uk-button uk-button-coupok uk-button-large uk-button-border-top uk-button-border-right uk-button-border-top" @click="checkAdminPin()">OK</button>
+                    <button class="uk-button uk-button-cupnum uk-button-large uk-button-border-right uk-button-border-left uk-button-border-top" @click="pincode.push('0')">0</button>
+                    <button class="uk-button uk-button-delete uk-button-large uk-button-border-left uk-button-border-top"  @click="pincode.pop()"><img src="img/service/backspace.png" width="50px" height="50px" style="margin: 0px" alt="" uk-img></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+    <div id="modal-admin" class="uk-modal-full start-modal"  uk-modal="bg-close: false">
+        <div class="uk-modal-dialog start-modal" >
+            <div class="uk-modal-header uk-text-center">
+                <h2  class="uk-modal-title">Админская панель</h2>
+            </div>
+            <div id="list-cart"  class="uk-panel-scrollable uk-panel-scrollable-cart" >
+
+
+                <table class="uk-table uk-table-hover uk-table-middle uk-table-divider">
+                    <thead>
+                    <tr>
+                        <th class="uk-table-shrink">ОТКЛ</th>
+                        <th class="uk-table-shrink">Фото</th>
+                        <th class="uk-table-expand">Наименование</th>
+                        <th class="uk-width-small">Группа</th>
+                        <th class="uk-table-shrink uk-text-nowrap">Цена</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr v-for="pos in list">
+                        <td><input class="uk-checkbox" type="checkbox"></td>
+                        <td><img class="uk-preserve-width uk-border-circle" :src="pos.img" width="40" height="40" alt=""></td>
+                        <td class="uk-table-link">
+                            <a class="uk-link-reset" href="">{{pos.name}}</a>
+                        </td>
+                        <td class="uk-text-truncate">{{thisGroup(pos)}}</td>
+                        <td class="uk-text-nowrap">{{pos.price}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+
+
+            </div>
+            <div class="uk-modal-footer uk-text-center">
+                <button class="uk-button uk-button-danger" @click="" type="button">Выйти без сохранения</button>
+                <button class="uk-button uk-button-danger" @click="" type="button">Заблокировать киоск</button>
+                <button class="uk-button uk-button-danger" @click="" type="button">Разблокировать</button>
+            </div>
+            <div class="uk-modal-footer uk-text-center">
+                <button class="uk-button uk-button-danger" @click="" type="button">Снять Z-отчет</button>
+                <button class="uk-button uk-button-danger" @click="" type="button">Снять Х-отчет</button>
+                <button class="uk-button uk-button-danger" @click="" type="button">Применить</button>
+            </div>
+
+        </div>
+    </div>
+
+
+
+
+
+
 </div>
 
 
