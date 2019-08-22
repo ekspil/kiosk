@@ -1,8 +1,15 @@
 var app = new Vue({
     el: '#app',
+    mounted: function () {
+        const timer = setInterval(this.checkTimer, 1000)
+        this.start()
+    },
     data: {
         message: 'Привет!',
         groupId: 1,
+        orderType: 1,
+        timer: 60,
+        defaultTimer: 90,
         menuClasses: {
             normal: "uk-button uk-button-menu uk-width-1-1 uk-inline",
             active: "uk-button uk-button-active uk-button-menu uk-width-1-1 uk-inline",
@@ -20,16 +27,18 @@ var app = new Vue({
         ],
         cart: [],
         thisSet: null,
+        thisCoupon: [],
         selection: [],
+        thisCouponHolder: "0000",
         list: [
-            {groupId: 1, price: 112, id: 1, img: 'img/prod/nag.jpg', name: 'Негетсы(8шт)', type: 1},
-            {groupId: 1, price: 112, id: 2, img: 'img/prod/nag.jpg', name: 'Негетсы(8шт)', type: 1},
-            {groupId: 1, price: 112, id: 3, img: 'img/prod/nag.jpg', name: 'Негетсы(8шт)', type: 1},
+            {groupId: 1, price: 112, helper: "Не забудьте соус", id: 1, img: 'img/prod/nag.jpg', name: 'Негетсы(8шт)', type: 1},
+            {groupId: 1, price: 112, helper: "Попробуйте еще и маффин", id: 2, img: 'img/prod/nag.jpg', name: 'Негетсы(8шт)', type: 1},
+            {groupId: 1, price: 112, helper: "Не забудьте соус", id: 3, img: 'img/prod/nag.jpg', name: 'Негетсы(8шт)', type: 1},
             {groupId: 1, price: 112, id: 4, img: 'img/prod/nag.jpg', name: 'Негетсы(8шт)', type: 1},
             {groupId: 1, price: 112, id: 5, img: 'img/prod/nag.jpg', name: 'Негетсы(8шт)', type: 1},
             {groupId: 1, price: 112, id: 6, img: 'img/prod/nag.jpg', name: 'Негетсы(8шт)', type: 1},
             {groupId: 1, price: 112, id: 7, img: 'img/prod/nag.jpg', name: 'Негетсы(8шт)', type: 1},
-            {groupId: 2, price: 89, id: 8, img: 'img/prod/koffe.jpg', name: 'Капучино', type: 1},
+            {groupId: 2, price: 89, helper: "Не забудьте картошку", id: 8, img: 'img/prod/koffe.jpg', name: 'Капучино', type: 1},
             {groupId: 2, price: 89, id: 9, img: 'img/prod/koffe.jpg', name: 'Капучино', type: 1},
             {groupId: 2, price: 89, id: 10, img: 'img/prod/koffe.jpg', name: 'Капучино', type: 1},
             {groupId: 2, price: 89, id: 11, img: 'img/prod/koffe.jpg', name: 'Капучино', type: 1},
@@ -49,7 +58,28 @@ var app = new Vue({
             {groupId: 4, price: 59, id: 25, img: 'img/prod/pirozok.jpg', name: 'Пирожок с вишней', type: 1},
             {groupId: 4, price: 59, id: 26, img: 'img/prod/pirozok.jpg', name: 'Пирожок с вишней', type: 1},
             {groupId: 4, price: 59, id: 27, img: 'img/prod/pirozok.jpg', name: 'Пирожок с вишней', type: 1},
+            {groupId: 5, price: 19, id: 29, img: 'img/prod/pirozok.jpg', name: 'Пирожок с вишней', type: 1},
+            {groupId: 5, coupon: 1234, price: 19, id: 30, img: 'img/prod/pirozok.jpg', name: 'Пирожок с вишней', type: 1},
             {groupId: 9, price: 259, id: 28, img: 'img/prod/set.jpg', name: 'Детский сэт', type: 2, set:[
+                    {
+                        n: "Ваш напиток",
+                        set: [1, 3, 5]
+                    },
+                    {
+                        n: "Ваш бургер",
+                        set: [14, 15, 16]
+                    },
+                    {
+                        n: "Ваш соус",
+                        set: [1, 11, 20, 26]
+                    },
+                    {
+                        n: "Ваша закуска",
+                        set: [23]
+                    },
+
+                ]},
+            {groupId: 9, coupon: 1111, price: 111, id: 31, img: 'img/prod/set.jpg', name: 'Детский сэт', type: 2, set:[
                     {
                         n: "Ваш напиток",
                         set: [1, 3, 5]
@@ -78,10 +108,28 @@ var app = new Vue({
              return sum + current.count * current.price
            }, 0);
 
-    }
+    },
+        thisCouponString: function () {
+
+            this.timer=this.defaultTimer;
+            return this.thisCoupon.reduce((sum, arr) => {
+                return sum + arr
+
+            }, "")
+        }
 },
+    watch: {
+
+        thisCoupon: function (newC, oldC) {
+            if (newC.length > 4){
+                this.thisCoupon.pop()
+            }
+
+        }
+    },
     methods: {
         addToCart: function(newItem){
+            this.timer=this.defaultTimer;
             let tempItem = {};
             for (var key in newItem) {
                 tempItem[key] = newItem[key];
@@ -100,6 +148,10 @@ var app = new Vue({
                 if(!checkItem){
                     tempItem.count = 1
                     this.cart.push(tempItem)
+                    if(tempItem.helper){
+                        UIkit.notification( {message: "<h3 class='uk-card-title uk-text-center'>"+tempItem.helper+"</h3>", pos: 'top-center', status:'warning', timeout: 2000})
+                    }
+
                 }else{
                     const arr = this.cart.map(itemCart => {
                         if (tempItem.id === itemCart.id){
@@ -117,6 +169,7 @@ var app = new Vue({
             return true
         },
         menuClick: function(menuItem){
+            this.timer=this.defaultTimer;
             this.groupId = menuItem.id
         },
         menuClass: function(group){
@@ -126,6 +179,7 @@ var app = new Vue({
             return this.menuClasses.normal
         },
         plusCart: function(item){
+            this.timer=this.defaultTimer;
             const arr = this.cart.map(itemCart => {
                 if (item.id === itemCart.id){
                     itemCart.count++
@@ -136,6 +190,7 @@ var app = new Vue({
             this.cart = arr
         },
         minusCart: function(item){
+            this.timer=this.defaultTimer;
            let arr = this.cart.map(itemCart => {
                 if (item.id === itemCart.id){
                     itemCart.count--
@@ -160,6 +215,7 @@ var app = new Vue({
             return selection.img
         },
         setSelect: function (it, sets) {
+            this.timer=this.defaultTimer;
 
             const [selection_list] = this.list.filter(item => item.id == it);
             let selection = {
@@ -188,6 +244,7 @@ var app = new Vue({
             this.selection = []
         },
         addSetToCart: function (selectedProducts) {
+            this.timer=this.defaultTimer;
             if(selectedProducts.length != this.thisSet.set.length){
                 UIkit.modal('#modal-error-count').show();
                 return false
@@ -214,10 +271,63 @@ var app = new Vue({
             UIkit.modal('#modal-set').hide();
         },
         showModalSet: function () {
+            this.timer=this.defaultTimer;
             UIkit.modal('#modal-set').show();
         },
         coupon: function () {
+            this.timer=this.defaultTimer;
             UIkit.modal('#modal-coupon').show();
+        },
+        selectCoupon: function (couponNum) {
+            this.timer=this.defaultTimer;
+
+            [coupon] = this.list.filter(li => li.coupon == couponNum)
+            if(!coupon){
+                this.thisCoupon = [];
+                this.thisCouponHolder = "Купон не найден";
+                return false
+            }
+            UIkit.modal('#modal-coupon').hide();
+            this.addToCart(coupon);
+        },
+        start: function () {
+            this.clearTemp();
+            this.thisCoupon = [];
+            this.thisCouponHolder="0000";
+            this.cart=[];
+            UIkit.modal('#modal-start').show();
+
+        },
+        outOrder: function () {
+            this.timer=this.defaultTimer;
+            UIkit.modal('#modal-start').hide();
+            this.orderType = 2;
+        },
+        hereOrder: function () {
+            this.timer=this.defaultTimer;
+            UIkit.modal('#modal-start').hide();
+            this.orderType = 1;
+        },
+        checkTimer: function () {
+            if(this.timer == 0){
+                this.start()
+            }else{
+                this.timer--
+            }
+        },
+        toCart: function () {
+            if(this.cart.length < 1){
+                return false
+            }
+            this.timer=this.defaultTimer*3;
+            UIkit.modal('#modal-cart').show();
+        },
+        closeCart: function () {
+            this.timer=this.defaultTimer;
+            UIkit.modal('#modal-cart').hide();
+        },
+        pay: function () {
+
         }
     }
 })

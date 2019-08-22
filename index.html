@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Киоск Роял Бургеры Пицца</title>
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="mobile-web-app-capable" content="yes">
     <link rel="stylesheet" href="modules/uikit3/css/uikit.css" />
     <link href="style/style.css" type="text/css" rel="stylesheet" />
     <link href="modules/animate.css/animate.min.css" rel="stylesheet" type="text/css">
@@ -49,7 +51,7 @@
      <div id="list"  class="uk-panel-scrollable uk-width-expand  uk-grid-collapse uk-flex-center uk-child-width-1-2 uk-text-center" uk-grid>
 
 
-<a v-for="pos in list" v-if="pos.groupId === groupId" href="#" :id="pos.id" @click="addToCart(pos)"><div class="uk-card uk-card-small uk-animation-scale-up">
+<a v-for="pos in list" v-if="pos.groupId === groupId && !pos.coupon" href="#" :id="pos.id" @click="addToCart(pos)"><div class="uk-card uk-card-small uk-animation-scale-up">
              <div class="uk-card-media-top"><img :data-src="pos.img" width="100%" height="100%" alt="" uk-img></div>
              <div class="uk-card-body">
                  <h3 class="uk-card-title">{{pos.name}}</h3>
@@ -87,8 +89,8 @@
     <ul class="uk-slider-nav uk-dotnav uk-flex-center uk-margin"></ul>
 </div>
      <div  class="uk-text-center uk-position-bottom pay-buttons" uk-grid>
-         <button class="uk-button  uk-width-1-2 uk-button-primary">Отмена</button>
-         <button class="uk-button  uk-width-1-2 uk-button-secondary">Перейти к оформлению</button>
+         <button class="uk-button  uk-width-1-2 uk-button-primary" @click="start()" >Отмена</button>
+         <button class="uk-button  uk-width-1-2 uk-button-secondary" @click="toCart()">Перейти к оформлению</button>
      </div>
 
 
@@ -158,38 +160,51 @@
 
 
 
-    <div id="modal-coupon" class="uk-flex-top" uk-modal>
+    <div id="modal-coupon" class="uk-flex-top" uk-modal v-on:hidden="thisCoupon=[]">
 
         <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical uk-text-center">
+            <button class="uk-modal-close-default" type="button" uk-close></button>
             <div class="uk-modal-header uk-text-center">
                 <h2  class="uk-modal-title">Введите номер купона</h2>
             </div>
-            <form class="uk-search uk-search-large uk-width-1-5">
+            <form class="uk-search uk-search-large uk-width-1-1 uk-text-center">
 
-                <input class="uk-search-input" type="search" placeholder="0000">
+                <input class="uk-search-input uk-text-center" type="search" :placeholder="thisCouponHolder" :value="thisCouponString" maxlength="4" >
             </form>
 
-            <div>
-                <div class="uk-button-group">
-                    <button class="uk-button uk-button-secondary">1</button>
-                    <button class="uk-button uk-button-secondary">2</button>
-                    <button class="uk-button uk-button-secondary">3</button>
-                </div>
-            </div>
 
-            <div class="uk-margin-small">
-                <div class="uk-button-group">
-                    <button class="uk-button uk-button-primary">4</button>
-                    <button class="uk-button uk-button-primary">5</button>
-                    <button class="uk-button uk-button-primary">6</button>
-                </div>
-            </div>
+
+
 
             <div>
                 <div class="uk-button-group">
-                    <button class="uk-button uk-button-danger">7</button>
-                    <button class="uk-button uk-button-danger">8</button>
-                    <button class="uk-button uk-button-danger">9</button>
+                    <button class="uk-button uk-button-cupnum  uk-button-large uk-button-border-right" @click="thisCoupon.push('1')">1</button>
+                    <button class="uk-button uk-button-cupnum uk-button-large uk-button-border-right uk-button-border-left" @click="thisCoupon.push('2')">2</button>
+                    <button class="uk-button uk-button-cupnum uk-button-large uk-button-border-left" @click="thisCoupon.push('3')">3</button>
+                </div>
+            </div>
+
+            <div >
+                <div class="uk-button-group">
+                    <button class="uk-button uk-button-cupnum uk-button-large uk-button-border-right uk-button-border-top" @click="thisCoupon.push('4')">4</button>
+                    <button class="uk-button uk-button-cupnum uk-button-large uk-button-border-right uk-button-border-left uk-button-border-top" @click="thisCoupon.push('5')">5</button>
+                    <button class="uk-button uk-button-cupnum uk-button-large uk-button-border-left uk-button-border-top" @click="thisCoupon.push('6')">6</button>
+                </div>
+            </div>
+
+            <div>
+                <div class="uk-button-group">
+                    <button class="uk-button uk-button-cupnum uk-button-large uk-button-border-right uk-button-border-top" @click="thisCoupon.push('7')">7</button>
+                    <button class="uk-button uk-button-cupnum uk-button-large uk-button-border-right uk-button-border-left uk-button-border-top" @click="thisCoupon.push('8')">8</button>
+                    <button class="uk-button uk-button-cupnum uk-button-large uk-button-border-left uk-button-border-top" @click="thisCoupon.push('9')">9</button>
+                </div>
+            </div>
+
+            <div>
+                <div class="uk-button-group">
+                    <button class="uk-button uk-button-coupok uk-button-large uk-button-border-top uk-button-border-right uk-button-border-top" @click="selectCoupon(thisCouponString)">OK</button>
+                    <button class="uk-button uk-button-cupnum uk-button-large uk-button-border-right uk-button-border-left uk-button-border-top" @click="thisCoupon.push('0')">0</button>
+                    <button class="uk-button uk-button-delete uk-button-large uk-button-border-left uk-button-border-top"  @click="thisCoupon.pop()"><img src="img/service/backspace.png" width="50px" height="50px" style="margin: 0px" alt="" uk-img></button>
                 </div>
             </div>
         </div>
@@ -200,8 +215,54 @@
 
 
 
+    <div id="modal-start" class="uk-modal-full"  uk-modal="bg-close: false">
+        <div class="uk-modal-dialog start-modal" >
+
+            <div class="uk-grid-collapse uk-child-width-1-1 " uk-grid>
+                <div class="uk-background-cover"  ><img src="img/service/bg.jpg"   alt="" uk-img></div>
+                <div class="uk-padding-large uk-text-center">
+                    <div><h1>Выберете опцию заказа</h1></div>
+                    <div class="uk-grid uk-child-width-1-2 " uk-grid>
+                        <div @click="outOrder()"><img src="img/service/out.jpg"   alt="" uk-img></div>
+                        <div @click="hereOrder()"><img src="img/service/here.jpg"  alt="" uk-img></div>
+
+                    </div>
+
+                    </div>
+            </div>
+        </div>
+    </div>
 
 
+    <div id="modal-cart" class="uk-modal-full start-modal"  uk-modal="bg-close: false">
+        <div class="uk-modal-dialog start-modal" >
+            <div class="uk-modal-header uk-text-center">
+                <h2  class="uk-modal-title">Корзина</h2>
+            </div>
+            <div id="list-cart"  class="uk-panel-scrollable uk-panel-scrollable-cart uk-width-expand  uk-grid-collapse uk-flex-center uk-child-width-1-4 uk-text-center" uk-grid>
+
+
+                <a v-for="pos in cart" v-if="cart" href="#" :id="pos.id" @click="addToCart(pos)"><div class="uk-card uk-card-small uk-animation-scale-up">
+                    <div class="uk-card-media-top"><img :data-src="pos.img" width="100%" height="100%" alt="" uk-img></div>
+                    <div class="uk-card-body">
+                        <h3 class="uk-card-title">{{pos.count}} x {{pos.name}}</h3>
+                        <p>{{pos.price*pos.count}} руб.</p>
+                    </div>
+                </div></a>
+
+
+            </div>
+            <div class="uk-modal-header uk-text-center">
+                <h2  class="uk-modal-title">Сумма вашего заказа: {{cart_sum}} руб.</h2>
+            </div>
+
+            <div  class="uk-text-center uk-position-bottom pay-cart-buttons" uk-grid>
+                <button class="uk-button  uk-width-1-2 uk-button-primary" @click="closeCart()">Повыбераю еще</button>
+                <button class="uk-button  uk-width-1-2 uk-button-secondary" @click="pay()">Оплатить {{cart_sum}} руб.</button>
+            </div>
+
+        </div>
+    </div>
 
 
 </div>

@@ -47,6 +47,9 @@ p {
 #list {
     overflow-x:hidden;
 }
+#list-cart {
+    overflow-x:hidden;
+}
 #footer {
     top: 85%;
     width: 100%;
@@ -72,6 +75,10 @@ svg{
 }
 .uk-panel-scrollable {
     height: 100%;
+    border: none;
+}
+.uk-panel-scrollable-cart{
+    height: 80%;
     border: none;
 }
 
@@ -121,12 +128,47 @@ svg{
     margin: 10px;
     font-weight: bold;
 }
-
+.uk-notification{
+    border-radius: 7px;
+    overflow: hidden;
+}
+.start-modal{
+    height: 100%;
+}
 .pay-buttons{
     height: 25%;
 }
+.pay-cart-buttons{
+    height: 7%;
+}
 .uk-button-coupon{
     background-color: #ff570a;
+}
+.uk-button-border-top{
+    border-top: 1px solid #babec2;
+}
+.uk-button-border-right{
+    border-right: 1px solid #babec2;
+}
+.uk-button-border-left{
+    border-left: 1px solid #babec2;
+}
+.uk-button-border-bottom{
+    border-bottom: 1px solid #babec2;
+}
+.uk-button-delete{
+    width: 100px;
+    background-color: #babec2;
+}
+.uk-button-coupok{
+    width: 100px;
+    background-color: #ff8000;
+}
+.uk-button-cupnum{
+    width: 100px;
+    height: 70px;
+    font-size: 22px;
+    background-color: white;
 }
 
 
