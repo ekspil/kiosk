@@ -51,7 +51,7 @@
      <div id="list"  class="uk-panel-scrollable uk-width-expand  uk-grid-collapse uk-flex-center uk-child-width-1-2 uk-text-center" uk-grid>
 
 
-<a v-for="pos in list" v-if="pos.groupId === groupId && !pos.coupon" href="#" :id="pos.id" @click="addToCart(pos)"><div class="uk-card uk-card-small uk-animation-scale-up">
+<a v-for="pos in list" v-if="pos.groupId === groupId && !pos.coupon && !pos.hiden" href="#" :id="pos.id" @click="addToCart(pos)"><div class="uk-card uk-card-small uk-animation-scale-up">
              <div class="uk-card-media-top"><img :data-src="pos.img || 'img/prod/default.jpg'" width="100%" height="100%" alt="" uk-img></div>
              <div class="uk-card-body">
                  <h3 class="uk-card-title">{{pos.name}}</h3>
@@ -364,7 +364,7 @@
                     </thead>
                     <tbody>
                     <tr v-for="pos in list">
-                        <td><input class="uk-checkbox" type="checkbox"></td>
+                        <td><input class="uk-checkbox" type="checkbox" v-model="pos.hiden"></td>
                         <td><img class="uk-preserve-width uk-border-circle" :src="pos.img" width="40" height="40" alt=""></td>
                         <td class="uk-table-link">
                             <a class="uk-link-reset" href="">{{pos.name}}</a>
@@ -379,8 +379,8 @@
             </div>
             <div class="uk-modal-footer uk-text-center">
                 <button class="uk-button uk-button-danger" @click="" type="button">Выйти без сохранения</button>
-                <button class="uk-button uk-button-danger" @click="" type="button">Заблокировать киоск</button>
-                <button class="uk-button uk-button-danger" @click="" type="button">Разблокировать</button>
+                <button class="uk-button uk-button-danger" @click="lockKiosk()" type="button">Заблокировать киоск</button>
+                <button class="uk-button uk-button-danger" @click="unlockKiosk()" type="button">Разблокировать</button>
             </div>
             <div class="uk-modal-footer uk-text-center">
                 <button class="uk-button uk-button-danger" @click="" type="button">Снять Z-отчет</button>
@@ -392,7 +392,22 @@
     </div>
 
 
+    <!-- БЛОКИРОВКА КИОСКА -->
 
+
+    <div id="modal-lock" class="uk-modal-full" uk-modal="bg-close: false">
+        <div class="uk-modal-dialog">
+            <div class="uk-position-top-left uk-overlay "><span @dblclick="adminPanel(pincode)"  uk-icon="icon: cog; ratio: 1"></span></div>
+            <div class="uk-grid-collapse uk-child-width-1-2@s uk-flex-middle" uk-grid>
+                <div class="uk-background-cover" style="background-image: url('img/service/donottouch.jpg');" uk-height-viewport></div>
+                <div class="uk-padding-large uk-text-center">
+                    <h1>Киоск на техническом обслуживании</h1>
+                    <p id="loading"><span  id="spinner" uk-spinner="ratio: 4.5"></span></p>
+                    <p>а пока вы можете пройти на кассу...</p>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
 

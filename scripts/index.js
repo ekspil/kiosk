@@ -7,6 +7,7 @@ var app = new Vue({
     data: {
         message: 'Привет!',
         groupId: 1,
+        lastModal: "",
         orderType: 1,
         litera: "F",
         pincode: [],
@@ -37,36 +38,36 @@ var app = new Vue({
         selection: [],
         thisCouponHolder: "0000",
         list: [
-            {groupId: 1, price: 112, helper: "Не забудьте соус", id: 1, img: 'img/prod/nag.jpg', name: 'Негетсы(8шт)', type: 1},
-            {groupId: 1, price: 112, helper: "Попробуйте еще и маффин", id: 2, img: 'img/prod/nag.jpg', name: 'Негетсы(8шт)', type: 1},
-            {groupId: 1, price: 112, helper: "Не забудьте соус", id: 3, img: 'img/prod/nag.jpg', name: 'Негетсы(8шт)', type: 1},
-            {groupId: 1, price: 112, id: 4, img: 'img/prod/nag.jpg', name: 'Негетсы(8шт)', type: 1},
-            {groupId: 1, price: 112, id: 5, img: '', name: 'Негетсы(8шт)', type: 1},
-            {groupId: 1, price: 112, id: 6, img: 'img/prod/nag.jpg', name: 'Негетсы(8шт)', type: 1},
-            {groupId: 1, price: 112, id: 7, img: 'img/prod/nag.jpg', name: 'Негетсы(8шт)', type: 1},
-            {groupId: 2, price: 89, helper: "Не забудьте картошку", id: 8, img: 'img/prod/koffe.jpg', name: 'Капучино', type: 1},
-            {groupId: 2, price: 89, id: 9, img: 'img/prod/koffe.jpg', name: 'Капучино', type: 1},
-            {groupId: 2, price: 89, id: 10, img: 'img/prod/koffe.jpg', name: 'Капучино', type: 1},
-            {groupId: 2, price: 89, id: 11, img: '', name: 'Капучино', type: 1},
-            {groupId: 2, price: 89, id: 12, img: 'img/prod/koffe.jpg', name: 'Капучино', type: 1},
-            {groupId: 2, price: 89, id: 13, img: 'img/prod/koffe.jpg', name: 'Капучино', type: 1},
-            {groupId: 3, price: 259, id: 14, img: 'img/prod/graf.jpg', name: 'Граф де Чиз', type: 1},
-            {groupId: 3, price: 259, id: 15, img: 'img/prod/graf.jpg', name: 'Граф де Чиз', type: 1},
-            {groupId: 3, price: 259, id: 16, img: 'img/prod/graf.jpg', name: 'Граф де Чиз', type: 1},
-            {groupId: 3, price: 259, id: 17, img: 'img/prod/graf.jpg', name: 'Граф де Чиз', type: 1},
-            {groupId: 3, price: 259, id: 18, img: 'img/prod/graf.jpg', name: 'Граф де Чиз', type: 1},
-            {groupId: 3, price: 259, id: 19, img: 'img/prod/graf.jpg', name: 'Граф де Чиз', type: 1},
-            {groupId: 3, price: 259, id: 20, img: 'img/prod/graf.jpg', name: 'Граф де Чиз', type: 1},
-            {groupId: 3, price: 259, id: 21, img: 'img/prod/graf.jpg', name: 'Граф де Чиз', type: 1},
-            {groupId: 3, price: 259, id: 22, img: 'img/prod/graf.jpg', name: 'Граф де Чиз', type: 1},
-            {groupId: 4, price: 59, id: 23, img: 'img/prod/pirozok.jpg', name: 'Пирожок с вишней', type: 1},
-            {groupId: 4, price: 59, id: 24, img: 'img/prod/pirozok.jpg', name: 'Пирожок с вишней', type: 1},
-            {groupId: 4, price: 59, id: 25, img: 'img/prod/pirozok.jpg', name: 'Пирожок с вишней', type: 1},
-            {groupId: 4, price: 59, id: 26, img: 'img/prod/pirozok.jpg', name: 'Пирожок с вишней', type: 1},
-            {groupId: 4, price: 59, id: 27, img: 'img/prod/pirozok.jpg', name: 'Пирожок с вишней', type: 1},
-            {groupId: 5, price: 19, id: 29, img: 'img/prod/pirozok.jpg', name: 'Пирожок с вишней', type: 1},
-            {groupId: 5, coupon: 1234, price: 19, id: 30, img: 'img/prod/pirozok.jpg', name: 'Пирожок с вишней', type: 1},
-            {groupId: 9, price: 259, id: 28, img: 'img/prod/set.jpg', name: 'Детский сэт', type: 2, set:[
+            {groupId: 1, hiden: false, price: 112, helper: "Не забудьте соус", id: 1, img: 'img/prod/4767c5bf62426226a304c5fa63406322', name: 'Негетсы(8шт)', type: 1},
+            {groupId: 1, hiden: false, price: 112, helper: "Попробуйте еще и маффин", id: 2, img: 'img/prod/nag.jpg', name: 'Негетсы(8шт)', type: 1},
+            {groupId: 1, hiden: false, price: 112, helper: "Не забудьте соус", id: 3, img: 'img/prod/nag.jpg', name: 'Негетсы(8шт)', type: 1},
+            {groupId: 1, hiden: false, price: 112, id: 4, img: 'img/prod/nag.jpg', name: 'Негетсы(8шт)', type: 1},
+            {groupId: 1, hiden: false, price: 112, id: 5, img: '', name: 'Негетсы(8шт)', type: 1},
+            {groupId: 1, hiden: false, price: 112, id: 6, img: 'img/prod/nag.jpg', name: 'Негетсы(8шт)', type: 1},
+            {groupId: 1, hiden: false, price: 112, id: 7, img: 'img/prod/nag.jpg', name: 'Негетсы(8шт)', type: 1},
+            {groupId: 2, hiden: false, price: 89, helper: "Не забудьте картошку", id: 8, img: 'img/prod/koffe.jpg', name: 'Капучино', type: 1},
+            {groupId: 2, hiden: false, price: 89, id: 9, img: 'img/prod/koffe.jpg', name: 'Капучино', type: 1},
+            {groupId: 2, hiden: false, price: 89, id: 10, img: 'img/prod/koffe.jpg', name: 'Капучино', type: 1},
+            {groupId: 2, hiden: false, price: 89, id: 11, img: '', name: 'Капучино', type: 1},
+            {groupId: 2, hiden: false, price: 89, id: 12, img: 'img/prod/koffe.jpg', name: 'Капучино', type: 1},
+            {groupId: 2, hiden: false, price: 89, id: 13, img: 'img/prod/koffe.jpg', name: 'Капучино', type: 1},
+            {groupId: 3, hiden: false, price: 259, id: 14, img: 'img/prod/graf.jpg', name: 'Граф де Чиз', type: 1},
+            {groupId: 3, hiden: false, price: 259, id: 15, img: 'img/prod/graf.jpg', name: 'Граф де Чиз', type: 1},
+            {groupId: 3, hiden: false, price: 259, id: 16, img: 'img/prod/graf.jpg', name: 'Граф де Чиз', type: 1},
+            {groupId: 3, hiden: false, price: 259, id: 17, img: 'img/prod/graf.jpg', name: 'Граф де Чиз', type: 1},
+            {groupId: 3, hiden: false, price: 259, id: 18, img: 'img/prod/graf.jpg', name: 'Граф де Чиз', type: 1},
+            {groupId: 3, hiden: false, price: 259, id: 19, img: 'img/prod/graf.jpg', name: 'Граф де Чиз', type: 1},
+            {groupId: 3, hiden: false, price: 259, id: 20, img: 'img/prod/graf.jpg', name: 'Граф де Чиз', type: 1},
+            {groupId: 3, hiden: false, price: 259, id: 21, img: 'img/prod/graf.jpg', name: 'Граф де Чиз', type: 1},
+            {groupId: 3, hiden: false, price: 259, id: 22, img: 'img/prod/graf.jpg', name: 'Граф де Чиз', type: 1},
+            {groupId: 4, hiden: false, price: 59, id: 23, img: 'img/prod/pirozok.jpg', name: 'Пирожок с вишней', type: 1},
+            {groupId: 4, hiden: false, price: 59, id: 24, img: 'img/prod/pirozok.jpg', name: 'Пирожок с вишней', type: 1},
+            {groupId: 4, hiden: false, price: 59, id: 25, img: 'img/prod/pirozok.jpg', name: 'Пирожок с вишней', type: 1},
+            {groupId: 4, hiden: false, price: 59, id: 26, img: 'img/prod/pirozok.jpg', name: 'Пирожок с вишней', type: 1},
+            {groupId: 4, hiden: false, price: 59, id: 27, img: 'img/prod/pirozok.jpg', name: 'Пирожок с вишней', type: 1},
+            {groupId: 5, hiden: false, price: 19, id: 29, img: 'img/prod/pirozok.jpg', name: 'Пирожок с вишней', type: 1},
+            {groupId: 5, hiden: false, coupon: 1234, price: 19, id: 30, img: 'img/prod/pirozok.jpg', name: 'Пирожок с вишней', type: 1},
+            {groupId: 9, hiden: false, price: 259, id: 28, img: 'img/prod/set.jpg', name: 'Детский сэт', type: 2, set:[
                     {
                         n: "Ваш напиток",
                         set: [1, 3, 5]
@@ -85,7 +86,7 @@ var app = new Vue({
                     },
 
                 ]},
-            {groupId: 9, coupon: 1111, price: 111, id: 31, img: 'img/prod/set.jpg', name: 'Детский сэт', type: 2, set:[
+            {groupId: 9, hiden: false, coupon: 1111, price: 111, id: 31, img: 'img/prod/set.jpg', name: 'Детский сэт', type: 2, set:[
                     {
                         n: "Ваш напиток",
                         set: [1, 3, 5]
@@ -315,7 +316,13 @@ var app = new Vue({
             this.cart=[];
             this.payHelper = "Следуйте указаниям на пинпаде...";
             this.pincode=[];
-            UIkit.modal('#modal-start').show();
+            if(this.lastModal){
+                UIkit.modal(this.lastModal).show();
+            }
+            else{
+                UIkit.modal('#modal-start').show();
+            }
+
 
         },
         outOrder: function () {
@@ -356,7 +363,7 @@ var app = new Vue({
             setTimeout(this.start, 20000)
         },
         adminPanel: function () {
-            this.timer=this.defaultTimer;
+            this.timer=this.timer + this.defaultTimer;
             UIkit.modal('#modal-pin').show();
         },
         checkAdminPin: function () {
@@ -372,6 +379,18 @@ var app = new Vue({
             return group.name
 
 
-        }
+        },
+
+        lockKiosk: function () {
+            this.timer=0;
+            UIkit.modal('#modal-lock').show();
+            this.lastModal = "#modal-lock"
+        },
+
+        unlockKiosk: function () {
+            this.timer=0;
+            this.lastModal = ""
+            this.start()
+        },
     }
 })
