@@ -12,9 +12,11 @@
     <link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
 
     <script src="modules/vue.js"></script>
-    <script src="modules/jquery/dist/jquery.js"></script>
     <script src="modules/uikit3/js/uikit.js"></script>
     <script src="modules/uikit3/js/uikit-icons.js"></script>
+    <script src="modules/jquery/dist/jquery-1.12.4.min.js"></script>
+    <script src="modules/jquery/dist/jquery.json.min.js"></script>
+
 
 </head>
 <body>
@@ -383,9 +385,9 @@
                 <button class="uk-button uk-button-danger" @click="unlockKiosk()" type="button">Разблокировать</button>
             </div>
             <div class="uk-modal-footer uk-text-center">
-                <button class="uk-button uk-button-danger" @click="" type="button">Снять Z-отчет</button>
-                <button class="uk-button uk-button-danger" @click="" type="button">Снять Х-отчет</button>
-                <button class="uk-button uk-button-danger" @click="" type="button">Применить</button>
+                <button class="uk-button uk-button-danger" @click="closeSh()" type="button">Снять Z-отчет</button>
+                <button class="uk-button uk-button-danger" @click="xRep()" type="button">Снять Х-отчет</button>
+                <button class="uk-button uk-button-danger" @click="start()" type="button">Применить</button>
             </div>
 
         </div>
@@ -414,7 +416,8 @@
 </div>
 
 
-
+<script src="scripts/fiscal.js"></script>
 <script src="scripts/index.js"></script>
+
 </body>
 </html>

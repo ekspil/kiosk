@@ -356,7 +356,8 @@ var app = new Vue({
         pay: function () {
             this.timer=this.defaultTimer*3;
             UIkit.modal('#modal-pay').show();
-            setTimeout(()=>{this.payHelper = "Печатаем чек..."}, 2000)
+            setTimeout(()=>{this.payHelper = "Печатаем чек..."}, 500)
+            this.printCheck()
             setTimeout(()=>{this.payHelper = "Выводим информацию на кухонные мониторы..."}, 4000)
             setTimeout(()=>{this.payHelper = "Готово! Ваш заказ F-001"}, 6000)
             setTimeout(()=>{this.payed = 1}, 6050)
@@ -392,5 +393,20 @@ var app = new Vue({
             this.lastModal = ""
             this.start()
         },
+        printCheck: function (){
+            let my_aray_letters = returnArrayLetters('F-147')
+            RegisterCheck(0, 0, false, my_aray_letters)
+        },
+        closeSh: function () {
+            CloseShift(0)
+        },
+        xRep: function () {
+            XReport(0)
+        },
+        deviceOk: function (Rezult, textStatus, jqXHR) {
+            console.log(Rezult)
+            console.log(textStatus)
+            console.log(jqXHR)
+        }
     }
 })
