@@ -39,7 +39,7 @@ function ExecuteCommand(Data, timeout) {
             type: 'POST',
             async: true,
             timeout: timeout,
-            url: 'http://192.168.15.227:5893//Execute',
+            url: app.kkmServer,
             crossDomain: true,
             dataType: 'json',
             contentType: 'application/json; charset=UTF-8',
@@ -79,9 +79,7 @@ function ExecuteSuccess(Rezult, textStatus, jqXHR) {
     if (Rezult != undefined) {
         var JSon = JSON.stringify(Rezult, "", 4);
         Responce = Responce + "JSON ответа: \r\n" + JSon + "\r\n";
-        if (Rezult.Slip != undefined) {
-            document.getElementById('Slip').textContent = Rezult.Slip;
-        }
+
     }
 
     //$(".Responce").text(Responce);
@@ -89,9 +87,7 @@ function ExecuteSuccess(Rezult, textStatus, jqXHR) {
 
 // Функция вызываемая при ошибке передачи данных
 function ErrorSuccess(jqXHR, textStatus, errorThrown) {
-    console.log(jqXHR)
-    console.log(textStatus)
-    console.log(errorThrown)
+    app.deviceNotOk(jqXHR, textStatus, errorThrown)
 }
 
 
@@ -464,7 +460,7 @@ function RegisterCheck(NumDevice, TypeCheck, IsBarCode, my_aray_letters) {
 
 function returnArrayLetters(my_string){
     let letterF = [
-        ' $$$$$',
+        ' $$$$$ ',
         ' $$    ',
         ' $$$$  ',
         ' $$    ',
@@ -716,3 +712,91 @@ function Settlement(NumDevice) {
     ExecuteCommand(Data);
 }
 
+function SendET(server, cart, message, msgId, orderType){
+
+    if(message){
+        message = message.split(" ")
+        let string = ""
+        for(let word in message){
+            string = string+ " " + message[word]
+            console.log(word)
+            console.log(message.length)
+            if(string.length > 20 || Number(Number(word)+1) === message.length){
+                $.get(
+                    server+'/new',
+                    {
+                        id: guid(),
+                        unit: msgId,
+                        checkType: 3,
+                        station: 0,
+                        name: string
+                    },
+                    ExecuteSuccess
+                );
+            string = ""
+            }
+        }
+
+        $.get(
+            server+'/newCheck',
+            {
+                id: msgId,
+                checkType: 3,
+            },
+            ExecuteSuccess
+        );
+
+    }
+    else if(cart){
+        for (let it in cart){
+            if(cart[it].selected){
+                for(let ii in cart[it].selected){
+
+                    $.get(
+                        server+'/new',
+                        {
+                            id: guid(),
+                            unit: msgId,
+                            checkType: orderType,
+                            station: 0,
+                            name: cart[it].selected[ii].name
+                        },
+                        ExecuteSuccess
+                    );
+
+                }
+
+
+            }
+            else{
+                for(let c = 1; c <= cart[it].count; c++){
+
+                    $.get(
+                        server+'/new',
+                        {
+                            id: guid(),
+                            unit: msgId,
+                            checkType: orderType,
+                            station: 0,
+                            name: cart[it].name
+                        },
+                        ExecuteSuccess
+                    );
+                }
+
+            }
+
+
+
+        }
+        $.get(
+            server+'/newCheck',
+            {
+                id: msgId,
+                checkType: orderType,
+            },
+            ExecuteSuccess
+        );
+    }
+
+}

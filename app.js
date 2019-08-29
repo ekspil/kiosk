@@ -2,8 +2,8 @@
 var app = express();
 const multer  = require("multer");
 var server = require('http').Server(app);
-const service = require('./services.js')
-service.hello()
+//const service = require('./services.js')
+//service.hello()
 
 
 app.use(express.static(__dirname+'/'));
@@ -24,3 +24,4 @@ server.listen(88, "0.0.0.0", function(){
     var addr = server.address();
     console.log('listening on '+addr.address+':' + addr.port);
 });
+

@@ -6,6 +6,9 @@ var app = new Vue({
     },
     data: {
         message: 'Привет!',
+        orderId: 0,
+        kkmServer: 'http://192.168.15.227:5893//Execute',
+        serverET: "http://192.168.15.166:4000",
         groupId: 1,
         lastModal: "",
         orderType: 1,
@@ -131,6 +134,10 @@ var app = new Vue({
                 return sum + arr
 
             }, "")
+        },
+        msgId: function (){
+            let msg = this.litera +"-"+ this.orderId
+            return msg
         }
 },
     watch: {
@@ -354,10 +361,16 @@ var app = new Vue({
             UIkit.modal('#modal-cart').hide();
         },
         pay: function () {
+            this.orderId++
             this.timer=this.defaultTimer*3;
             UIkit.modal('#modal-pay').show();
             setTimeout(()=>{this.payHelper = "Печатаем чек..."}, 500)
             this.printCheck()
+
+
+            SendET(this.serverET, this.cart, false, this.msgId, this.orderType)
+
+
             setTimeout(()=>{this.payHelper = "Выводим информацию на кухонные мониторы..."}, 4000)
             setTimeout(()=>{this.payHelper = "Готово! Ваш заказ F-001"}, 6000)
             setTimeout(()=>{this.payed = 1}, 6050)
@@ -400,13 +413,29 @@ var app = new Vue({
         closeSh: function () {
             CloseShift(0)
         },
+        closeSber: function () {
+            Settlement(0)
+        },
         xRep: function () {
             XReport(0)
         },
         deviceOk: function (Rezult, textStatus, jqXHR) {
+
+            if(Rezult && Rezult.Status !== 0 && Rezult != "OK"){
+
+                this.orderId = this.orderId + 1
+                console.log(Rezult.Status)
+                SendET(this.serverET, false, Rezult.Error, this.msgId)
+            }
+
             console.log(Rezult)
             console.log(textStatus)
             console.log(jqXHR)
+        },
+        deviceNotOk: function (jqXHR, textStatus, errorThrown) {
+            console.log(jqXHR)
+            console.log(textStatus)
+            console.log(errorThrown)
         }
     }
 })

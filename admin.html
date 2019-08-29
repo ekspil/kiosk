@@ -18,198 +18,51 @@
 </head>
 <body>
 <div id="app">
-    <div class="uk-overflow-auto">
-        <table class="uk-table uk-table-hover uk-table-middle uk-table-divider">
-            <thead>
-            <tr>
-                <th class="uk-table-shrink"></th>
-                <th class="uk-table-shrink">Preserve</th>
-                <th class="uk-table-expand">Expand + Link</th>
-                <th class="uk-width-small">Truncate</th>
-                <th class="uk-table-shrink uk-text-nowrap">Shrink + Nowrap</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td><input class="uk-checkbox" type="checkbox"></td>
-                <td><img class="uk-preserve-width uk-border-circle" src="images/avatar.jpg" width="40" alt=""></td>
-                <td class="uk-table-link">
-                    <a class="uk-link-reset" href="">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</a>
-                </td>
-                <td class="uk-text-truncate">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</td>
-                <td class="uk-text-nowrap">Lorem ipsum dolor</td>
-            </tr>
-            <tr>
-                <td><input class="uk-checkbox" type="checkbox"></td>
-                <td><img class="uk-preserve-width uk-border-circle" src="images/avatar.jpg" width="40" alt=""></td>
-                <td class="uk-table-link">
-                    <a class="uk-link-reset" href="">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</a>
-                </td>
-                <td class="uk-text-truncate">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</td>
-                <td class="uk-text-nowrap">Lorem ipsum dolor</td>
-            </tr>
-            <tr>
-                <td><input class="uk-checkbox" type="checkbox"></td>
-                <td><img class="uk-preserve-width uk-border-circle" src="images/avatar.jpg" width="40" alt=""></td>
-                <td class="uk-table-link">
-                    <a class="uk-link-reset" href="">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</a>
-                </td>
-                <td class="uk-text-truncate">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</td>
-                <td class="uk-text-nowrap">Lorem ipsum dolor</td>
-            </tr>
-            <tr>
-                <td><input class="uk-checkbox" type="checkbox"></td>
-                <td><img class="uk-preserve-width uk-border-circle" src="images/avatar.jpg" width="40" alt=""></td>
-                <td class="uk-table-link">
-                    <a class="uk-link-reset" href="">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</a>
-                </td>
-                <td class="uk-text-truncate">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</td>
-                <td class="uk-text-nowrap">Lorem ipsum dolor</td>
-            </tr>
-            </tbody>
-        </table>
+    <div class="admin-main" >
+    <div class="" >
+        <div class="uk-text-center">
+            <h2  class="uk-title">Админская панель</h2>
+        </div>
+        <div id="list-admin"  class="uk-panel-scrollable uk-panel-scrollable-cart uk-child-width-1-2"   uk-grid>
+            <div>
+
+                <table class="uk-table uk-table-hover uk-table-middle uk-table-divider">
+                    <thead>
+                    <tr>
+                        <th class="uk-table-shrink">ОТКЛ</th>
+                        <th class="uk-table-shrink">Фото</th>
+                        <th class="uk-table-expand">Наименование</th>
+                        <th class="uk-width-small">Группа</th>
+                        <th class="uk-table-shrink uk-text-nowrap">Цена</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr v-for="pos in list">
+                        <td><input class="uk-checkbox" type="checkbox" v-model="pos.hiden"></td>
+                        <td><img class="uk-preserve-width uk-border-circle" :src="pos.img" width="40" height="40" alt=""></td>
+                        <td class="uk-table-link">
+                            <a class="uk-link-reset" href="">{{pos.name}}</a>
+                        </td>
+                        <td class="uk-text-truncate">{{thisGroup(pos)}}</td>
+                        <td class="uk-text-nowrap">{{pos.price}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+
+            </div>
+
+
+            <div class=" uk-text-center">
+                <button class="uk-button uk-button-danger" @click="start()" type="button">Выйти</button>
+                <button class="uk-button uk-button-danger" @click="lockKiosk()" type="button">Заблокировать киоск</button>
+                <button class="uk-button uk-button-danger" @click="unlockKiosk()" type="button">Разблокировать</button>
+            </div>
+
+        </div>
+
+
     </div>
-
-    <div class="uk-overflow-auto">
-        <table class="uk-table uk-table-hover uk-table-middle uk-table-divider">
-            <thead>
-            <tr>
-                <th class="uk-table-shrink"></th>
-                <th class="uk-table-shrink">Preserve</th>
-                <th class="uk-table-expand">Expand + Link</th>
-                <th class="uk-width-small">Truncate</th>
-                <th class="uk-table-shrink uk-text-nowrap">Shrink + Nowrap</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td><input class="uk-checkbox" type="checkbox"></td>
-                <td><img class="uk-preserve-width uk-border-circle" src="images/avatar.jpg" width="40" alt=""></td>
-                <td class="uk-table-link">
-                    <a class="uk-link-reset" href="">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</a>
-                </td>
-                <td class="uk-text-truncate">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</td>
-                <td class="uk-text-nowrap">Lorem ipsum dolor</td>
-            </tr>
-            <tr>
-                <td><input class="uk-checkbox" type="checkbox"></td>
-                <td><img class="uk-preserve-width uk-border-circle" src="images/avatar.jpg" width="40" alt=""></td>
-                <td class="uk-table-link">
-                    <a class="uk-link-reset" href="">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</a>
-                </td>
-                <td class="uk-text-truncate">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</td>
-                <td class="uk-text-nowrap">Lorem ipsum dolor</td>
-            </tr>
-            <tr>
-                <td><input class="uk-checkbox" type="checkbox"></td>
-                <td><img class="uk-preserve-width uk-border-circle" src="images/avatar.jpg" width="40" alt=""></td>
-                <td class="uk-table-link">
-                    <a class="uk-link-reset" href="">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</a>
-                </td>
-                <td class="uk-text-truncate">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</td>
-                <td class="uk-text-nowrap">Lorem ipsum dolor</td>
-            </tr>
-            <tr>
-                <td><input class="uk-checkbox" type="checkbox"></td>
-                <td><img class="uk-preserve-width uk-border-circle" src="images/avatar.jpg" width="40" alt=""></td>
-                <td class="uk-table-link">
-                    <a class="uk-link-reset" href="">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</a>
-                </td>
-                <td class="uk-text-truncate">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</td>
-                <td class="uk-text-nowrap">Lorem ipsum dolor</td>
-            </tr>
-            <tr>
-                <td><input class="uk-checkbox" type="checkbox"></td>
-                <td><img class="uk-preserve-width uk-border-circle" src="images/avatar.jpg" width="40" alt=""></td>
-                <td class="uk-table-link">
-                    <a class="uk-link-reset" href="">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</a>
-                </td>
-                <td class="uk-text-truncate">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</td>
-                <td class="uk-text-nowrap">Lorem ipsum dolor</td>
-            </tr>
-            <tr>
-                <td><input class="uk-checkbox" type="checkbox"></td>
-                <td><img class="uk-preserve-width uk-border-circle" src="images/avatar.jpg" width="40" alt=""></td>
-                <td class="uk-table-link">
-                    <a class="uk-link-reset" href="">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</a>
-                </td>
-                <td class="uk-text-truncate">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</td>
-                <td class="uk-text-nowrap">Lorem ipsum dolor</td>
-            </tr>
-            <tr>
-                <td><input class="uk-checkbox" type="checkbox"></td>
-                <td><img class="uk-preserve-width uk-border-circle" src="images/avatar.jpg" width="40" alt=""></td>
-                <td class="uk-table-link">
-                    <a class="uk-link-reset" href="">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</a>
-                </td>
-                <td class="uk-text-truncate">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</td>
-                <td class="uk-text-nowrap">Lorem ipsum dolor</td>
-            </tr>
-            <tr>
-                <td><input class="uk-checkbox" type="checkbox"></td>
-                <td><img class="uk-preserve-width uk-border-circle" src="images/avatar.jpg" width="40" alt=""></td>
-                <td class="uk-table-link">
-                    <a class="uk-link-reset" href="">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</a>
-                </td>
-                <td class="uk-text-truncate">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</td>
-                <td class="uk-text-nowrap">Lorem ipsum dolor</td>
-            </tr>
-            <tr>
-                <td><input class="uk-checkbox" type="checkbox"></td>
-                <td><img class="uk-preserve-width uk-border-circle" src="images/avatar.jpg" width="40" alt=""></td>
-                <td class="uk-table-link">
-                    <a class="uk-link-reset" href="">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</a>
-                </td>
-                <td class="uk-text-truncate">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</td>
-                <td class="uk-text-nowrap">Lorem ipsum dolor</td>
-            </tr>
-            <tr>
-                <td><input class="uk-checkbox" type="checkbox"></td>
-                <td><img class="uk-preserve-width uk-border-circle" src="images/avatar.jpg" width="40" alt=""></td>
-                <td class="uk-table-link">
-                    <a class="uk-link-reset" href="">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</a>
-                </td>
-                <td class="uk-text-truncate">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</td>
-                <td class="uk-text-nowrap">Lorem ipsum dolor</td>
-            </tr>
-            <tr>
-                <td><input class="uk-checkbox" type="checkbox"></td>
-                <td><img class="uk-preserve-width uk-border-circle" src="images/avatar.jpg" width="40" alt=""></td>
-                <td class="uk-table-link">
-                    <a class="uk-link-reset" href="">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</a>
-                </td>
-                <td class="uk-text-truncate">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</td>
-                <td class="uk-text-nowrap">Lorem ipsum dolor</td>
-            </tr>
-            <tr>
-                <td><input class="uk-checkbox" type="checkbox"></td>
-                <td><img class="uk-preserve-width uk-border-circle" src="images/avatar.jpg" width="40" alt=""></td>
-                <td class="uk-table-link">
-                    <a class="uk-link-reset" href="">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</a>
-                </td>
-                <td class="uk-text-truncate">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</td>
-                <td class="uk-text-nowrap">Lorem ipsum dolor</td>
-            </tr>
-            <tr>
-                <td><input class="uk-checkbox" type="checkbox"></td>
-                <td><img class="uk-preserve-width uk-border-circle" src="images/avatar.jpg" width="40" alt=""></td>
-                <td class="uk-table-link">
-                    <a class="uk-link-reset" href="">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</a>
-                </td>
-                <td class="uk-text-truncate">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</td>
-                <td class="uk-text-nowrap">Lorem ipsum dolor</td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-
-
-
-
-
-
-
-
+</div>
 </div>
 
 

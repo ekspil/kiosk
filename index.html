@@ -22,7 +22,7 @@
 <body>
 
 
-<div id="app" class="uk-position-fixed">
+<div id="app" >
 
 
  <div id="header" class="uk-overflow-hidden">
@@ -380,14 +380,14 @@
 
             </div>
             <div class="uk-modal-footer uk-text-center">
-                <button class="uk-button uk-button-danger" @click="" type="button">Выйти без сохранения</button>
+                <button class="uk-button uk-button-danger" @click="start()" type="button">Выйти</button>
                 <button class="uk-button uk-button-danger" @click="lockKiosk()" type="button">Заблокировать киоск</button>
                 <button class="uk-button uk-button-danger" @click="unlockKiosk()" type="button">Разблокировать</button>
             </div>
             <div class="uk-modal-footer uk-text-center">
                 <button class="uk-button uk-button-danger" @click="closeSh()" type="button">Снять Z-отчет</button>
                 <button class="uk-button uk-button-danger" @click="xRep()" type="button">Снять Х-отчет</button>
-                <button class="uk-button uk-button-danger" @click="start()" type="button">Применить</button>
+                <button class="uk-button uk-button-danger" @click="closeSber()" type="button">Сверка итогов</button>
             </div>
 
         </div>
