@@ -42,6 +42,10 @@ const Product = sequelize.define('products', {
         type: Sequelize.DataTypes.INTEGER,
         allowNull: true
     },
+    coupon: {
+        type: Sequelize.DataTypes.INTEGER,
+        allowNull: true
+    },
     blocked: {
         type: Sequelize.DataTypes.BOOLEAN,
         allowNull: false
@@ -58,8 +62,12 @@ const Product = sequelize.define('products', {
         type: Sequelize.DataTypes.STRING,
 
     },
+    helper: {
+        type: Sequelize.DataTypes.STRING,
+
+    },
     price: {
-        type: Sequelize.DataTypes.STRING
+        type: Sequelize.DataTypes.INTEGER
         // allowNull defaults to true
     }
 }, {
@@ -128,7 +136,7 @@ const Kiosk = sequelize.define('kiosks', {
 Product.hasMany(Set)
 Group.hasMany(Product)
 
-//sequelize.sync({ force: true })
+sequelize.sync({ force: true })
 
 module.exports = {
     User,

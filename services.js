@@ -27,6 +27,8 @@ const changePosition = async function(data){
             prod.name = data.name
             prod.img = data.img
             prod.price = data.price
+            prod.helper = data.helper
+            prod.coupon = data.coupon
             prod.groupId = data.groupId
         return await prod.save()
 
@@ -40,6 +42,8 @@ const changePosition = async function(data){
            name: data.name,
            img: data.img,
            price: data.price,
+           helper: data.helper,
+           coupon: data.coupon,
            groupId: data.groupId
           }
 
