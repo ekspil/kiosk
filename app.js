@@ -3,7 +3,7 @@ var app = express();
 const multer  = require("multer");
 var server = require('http').Server(app);
 const service = require('./services.js')
-service.hello()
+
 
 
 app.use(express.static(__dirname+'/'));
@@ -24,3 +24,38 @@ server.listen(88, "0.0.0.0", function(){
     var addr = server.address();
     console.log('listening on '+addr.address+':' + addr.port);
 });
+
+const io = require('socket.io')();
+io.on('connection', client => {
+    console.log("Есть подключение")
+
+    client.on('getData', async function(data, returnFn){
+
+        let dataR = await service.getData(data.rest)
+        returnFn(dataR)
+    });
+
+    client.on('getBaseData', async function(data, returnFn){
+
+        let dataR = await service.getBaseData(data.rest)
+        returnFn(dataR)
+    });
+
+    client.on('changePosition', async function(data, returnFn){
+
+        let dataR = await service.changePosition(data)
+        returnFn(dataR)
+    });
+
+
+    client.on('changeGroup', async function(data, returnFn){
+
+        let dataR = await service.changeGroup(data)
+        returnFn(dataR)
+    });
+
+
+
+});
+io.listen(3333);
+

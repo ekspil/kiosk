@@ -38,6 +38,10 @@ const Product = sequelize.define('products', {
         type: Sequelize.DataTypes.INTEGER,
         allowNull: false
     },
+    station: {
+        type: Sequelize.DataTypes.INTEGER,
+        allowNull: true
+    },
     blocked: {
         type: Sequelize.DataTypes.BOOLEAN,
         allowNull: false
@@ -74,7 +78,7 @@ const Set = sequelize.define('sets', {
         type: Sequelize.DataTypes.STRING,
         allowNull: false
     },
-    set: {
+    products: {
         type: Sequelize.DataTypes.ARRAY(Sequelize.DataTypes.INTEGER),
         allowNull: false
     }
@@ -124,7 +128,7 @@ const Kiosk = sequelize.define('kiosks', {
 Product.hasMany(Set)
 Group.hasMany(Product)
 
-sequelize.sync({ force: true })
+//sequelize.sync({ force: true })
 
 module.exports = {
     User,
