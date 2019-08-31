@@ -38,6 +38,14 @@ const Product = sequelize.define('products', {
         type: Sequelize.DataTypes.INTEGER,
         allowNull: false
     },
+    station: {
+        type: Sequelize.DataTypes.INTEGER,
+        allowNull: true
+    },
+    coupon: {
+        type: Sequelize.DataTypes.INTEGER,
+        allowNull: true
+    },
     blocked: {
         type: Sequelize.DataTypes.BOOLEAN,
         allowNull: false
@@ -54,8 +62,12 @@ const Product = sequelize.define('products', {
         type: Sequelize.DataTypes.STRING,
 
     },
+    helper: {
+        type: Sequelize.DataTypes.STRING,
+
+    },
     price: {
-        type: Sequelize.DataTypes.STRING
+        type: Sequelize.DataTypes.INTEGER
         // allowNull defaults to true
     }
 }, {
@@ -74,7 +86,7 @@ const Set = sequelize.define('sets', {
         type: Sequelize.DataTypes.STRING,
         allowNull: false
     },
-    set: {
+    products: {
         type: Sequelize.DataTypes.ARRAY(Sequelize.DataTypes.INTEGER),
         allowNull: false
     }
