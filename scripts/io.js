@@ -8,12 +8,12 @@ socketL.emit('getData', {rest: 1}, (data) => {
 
 });
 
-socketL.emit('getBaseData', {rest: 1}, (data) => {
-   console.log(data)
-   app.list = data.list
-   app.groups = data.groups
-
-});
+// socketL.emit('getBaseData', {rest: 1}, (data) => {
+//    console.log(data)
+//    app.list = data.list
+//    app.groups = data.groups
+//
+// });
 
 let fakeData = {
         type: 1,

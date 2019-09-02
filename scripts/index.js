@@ -10,7 +10,7 @@ var app = new Vue({
     data: {
         message: 'Привет!',
         orderId: 0,
-        kkmServer: 'http://192.168.15.227:5893//Execute',
+        kkmServer: 'http://192.168.15.101:5893//Execute',
         serverET: "http://192.168.15.166:4000",
         groupId: 1,
         lastModal: "",
@@ -288,17 +288,8 @@ var app = new Vue({
             this.orderId++
             this.timer=this.defaultTimer*3;
             UIkit.modal('#modal-pay').show();
-            setTimeout(()=>{this.payHelper = "Печатаем чек..."}, 500)
-            this.printCheck()
+            PaymentByPaymentCard(2, this.cart_sum)
 
-
-            SendET(this.serverET, this.cart, false, this.msgId, this.orderType)
-
-
-            setTimeout(()=>{this.payHelper = "Выводим информацию на кухонные мониторы..."}, 4000)
-            setTimeout(()=>{this.payHelper = "Готово! Ваш заказ F-001"}, 6000)
-            setTimeout(()=>{this.payed = 1}, 6050)
-            setTimeout(this.start, 20000)
         },
         adminPanel: function () {
             this.timer=this.timer + this.defaultTimer;
@@ -330,9 +321,9 @@ var app = new Vue({
             this.lastModal = ""
             this.start()
         },
-        printCheck: function (){
+        printCheck: function (slip){
             let my_aray_letters = returnArrayLetters('F-147')
-            RegisterCheck(0, 0, false, my_aray_letters)
+            RegisterCheck(1, 0, false, my_aray_letters, this.cart, slip)
         },
         closeSh: function () {
             CloseShift(0)
@@ -348,13 +339,34 @@ var app = new Vue({
             if(Rezult && Rezult.Status !== 0 && Rezult != "OK"){
 
                 this.orderId = this.orderId + 1
-                console.log(Rezult.Status)
                 SendET(this.serverET, false, Rezult.Error, this.msgId)
             }
 
-            console.log(Rezult)
-            console.log(textStatus)
-            console.log(jqXHR)
+            if(Rezult.Command == "PayByPaymentCard" && Rezult.Status == 0){
+                let slip = Rezult.Slip.split("\n")
+                setTimeout(()=>{this.payHelper = "Печатаем чек..."}, 100)
+                this.printCheck(slip)
+
+
+
+
+                SendET(this.serverET, this.cart, false, this.msgId, this.orderType)
+
+
+                setTimeout(()=>{this.payHelper = "Выводим информацию на кухонные мониторы..."}, 4000)
+                setTimeout(()=>{this.payHelper = "Готово! Ваш заказ F-001"}, 6000)
+                setTimeout(()=>{this.payed = 1}, 6050)
+                setTimeout(this.start, 10000)
+            }
+            if(Rezult.Command == "RegisterCheck" && Rezult.Status == 0){
+
+            }
+            if(Rezult.Command == "PayByPaymentCard" && Rezult.Status == 0){
+
+
+
+            }
+
         },
         deviceNotOk: function (jqXHR, textStatus, errorThrown) {
             console.log(jqXHR)
