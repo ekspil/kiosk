@@ -15,58 +15,226 @@
     <script src="modules/jquery/dist/jquery.js"></script>
     <script src="modules/uikit3/js/uikit.js"></script>
     <script src="modules/uikit3/js/uikit-icons.js"></script>
+    <script src="node_modules/socket.io-client/dist/socket.io.js"></script>
 </head>
 <body>
-<div id="app">
-    <div class="admin-main" >
-    <div class="" >
+<div id="app"  class="uk-position-fixed">
+
+
         <div class="uk-text-center">
             <h2  class="uk-title">Админская панель</h2>
         </div>
-        <div id="list-admin"  class="uk-panel-scrollable uk-panel-scrollable-cart uk-child-width-1-2"   uk-grid>
-            <div>
-
-                <table class="uk-table uk-table-hover uk-table-middle uk-table-divider">
-                    <thead>
-                    <tr>
-                        <th class="uk-table-shrink">ОТКЛ</th>
-                        <th class="uk-table-shrink">Фото</th>
-                        <th class="uk-table-expand">Наименование</th>
-                        <th class="uk-width-small">Группа</th>
-                        <th class="uk-table-shrink uk-text-nowrap">Цена</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr v-for="pos in list">
-                        <td><input class="uk-checkbox" type="checkbox" v-model="pos.hiden"></td>
-                        <td><img class="uk-preserve-width uk-border-circle" :src="pos.img" width="40" height="40" alt=""></td>
-                        <td class="uk-table-link">
-                            <a class="uk-link-reset" href="">{{pos.name}}</a>
-                        </td>
-                        <td class="uk-text-truncate">{{thisGroup(pos)}}</td>
-                        <td class="uk-text-nowrap">{{pos.price}}</td>
-                    </tr>
-                    </tbody>
-                </table>
-
-            </div>
-
+        <div id="adminm"  class="uk-child-width-1-2"   uk-grid>
 
             <div class=" uk-text-center">
-                <button class="uk-button uk-button-danger" @click="start()" type="button">Выйти</button>
-                <button class="uk-button uk-button-danger" @click="lockKiosk()" type="button">Заблокировать киоск</button>
-                <button class="uk-button uk-button-danger" @click="unlockKiosk()" type="button">Разблокировать</button>
+                <div>
+                    <button class="uk-button uk-button-adminm" @click="exit()" type="button">Выйти</button>
+                    <button class="uk-button uk-button-adminm" @click="addGroup()" type="button">Создать группу</button>
+                    <button class="uk-button uk-button-adminm" @click="addPosition()" type="button">Создать товар</button>
+
+                </div>
+                <div class="uk-h3">Группы товаров</div>
+                <div id="adminm-g">
+                    <div class="uk-panel uk-panel-scrollable uk-panel-scrollable-g  uk-text-center uk-overflow-auto ">
+
+                        <table class="uk-table uk-table-striped uk-table-hover uk-table-middle uk-table-divider">
+                            <thead>
+                            <tr>
+                                <th class="uk-table-shrink">Фото</th>
+                                <th class="uk-table-expand">Наименование</th>
+                                <th class="uk-table-shrink uk-text-nowrap">ID</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr v-for="pos in groups">
+                                <td><img class="uk-preserve-width uk-border-circle" :src="pos.img" width="40" height="40" alt=""></td>
+                                <td class="uk-table-link">
+                                    <a class="uk-link-reset" href="">{{pos.name}}</a>
+                                </td>
+                                <td class="uk-text-nowrap">{{pos.id}}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+
+
             </div>
+
+
+<div>
+    <div class="uk-text-center">
+        <div class="uk-h3">Товары</div>
+    </div>
+    <div id="adminm-l">
+
+        <div class="uk-panel uk-panel-scrollable uk-panel-scrollable-l uk-text-center uk-overflow-auto ">
+
+            <table class="uk-table uk-table-striped uk-table-hover uk-table-middle uk-table-divider">
+                <thead>
+                <tr>
+                    <th class="uk-table-shrink">ID</th>
+                    <th class="uk-table-shrink">ОТКЛ</th>
+                    <th class="uk-table-shrink">Фото</th>
+                    <th class="uk-table-expand">Наименование</th>
+                    <th class="uk-width-small">Группа</th>
+                    <th class="uk-table-shrink uk-text-nowrap">Цена</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr v-for="pos in list">
+                    <td class="uk-text-nowrap">{{pos.id}}</td>
+                    <td><input class="uk-checkbox" type="checkbox" v-model="pos.hiden"></td>
+                    <td><img class="uk-preserve-width uk-border-circle" :src="pos.img" width="40" height="40" alt=""></td>
+                    <td class="uk-table-link">
+                        <a class="uk-link-reset" href="">{{pos.name}}</a>
+                    </td>
+                    <td class="uk-text-truncate">{{thisGroup(pos)}}</td>
+                    <td class="uk-text-nowrap">{{pos.price}}</td>
+                </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
+</div>
+
+
+
+
 
         </div>
 
 
+
+
+    <div id="modal-addPos" class="uk-flex-top" uk-modal @hidden="">
+
+        <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical uk-text-center">
+            <button class="uk-modal-close-default" type="button" uk-close></button>
+
+            <form action="/upload/img/prod" method="post" enctype="multipart/form-data">
+                <fieldset class="uk-fieldset">
+
+                    <legend class="uk-legend">Новая позиция</legend>
+
+                    <div class="uk-margin">
+                        <input class="uk-input" type="text" v-model="newPosition.name" placeholder="Наименование товара" name="name">
+                    </div>
+                    <div class="uk-grid-small" uk-grid>
+                        <div class="uk-width-1-3">
+                            <input class="uk-input" type="text" placeholder="Цена" v-model="newPosition.price">
+                        </div>
+                        <div class="uk-width-1-3">
+                            <input class="uk-input" type="text" placeholder="Подсказка" v-model="newPosition.helper">
+                        </div>
+                        <div class="uk-width-1-3">
+                            <input class="uk-input" type="text" placeholder="Купон?" v-model="newPosition.coupon">
+                        </div>
+                    </div>
+
+                    <div class="uk-margin">
+                        <label>Группа товаров
+                        <select class="uk-select" v-model="newPosition.groupId" name="groupId">
+                            <option v-for="group in groups" :value="group.id">{{group.name}}</option>
+                        </select></label>
+                    </div>
+                    <div class="uk-margin">
+
+                        <label>Станция</label>
+                        <select class="uk-select" v-model="newPosition.station" >
+                            <option  value=1>Сборка</option>
+                            <option  value=2>Фри</option>
+                            <option  value=4>Пицца</option>
+                            <option  value=3>Прочее</option>
+                        </select>
+                    </div>
+
+
+                    <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid">
+                        <label><input class="uk-checkbox" type="checkbox" v-model="newPosition.hiden"> Спрятан</label>
+                        <label><input class="uk-checkbox" type="checkbox" v-model="newPosition.blocked" name="blocked"> Заблокирован</label>
+                    </div>
+
+
+                    <div uk-form-custom="target: true">
+                        <input type="file" name="filedata">
+                        <input class="uk-input uk-form-width-medium" type="text" placeholder="Выбрать картинку" disabled>
+                    </div>
+
+
+                </fieldset>
+                <button class="uk-button uk-button-default">Отправить</button>
+            </form>
+
+        </div>
     </div>
+
+
+
+
+
+
+<div id="modal-addGroup" class="uk-flex-top" uk-modal @hidden="">
+
+        <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical uk-text-center">
+            <button class="uk-modal-close-default" type="button" uk-close></button>
+
+            <form>
+                <fieldset class="uk-fieldset">
+
+                    <legend class="uk-legend">Новая группа</legend>
+
+                    <div class="uk-margin">
+                        <input class="uk-input" type="text" placeholder="Input">
+                    </div>
+
+                    <div class="uk-margin">
+                        <select class="uk-select">
+                            <option>Опция 01</option>
+                            <option>Опция 02</option>
+                        </select>
+                    </div>
+
+                    <div class="uk-margin">
+                        <textarea class="uk-textarea" rows="5" placeholder="Textarea"></textarea>
+                    </div>
+
+                    <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid">
+                        <label><input class="uk-radio" type="radio" name="radio2" checked> A</label>
+                        <label><input class="uk-radio" type="radio" name="radio2"> B</label>
+                    </div>
+
+                    <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid">
+                        <label><input class="uk-checkbox" type="checkbox" checked> A</label>
+                        <label><input class="uk-checkbox" type="checkbox"> B</label>
+                    </div>
+
+                    <div class="uk-margin">
+                        <input class="uk-range" type="range" value="2" min="0" max="10" step="0.1">
+                    </div>
+
+                </fieldset>
+            </form>
+
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
 </div>
-</div>
 
 
-
+<script src="scripts/io.js"></script>
 <script src="scripts/admin.js"></script>
 </body>
 </html>

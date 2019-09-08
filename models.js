@@ -47,12 +47,10 @@ const Product = sequelize.define('products', {
         allowNull: true
     },
     blocked: {
-        type: Sequelize.DataTypes.BOOLEAN,
-        allowNull: false
+        type: Sequelize.DataTypes.BOOLEAN
     },
     hiden: {
-        type: Sequelize.DataTypes.BOOLEAN,
-        allowNull: false
+        type: Sequelize.DataTypes.BOOLEAN
     },
     name: {
         type: Sequelize.DataTypes.STRING,

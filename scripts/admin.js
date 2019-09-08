@@ -4,6 +4,23 @@ let app = new Vue({
     },
     data: {
         message: 'Привет!',
+        newPosition: {
+            groupId: 1,
+            station: 1,
+            hiden: false,
+            blocked: false,
+            price: null,
+            coupon: null,
+            helper: "",
+            img: "",
+            name: "",
+            type: 1
+
+        },
+        newGroup: {
+            img: "",
+            name: ""
+        },
         list: [
             {groupId: 1, hiden: false, price: 112, helper: "Не забудьте соус", id: 1, img: 'img/prod/4767c5bf62426226a304c5fa63406322', name: 'Негетсы(8шт)', type: 1},
             {groupId: 1, hiden: false, price: 112, helper: "Попробуйте еще и маффин", id: 2, img: 'img/prod/nag.jpg', name: 'Негетсы(8шт)', type: 1},
@@ -94,5 +111,13 @@ let app = new Vue({
 
 
         },
+        addGroup: function () {
+
+            UIkit.modal('#modal-addGroup').show();
+        },
+        addPosition: function () {
+
+            UIkit.modal('#modal-addPos').show();
+        }
     }
 })
