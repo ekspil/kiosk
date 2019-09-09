@@ -125,13 +125,13 @@
                     </div>
                     <div class="uk-grid-small" uk-grid>
                         <div class="uk-width-1-3">
-                            <input class="uk-input" type="text" placeholder="Цена" v-model="newPosition.price">
+                            <input class="uk-input" type="text" placeholder="Цена" v-model="newPosition.price" name="price">
                         </div>
                         <div class="uk-width-1-3">
-                            <input class="uk-input" type="text" placeholder="Подсказка" v-model="newPosition.helper">
+                            <input class="uk-input" type="text" placeholder="Подсказка" v-model="newPosition.helper" name="helper">
                         </div>
                         <div class="uk-width-1-3">
-                            <input class="uk-input" type="text" placeholder="Купон?" v-model="newPosition.coupon">
+                            <input class="uk-input" type="text" placeholder="Купон?" v-model="newPosition.coupon" name="coupon">
                         </div>
                     </div>
 
@@ -144,7 +144,7 @@
                     <div class="uk-margin">
 
                         <label>Станция</label>
-                        <select class="uk-select" v-model="newPosition.station" >
+                        <select class="uk-select" v-model="newPosition.station" name="station">
                             <option  value=1>Сборка</option>
                             <option  value=2>Фри</option>
                             <option  value=4>Пицца</option>
@@ -154,15 +154,51 @@
 
 
                     <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid">
-                        <label><input class="uk-checkbox" type="checkbox" v-model="newPosition.hiden"> Спрятан</label>
+                        <label><input class="uk-checkbox" type="checkbox" v-model="newPosition.hiden" name="hiden"> Спрятан</label>
                         <label><input class="uk-checkbox" type="checkbox" v-model="newPosition.blocked" name="blocked"> Заблокирован</label>
+                        <label><input class="uk-checkbox" type="checkbox" v-model="newPosition.setBool" name="setBool"> Сэт</label>
                     </div>
 
-
-                    <div uk-form-custom="target: true">
+                    <div class="uk-margin" uk-form-custom="target: true">
                         <input type="file" name="filedata">
-                        <input class="uk-input uk-form-width-medium" type="text" placeholder="Выбрать картинку" disabled>
+                        <input class="uk-input" type="text" placeholder="Выбрать картинку" disabled>
                     </div>
+
+
+                    <div v-if="newPosition.setBool" class="uk-margin">
+
+                        <label>Количество позиций в сете</label>
+                        <select class="uk-select" v-model="newSetCount">
+                            <option  value=1>1</option>
+                            <option  value=2>2</option>
+                            <option  value=3>3</option>
+                            <option  value=4>4</option>
+                            <option  value=5>5</option>
+                            <option  value=6>6</option>
+                            <option  value=7>7</option>
+                        </select>
+                    </div>
+
+
+
+                    <div v-if="newPosition.setBool" class="uk-margin">
+                        <div v-for="si in newPosition.sets" class="uk-margin uk-child-width-expand@s uk-text-center" uk-grid>
+                            <div  class="uk-margin uk-width-1-6">
+
+                                <label>Товар</label>
+                                <select class="uk-select" v-model="si.value" @change="si.sets.push(si.value)">
+                                    <option v-for="pos in list" v-if="pos.type==1"  :value="pos.id">{{pos.name}}</option>
+                                </select>
+                            </div>
+                            <div v-for="it in si.sets" class="uk-margin uk-text-middle uk-overflow-hidden" >{{findPositionById(it)}}</div>
+
+                        </div>
+
+
+                    </div>
+
+
+
 
 
                 </fieldset>

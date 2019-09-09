@@ -4,9 +4,12 @@ let app = new Vue({
     },
     data: {
         message: 'Привет!',
+
+        newSetCount: null,
         newPosition: {
             groupId: 1,
             station: 1,
+            setBool: false,
             hiden: false,
             blocked: false,
             price: null,
@@ -14,7 +17,8 @@ let app = new Vue({
             helper: "",
             img: "",
             name: "",
-            type: 1
+            type: 1,
+            sets: []
 
         },
         newGroup: {
@@ -104,6 +108,38 @@ let app = new Vue({
             {id: 9, img: 'img/prod/nag.jpg', name: 'СЭТЫ'},
         ],
     },
+    watch: {
+
+        newSetCount: function (newC, oldC) {
+            if (newC === oldC){
+                return true
+            }
+            const change = Number(newC) - Number(oldC)
+
+            console.log(change)
+
+                if(change > 0){
+                    for(let i = 0; i < change; i++) {
+                        console.log("+")
+                        let newItem = {
+                            n: null,
+                            sets: []
+                        }
+                        this.newPosition.sets.push(newItem)
+                    }
+                }
+                else if(change < 0){
+                    for(let i = 0; i > change; i--) {
+                        console.log("-")
+                        this.newPosition.sets.pop()
+                    }
+                }
+
+
+
+
+        }
+    },
     methods:{
         thisGroup: function (pos) {
             [group] = this.groups.filter(gr => gr.id == pos.groupId)
@@ -118,6 +154,10 @@ let app = new Vue({
         addPosition: function () {
 
             UIkit.modal('#modal-addPos').show();
+        },
+        findPositionById: function (id) {
+            const [position] = this.list.filter(item => item.id == id)
+            return position.name
         }
     }
 })

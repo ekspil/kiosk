@@ -253,3 +253,7 @@ svg{
     border: none;
 }
 
+.vertical-text {
+    transform: rotate(-90deg);
+}
+

@@ -10,9 +10,7 @@ app.use(express.static(__dirname+'/'));
 app.use(multer({dest:"img/prod"}).single("filedata"));
 
 app.post("/upload/img/prod", function (req, res, next) {
-    console.log(req.query)
-    console.log(req.params)
-    console.log(req.data)
+    console.log(req.body)
     let filedata = req.file;
     console.log(filedata);
     if(!filedata)
