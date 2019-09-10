@@ -110,6 +110,32 @@ const Group = sequelize.define('groups', {
 }, {
     // options
 });
+const Img = sequelize.define('imgs', {
+    // attributes
+    id: {
+        type: Sequelize.DataTypes.INTEGER,
+        allowNull: false,
+        primaryKey: true,
+        autoIncrement: true
+    },
+    img: {
+        type: Sequelize.DataTypes.STRING,
+
+    },
+    name: {
+        type: Sequelize.DataTypes.STRING,
+        allowNull: false
+    },
+    blocked: {
+        type: Sequelize.DataTypes.BOOLEAN
+    },
+    hiden: {
+        type: Sequelize.DataTypes.BOOLEAN
+    },
+
+}, {
+    // options
+});
 const Kiosk = sequelize.define('kiosks', {
     // attributes
     id: {
@@ -134,11 +160,12 @@ const Kiosk = sequelize.define('kiosks', {
 Product.hasMany(Set)
 Group.hasMany(Product)
 
-sequelize.sync({ force: true })
+//sequelize.sync({ force: true })
 
 module.exports = {
     User,
     Product,
     Set,
-    Group
+    Group,
+    Img
 }

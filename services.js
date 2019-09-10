@@ -1,4 +1,5 @@
 const model = require('./models.js')
+const ImgDTO = require("./dto/imgDTO")
 
 const hello = async function(){
     console.log('Hello!')
@@ -7,9 +8,11 @@ const getBaseData = async function(inData){
 
     const list = await model.Product.findAll()
     const groups = await model.Group.findAll()
+    const imgs = await model.Img.findAll()
     const outData = {
         list,
-        groups
+        groups,
+        imgs
     }
     return outData
 
@@ -78,6 +81,20 @@ const changeGroup = async function(data){
 
 
     }
+
+}
+
+const addImg = async function(data){
+
+        const img = {
+           name: data.name,
+           img: data.img,
+           hiden: data.hiden,
+           blocked: data.blocked
+          }
+
+        const answer = await model.Img.create(img)
+        return new ImgDTO(answer)
 
 }
 
@@ -197,5 +214,6 @@ module.exports={
     getData,
     changePosition,
     changeGroup,
-    getBaseData
+    getBaseData,
+    addImg
 }

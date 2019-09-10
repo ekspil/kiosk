@@ -9,14 +9,22 @@ const service = require('./services.js')
 app.use(express.static(__dirname+'/'));
 app.use(multer({dest:"img/prod"}).single("filedata"));
 
-app.post("/upload/img/prod", function (req, res, next) {
-    console.log(req.body)
+app.post("/upload/img/prod", async function (req, res, next) {
     let filedata = req.file;
-    console.log(filedata);
+    let data = {
+        name: req.body.imgName,
+        hiden: false,
+        blocked: false,
+        img: filedata.destination+"/"+filedata.filename
+
+    }
+    const imgData = await service.addImg(data)
+
+
     if(!filedata)
         res.send("Ошибка при загрузке файла");
     else
-        res.send("Файл загружен");
+        res.redirect("../../admin.html")
 });
 
 

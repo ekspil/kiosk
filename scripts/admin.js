@@ -22,9 +22,11 @@ let app = new Vue({
 
         },
         newGroup: {
+            id: null,
             img: "",
             name: ""
         },
+        imgs:[],
         list: [
             {groupId: 1, hiden: false, price: 112, helper: "Не забудьте соус", id: 1, img: 'img/prod/4767c5bf62426226a304c5fa63406322', name: 'Негетсы(8шт)', type: 1},
             {groupId: 1, hiden: false, price: 112, helper: "Попробуйте еще и маффин", id: 2, img: 'img/prod/nag.jpg', name: 'Негетсы(8шт)', type: 1},
@@ -96,17 +98,7 @@ let app = new Vue({
 
         ],
 
-        groups: [
-            {id: 1, img: 'img/prod/nag.jpg', name: 'НАГГЕТСЫ'},
-            {id: 2, img: 'img/prod/nag.jpg', name: 'КОФЕ'},
-            {id: 3, img: 'img/prod/nag.jpg', name: 'ГРАНД МЕНЮ'},
-            {id: 4, img: 'img/prod/nag.jpg', name: 'ДЕСЕРТЫ'},
-            {id: 5, img: 'img/prod/nag.jpg', name: 'НАПИТКИ'},
-            {id: 6, img: 'img/prod/nag.jpg', name: 'СОУСЫ'},
-            {id: 7, img: 'img/prod/nag.jpg', name: 'ПИЦЦА'},
-            {id: 8, img: 'img/prod/nag.jpg', name: 'ПИВО'},
-            {id: 9, img: 'img/prod/nag.jpg', name: 'СЭТЫ'},
-        ],
+        groups: [{name: "1", img: "", id: 0}],
     },
     watch: {
 
@@ -143,17 +135,33 @@ let app = new Vue({
     methods:{
         thisGroup: function (pos) {
             [group] = this.groups.filter(gr => gr.id == pos.groupId)
+            if(!group){
+                return "Не найдено"
+            }
             return group.name
 
 
         },
         addGroup: function () {
-
             UIkit.modal('#modal-addGroup').show();
+        },
+        addGroupSend: function (newGroup) {
+            changeGroup(newGroup)
+            this.newGroup = {
+                id: null,
+                    img: "",
+                    name: ""
+            }
+
+            //UIkit.modal('#modal-addGroup').show();
         },
         addPosition: function () {
 
             UIkit.modal('#modal-addPos').show();
+        },
+        addImg: function () {
+
+            UIkit.modal('#modal-addImg').show();
         },
         findPositionById: function (id) {
             const [position] = this.list.filter(item => item.id == id)

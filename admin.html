@@ -28,7 +28,7 @@
 
             <div class=" uk-text-center">
                 <div>
-                    <button class="uk-button uk-button-adminm" @click="exit()" type="button">Выйти</button>
+                    <button class="uk-button uk-button-adminm" @click="addImg()" type="button">Добавить картинку</button>
                     <button class="uk-button uk-button-adminm" @click="addGroup()" type="button">Создать группу</button>
                     <button class="uk-button uk-button-adminm" @click="addPosition()" type="button">Создать товар</button>
 
@@ -115,7 +115,7 @@
         <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical uk-text-center">
             <button class="uk-modal-close-default" type="button" uk-close></button>
 
-            <form action="/upload/img/prod" method="post" enctype="multipart/form-data">
+            <form id="formx" action="javascript:void(null);" method="post" enctype="multipart/form-data" onsubmit="sendPostPosition()">
                 <fieldset class="uk-fieldset">
 
                     <legend class="uk-legend">Новая позиция</legend>
@@ -158,11 +158,19 @@
                         <label><input class="uk-checkbox" type="checkbox" v-model="newPosition.blocked" name="blocked"> Заблокирован</label>
                         <label><input class="uk-checkbox" type="checkbox" v-model="newPosition.setBool" name="setBool"> Сэт</label>
                     </div>
+                       <div class="uk-child-width-1-2 uk-grid" uk-grid>
+                           <div class="uk-margin">
+                               <label> Картинка товара
+                               <select class="uk-select" v-model="newPosition.img">
+                                   <option v-for="img in imgs" :value="img.img">{{img.name}}</option>
+                               </select></label>
+                           </div>
+                           <div class="uk-text-center">
+                               <img :data-src="newPosition.img" width="150" height="100" alt="" uk-img>
+                           </div>
 
-                    <div class="uk-margin" uk-form-custom="target: true">
-                        <input type="file" name="filedata">
-                        <input class="uk-input" type="text" placeholder="Выбрать картинку" disabled>
-                    </div>
+                       </div>
+
 
 
                     <div v-if="newPosition.setBool" class="uk-margin">
@@ -215,41 +223,59 @@
 
 <div id="modal-addGroup" class="uk-flex-top" uk-modal @hidden="">
 
+    <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical uk-text-center">
+        <button class="uk-modal-close-default" type="button" uk-close></button>
+
+        <form>
+            <fieldset class="uk-fieldset">
+
+                <legend class="uk-legend">Новая группа</legend>
+
+                <div class="uk-margin">
+                    <input class="uk-input" type="text" placeholder="Название группы" v-model="newGroup.name">
+                </div>
+
+                <div class="uk-margin">
+                    <select class="uk-select" v-model="newGroup.img">
+                        <option v-for="img in imgs" :value="img.img">{{img.name}}</option>
+                    </select>
+                </div>
+                <div class="uk-text-center">
+                    <img :data-src="newGroup.img" width="300" height="200" alt="" uk-img>
+                </div>
+
+                <div class="uk-margin">
+                    <button class="uk-button uk-button-default" @click="addGroupSend(newGroup)">Создать</button>
+                </div>
+
+            </fieldset>
+        </form>
+
+    </div>
+</div>
+
+
+    <div id="modal-addImg" class="uk-flex-top" uk-modal @hidden="">
+
         <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical uk-text-center">
             <button class="uk-modal-close-default" type="button" uk-close></button>
 
-            <form>
+            <form action="/upload/img/prod" method="post" enctype="multipart/form-data">
                 <fieldset class="uk-fieldset">
 
-                    <legend class="uk-legend">Новая группа</legend>
+                    <legend class="uk-legend">Добавить картинку</legend>
 
                     <div class="uk-margin">
-                        <input class="uk-input" type="text" placeholder="Input">
+                        <input class="uk-input" type="text"  placeholder="Наименование картинки" name="imgName">
                     </div>
 
-                    <div class="uk-margin">
-                        <select class="uk-select">
-                            <option>Опция 01</option>
-                            <option>Опция 02</option>
-                        </select>
+                    <div class="uk-margin" uk-form-custom="target: true">
+                        <input type="file" name="filedata">
+                        <input class="uk-input" type="text" placeholder="Выбрать картинку" disabled>
                     </div>
 
                     <div class="uk-margin">
-                        <textarea class="uk-textarea" rows="5" placeholder="Textarea"></textarea>
-                    </div>
-
-                    <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid">
-                        <label><input class="uk-radio" type="radio" name="radio2" checked> A</label>
-                        <label><input class="uk-radio" type="radio" name="radio2"> B</label>
-                    </div>
-
-                    <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid">
-                        <label><input class="uk-checkbox" type="checkbox" checked> A</label>
-                        <label><input class="uk-checkbox" type="checkbox"> B</label>
-                    </div>
-
-                    <div class="uk-margin">
-                        <input class="uk-range" type="range" value="2" min="0" max="10" step="0.1">
+                        <button class="uk-button uk-button-default">Загрузить</button>
                     </div>
 
                 </fieldset>
@@ -272,5 +298,6 @@
 
 <script src="scripts/io.js"></script>
 <script src="scripts/admin.js"></script>
+<script src="scripts/fiscal.js"></script>
 </body>
 </html>
