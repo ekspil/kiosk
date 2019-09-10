@@ -42,6 +42,10 @@ const Product = sequelize.define('products', {
         type: Sequelize.DataTypes.INTEGER,
         allowNull: true
     },
+    position: {
+        type: Sequelize.DataTypes.INTEGER,
+        allowNull: true
+    },
     coupon: {
         type: Sequelize.DataTypes.INTEGER,
         allowNull: true

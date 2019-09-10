@@ -32,12 +32,16 @@ socketL.emit('getBaseData', {rest: 1}, (data) => {
 //         img: ""
 //
 // }
-// socketL.emit('changePosition', fakeData, (data) => {
-//     console.log(data)
-//
-// });
+
 function changeGroup(newGroup){
     socketL.emit('changeGroup', newGroup, (data) => {
+        console.log(data)
+
+    });
+
+}
+function changePosition(newPosition){
+    socketL.emit('changePosition', newPosition, (data) => {
         console.log(data)
 
     });

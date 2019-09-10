@@ -115,7 +115,7 @@ let app = new Vue({
                         console.log("+")
                         let newItem = {
                             n: null,
-                            sets: []
+                            products: []
                         }
                         this.newPosition.sets.push(newItem)
                     }
@@ -158,6 +158,26 @@ let app = new Vue({
         addPosition: function () {
 
             UIkit.modal('#modal-addPos').show();
+        },
+        addPositionSend: function (newPosition) {
+            changePosition(newPosition)
+            this.newPosition = {
+                groupId: 1,
+                    station: 1,
+                    position: 99,
+                    setBool: false,
+                    hiden: false,
+                    blocked: false,
+                    price: null,
+                    coupon: null,
+                    helper: "",
+                    img: "",
+                    name: "",
+                    type: 1,
+                    sets: []
+
+            }
+
         },
         addImg: function () {
 

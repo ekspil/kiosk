@@ -33,7 +33,14 @@ const changePosition = async function(data){
             prod.helper = data.helper
             prod.coupon = data.coupon
             prod.groupId = data.groupId
-        return await prod.save()
+            prod.position = data.position
+        await prod.save()
+        if(data.sets.length > 0){
+            console.log(prod)
+            let sets = prod.getSets
+            console.log(sets)
+        }
+        return true
 
 
     }else{
@@ -47,12 +54,22 @@ const changePosition = async function(data){
            price: data.price,
            helper: data.helper,
            coupon: data.coupon,
-           groupId: data.groupId
+           groupId: data.groupId,
+           position: data.position
           }
 
 
-        return await model.Product.create(prod)
+        const product = await model.Product.create(prod)
+        if(data.sets.length > 0){
+            console.log(product)
 
+                let thisset = await product.setSets(data.sets)
+
+
+            let sets = product.getSets()
+            console.log(sets)
+        }
+        return true
 
     }
 

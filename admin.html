@@ -115,7 +115,7 @@
         <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical uk-text-center">
             <button class="uk-modal-close-default" type="button" uk-close></button>
 
-            <form id="formx" action="javascript:void(null);" method="post" enctype="multipart/form-data" onsubmit="sendPostPosition()">
+            <form id="formx" action="javascript:void(null);" method="post" enctype="multipart/form-data" >
                 <fieldset class="uk-fieldset">
 
                     <legend class="uk-legend">Новая позиция</legend>
@@ -194,11 +194,11 @@
                             <div  class="uk-margin uk-width-1-6">
 
                                 <label>Товар</label>
-                                <select class="uk-select" v-model="si.value" @change="si.sets.push(si.value)">
+                                <select class="uk-select" v-model="si.value" @change="si.products.push(si.value)">
                                     <option v-for="pos in list" v-if="pos.type==1"  :value="pos.id">{{pos.name}}</option>
                                 </select>
                             </div>
-                            <div v-for="it in si.sets" class="uk-margin uk-text-middle uk-overflow-hidden" >{{findPositionById(it)}}</div>
+                            <div v-for="it in si.products" class="uk-margin uk-text-middle uk-overflow-hidden" >{{findPositionById(it)}}</div>
 
                         </div>
 
@@ -210,7 +210,7 @@
 
 
                 </fieldset>
-                <button class="uk-button uk-button-default">Отправить</button>
+                <button class="uk-button uk-button-default" @click="addPositionSend(newPosition)">Отправить</button>
             </form>
 
         </div>

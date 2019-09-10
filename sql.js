@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 const sequelize = new Sequelize('kiosk_rb', 'postgres', 'postgres', {
     host: 'localhost',
-    port: '5433',
+    port: '5432',
     dialect: 'postgres'
 });
 
