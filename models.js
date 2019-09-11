@@ -60,6 +60,9 @@ const Product = sequelize.define('products', {
         type: Sequelize.DataTypes.STRING,
         allowNull: false
     },
+    codeOneC: {
+        type: Sequelize.DataTypes.STRING
+    },
     img: {
         type: Sequelize.DataTypes.STRING,
 
@@ -114,6 +117,46 @@ const Group = sequelize.define('groups', {
 }, {
     // options
 });
+const Order = sequelize.define('orders', {
+    // attributes
+    id: {
+        type: Sequelize.DataTypes.INTEGER,
+        allowNull: false,
+        primaryKey: true,
+        autoIncrement: true
+    },
+    sum: {
+        type: Sequelize.DataTypes.STRING,
+
+    },
+    name: {
+        type: Sequelize.DataTypes.STRING,
+        allowNull: false
+    },
+}, {
+    // options
+});
+
+const OrderPosition = sequelize.define('order_positions', {
+    // attributes
+    id: {
+        type: Sequelize.DataTypes.INTEGER,
+        allowNull: false,
+        primaryKey: true,
+        autoIncrement: true
+    },
+    sum: {
+        type: Sequelize.DataTypes.STRING,
+
+    },
+    name: {
+        type: Sequelize.DataTypes.STRING,
+        allowNull: false
+    },
+}, {
+    // options
+});
+
 const Img = sequelize.define('imgs', {
     // attributes
     id: {

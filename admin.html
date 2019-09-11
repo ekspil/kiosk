@@ -39,14 +39,14 @@
 
                         <table class="uk-table uk-table-striped uk-table-hover uk-table-middle uk-table-divider">
                             <thead>
-                            <tr>
+                            <tr >
                                 <th class="uk-table-shrink">Фото</th>
                                 <th class="uk-table-expand">Наименование</th>
                                 <th class="uk-table-shrink uk-text-nowrap">ID</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr v-for="pos in groups">
+                            <tr v-for="pos in groups" @click.prevent="addGroup(pos)">
                                 <td><img class="uk-preserve-width uk-border-circle" :src="pos.img" width="40" height="40" alt=""></td>
                                 <td class="uk-table-link">
                                     <a class="uk-link-reset" href="">{{pos.name}}</a>
@@ -63,7 +63,7 @@
             </div>
 
 
-<div>
+<div class="admin-list-column">
     <div class="uk-text-center">
         <div class="uk-h3">Товары</div>
     </div>
@@ -83,12 +83,12 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr v-for="pos in list">
+                <tr v-for="pos in list" >
                     <td class="uk-text-nowrap">{{pos.id}}</td>
                     <td><input class="uk-checkbox" type="checkbox" v-model="pos.hiden"></td>
                     <td><img class="uk-preserve-width uk-border-circle" :src="pos.img" width="40" height="40" alt=""></td>
                     <td class="uk-table-link">
-                        <a class="uk-link-reset" href="">{{pos.name}}</a>
+                        <a class="uk-link-reset" href="" @click.prevent="addPosition(pos)">{{pos.name}}</a>
                     </td>
                     <td class="uk-text-truncate">{{thisGroup(pos)}}</td>
                     <td class="uk-text-nowrap">{{pos.price}}</td>
@@ -110,12 +110,12 @@
 
 
 
-    <div id="modal-addPos" class="uk-flex-top" uk-modal @hidden="">
+    <div id="modal-addPos" class="uk-flex-top" uk-modal >
 
         <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical uk-text-center">
             <button class="uk-modal-close-default" type="button" uk-close></button>
 
-            <form id="formx" action="javascript:void(null);" method="post" enctype="multipart/form-data" >
+            <form id="formx">
                 <fieldset class="uk-fieldset">
 
                     <legend class="uk-legend">Новая позиция</legend>
@@ -177,6 +177,7 @@
 
                         <label>Количество позиций в сете</label>
                         <select class="uk-select" v-model="newSetCount">
+                            <option  value=0>0</option>
                             <option  value=1>1</option>
                             <option  value=2>2</option>
                             <option  value=3>3</option>
@@ -207,11 +208,11 @@
 
 
 
+                    <button class="uk-button uk-button-default" @click="addPositionSend(newPosition)">Отправить</button>
 
 
                 </fieldset>
-                <button class="uk-button uk-button-default" @click="addPositionSend(newPosition)">Отправить</button>
-            </form>
+                </form>
 
         </div>
     </div>

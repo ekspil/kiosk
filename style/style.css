@@ -44,20 +44,17 @@ p {
 #adminm {
 
     width: 100%;
-    height: 75%;
-    max-height: 75%;
+    height: 85%;
 }
 #adminm-l {
 
     width: 100%;
-    height: 58%;
-    max-height: 58%;
+    height: 100%;
 }
 #adminm-g {
 
     width: 100%;
-    height: 40%;
-    max-height: 40%;
+    height: 100%;
 }
 #menu {
    padding-top: 30px;
@@ -91,6 +88,9 @@ svg{
 .cart-minus {
     font-weight: bold;
     text-shadow: #535353 0 0 10px;
+}
+.admin-list-column{
+    height: 100%;
 }
 .cart-plus {
     font-weight: bold;

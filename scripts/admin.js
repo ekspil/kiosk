@@ -7,6 +7,7 @@ let app = new Vue({
 
         newSetCount: null,
         newPosition: {
+            id: null,
             groupId: 1,
             station: 1,
             setBool: false,
@@ -107,22 +108,27 @@ let app = new Vue({
                 return true
             }
             const change = Number(newC) - Number(oldC)
-
-            console.log(change)
+            function getRandomInt(min, max){
+                return Math.floor(Math.random() * (max - min + 1)) + min;
+            }
+                //console.log(change)
 
                 if(change > 0){
                     for(let i = 0; i < change; i++) {
-                        console.log("+")
+
+
                         let newItem = {
-                            n: null,
+                            n: i+" Модификация сэта"+getRandomInt(1, 999999)+getRandomInt(1, 999999),
                             products: []
                         }
-                        this.newPosition.sets.push(newItem)
+                        if(this.newPosition.sets.length < this.newSetCount){
+                            this.newPosition.sets.push(newItem)
+                        }
+
                     }
                 }
                 else if(change < 0){
                     for(let i = 0; i > change; i--) {
-                        console.log("-")
                         this.newPosition.sets.pop()
                     }
                 }
@@ -142,7 +148,13 @@ let app = new Vue({
 
 
         },
-        addGroup: function () {
+        addGroup: function (pos) {
+            if(pos){
+                this.newGroup = pos
+            }else{
+                this.newGroup.id = null
+            }
+
             UIkit.modal('#modal-addGroup').show();
         },
         addGroupSend: function (newGroup) {
@@ -155,14 +167,34 @@ let app = new Vue({
 
             //UIkit.modal('#modal-addGroup').show();
         },
-        addPosition: function () {
+        addPosition: function (pos){
+
+            if(pos){
+                console.log(pos)
+                if(pos.set && pos.set.length > 0){
+                    this.newSetCount = pos.set.length
+                    pos.setBool = true
+                    pos.sets = pos.set.map(se=>{
+                        se.products = se.set
+                        return se
+                    })
+
+                }
+                this.newPosition = pos
+            }else{
+                this.newPosition.id = null
+            }
 
             UIkit.modal('#modal-addPos').show();
         },
         addPositionSend: function (newPosition) {
+            if(newPosition.sets.length > 0){
+                newPosition.type = 2
+            }
             changePosition(newPosition)
             this.newPosition = {
-                groupId: 1,
+                    id: null,
+                    groupId: 1,
                     station: 1,
                     position: 99,
                     setBool: false,
