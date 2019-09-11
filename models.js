@@ -118,41 +118,91 @@ const Group = sequelize.define('groups', {
     // options
 });
 const Order = sequelize.define('orders', {
-    // attributes
     id: {
         type: Sequelize.DataTypes.INTEGER,
         allowNull: false,
         primaryKey: true,
         autoIncrement: true
     },
+    orderType: {
+        type: Sequelize.DataTypes.INTEGER
+    },
+    payType: {
+        type: Sequelize.DataTypes.INTEGER
+    },
     sum: {
         type: Sequelize.DataTypes.STRING,
-
     },
-    name: {
+    status: {
         type: Sequelize.DataTypes.STRING,
-        allowNull: false
+    },
+    fiscalNum: {
+        type: Sequelize.DataTypes.STRING
+    },
+    returnPay: {
+        type: Sequelize.DataTypes.BOOLEAN
+    },
+    returnCheck: {
+        type: Sequelize.DataTypes.BOOLEAN
     },
 }, {
     // options
 });
 
 const OrderPosition = sequelize.define('order_positions', {
-    // attributes
-    id: {
+
+    uid: {
         type: Sequelize.DataTypes.INTEGER,
         allowNull: false,
         primaryKey: true,
         autoIncrement: true
     },
-    sum: {
-        type: Sequelize.DataTypes.STRING,
-
+    id: {
+        type: Sequelize.DataTypes.INTEGER
+    },
+    count: {
+        type: Sequelize.DataTypes.INTEGER
+    },
+    type: {
+        type: Sequelize.DataTypes.INTEGER,
+        allowNull: false
+    },
+    station: {
+        type: Sequelize.DataTypes.INTEGER,
+        allowNull: true
+    },
+    position: {
+        type: Sequelize.DataTypes.INTEGER,
+        allowNull: true
+    },
+    coupon: {
+        type: Sequelize.DataTypes.INTEGER,
+        allowNull: true
+    },
+    blocked: {
+        type: Sequelize.DataTypes.BOOLEAN
+    },
+    hiden: {
+        type: Sequelize.DataTypes.BOOLEAN
     },
     name: {
         type: Sequelize.DataTypes.STRING,
         allowNull: false
     },
+    codeOneC: {
+        type: Sequelize.DataTypes.STRING
+    },
+    img: {
+        type: Sequelize.DataTypes.STRING,
+
+    },
+    helper: {
+        type: Sequelize.DataTypes.STRING,
+
+    },
+    price: {
+        type: Sequelize.DataTypes.INTEGER
+    }
 }, {
     // options
 });
@@ -206,6 +256,7 @@ const Kiosk = sequelize.define('kiosks', {
 
 Product.hasMany(Set)
 Group.hasMany(Product)
+Order.hasMany(OrderPosition)
 
 //sequelize.sync({ force: true })
 
@@ -214,5 +265,7 @@ module.exports = {
     Product,
     Set,
     Group,
-    Img
+    Img,
+    Order,
+    OrderPosition
 }

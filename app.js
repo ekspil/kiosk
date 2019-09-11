@@ -37,9 +37,9 @@ const io = require('socket.io')();
 io.on('connection', client => {
     console.log("Есть подключение")
 
-    client.on('getData', async function(data, returnFn){
+    client.on('makeOrder', async function(data, returnFn){
 
-        let dataR = await service.getData(data.rest)
+        let dataR = await service.makeOrder(data.rest)
         returnFn(dataR)
     });
 

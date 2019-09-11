@@ -16,22 +16,6 @@ socketL.emit('getBaseData', {rest: 1}, (data) => {
 
 });
 
-// let fakeData = {
-//         type: 1,
-//         station: 1,
-//         blocked: false,
-//         hiden: false,
-//         name: "Тестовая хрень",
-//         groupId: 1,
-//         img: "",
-//         price: 999
-//
-// }
-// let fakeGroup = {
-//         name: "Все, что есть",
-//         img: ""
-//
-// }
 
 function changeGroup(newGroup){
     socketL.emit('changeGroup', newGroup, (data) => {
@@ -42,6 +26,14 @@ function changeGroup(newGroup){
 }
 function changePosition(newPosition){
     socketL.emit('changePosition', newPosition, (data) => {
+        console.log(data)
+
+    });
+
+}
+
+function makeOrder(cart){
+    socketL.emit('makeOrder', cart, (data) => {
         console.log(data)
 
     });

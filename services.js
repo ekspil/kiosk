@@ -131,6 +131,20 @@ const addImg = async function(data){
 
 }
 
+const makeOrder = async function(data){
+
+        const img = {
+           name: data.name,
+           img: data.img,
+           hiden: data.hiden,
+           blocked: data.blocked
+          }
+
+        const answer = await model.Img.create(img)
+        return new ImgDTO(answer)
+
+}
+
 
 
 module.exports={
@@ -138,5 +152,6 @@ module.exports={
     changePosition,
     changeGroup,
     getBaseData,
-    addImg
+    addImg,
+    makeOrder
 }

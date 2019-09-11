@@ -81,7 +81,7 @@ var app = new Vue({
                 tempItem[key] = newItem[key];
             }
 
-            if(newItem.set){
+            if(newItem.set && newItem.set.length > 0){
 
                 this.thisSet = tempItem;
                 UIkit.modal('#modal-set').show();
@@ -349,16 +349,7 @@ var app = new Vue({
             }
             if(Rezult.Command == "RegisterCheck" && Rezult.Status == 0){
 
-
-                SendET(this.serverET, this.cart, false, this.msgId, this.orderType)
-
-
-                setTimeout(()=>{this.payHelper = "Выводим информацию на кухонные мониторы..."}, 2000)
-
-
-                setTimeout(()=>{this.payHelper = "Готово! Ваш заказ F-001"}, 6000)
-                setTimeout(()=>{this.payed = 1}, 6050)
-                setTimeout(this.start, 10000)
+                this.registerOrder(Rezult)
             }
             if(Rezult.Command == "PayByPaymentCard" && Rezult.Status == 0){
 
@@ -371,6 +362,19 @@ var app = new Vue({
             console.log(jqXHR)
             console.log(textStatus)
             console.log(errorThrown)
+        },
+        registerOrder: async function (Rezult) {
+
+
+            SendET(this.serverET, this.cart, false, this.msgId, this.orderType)
+
+
+            setTimeout(()=>{this.payHelper = "Выводим информацию на кухонные мониторы..."}, 2000)
+
+
+            setTimeout(()=>{this.payHelper = "Готово! Ваш заказ F-001"}, 6000)
+            setTimeout(()=>{this.payed = 1}, 6050)
+            setTimeout(this.start, 10000)
         }
     }
 })
