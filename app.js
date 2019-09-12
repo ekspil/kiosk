@@ -39,7 +39,7 @@ io.on('connection', client => {
 
     client.on('makeOrder', async function(data, returnFn){
 
-        let dataR = await service.makeOrder(data.rest)
+        let dataR = await service.makeOrder(data)
         returnFn(dataR)
     });
 

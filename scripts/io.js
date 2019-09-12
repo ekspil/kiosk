@@ -32,9 +32,15 @@ function changePosition(newPosition){
 
 }
 
-function makeOrder(cart){
-    socketL.emit('makeOrder', cart, (data) => {
+function makeOrder(dataCart){
+    socketL.emit('makeOrder', dataCart, (data) => {
         console.log(data)
+        app.payHelper = "Выводим информацию на кухонные мониторы..."
+        let msgId = app.litera+"-"+data.id
+        SendET(app.serverET, app.cart, false, msgId, app.orderType)
+        setTimeout(()=>{app.payHelper = "Готово! Ваш заказ "+app.litera+"-"+data.id}, 1500)
+        setTimeout(()=>{app.payed = 1}, 3000)
+        setTimeout(app.start, 10000)
 
     });
 

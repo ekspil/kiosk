@@ -379,15 +379,19 @@
 
 
             </div>
-            <div class="uk-modal-footer uk-text-center">
+            <div class="uk-modal-footer uk-text-center uk-grid uk-child-width-1-3" uk-grid>
                 <button class="uk-button uk-button-danger" @click="start()" type="button">Выйти</button>
                 <button class="uk-button uk-button-danger" @click="lockKiosk()" type="button">Заблокировать киоск</button>
                 <button class="uk-button uk-button-danger" @click="unlockKiosk()" type="button">Разблокировать</button>
             </div>
-            <div class="uk-modal-footer uk-text-center">
+            <div class="uk-modal-footer uk-text-center uk-grid uk-child-width-1-3" uk-grid>
                 <button class="uk-button uk-button-danger" @click="closeSh()" type="button">Снять Z-отчет</button>
                 <button class="uk-button uk-button-danger" @click="xRep()" type="button">Снять Х-отчет</button>
                 <button class="uk-button uk-button-danger" @click="closeSber()" type="button">Сверка итогов</button>
+            </div>
+            <div class="uk-modal-footer uk-text-center uk-grid uk-child-width-1-2" uk-grid>
+                <input class="uk-input" type="text" v-model="deleteOrderNum" placeholder="Фискальный номер чека" >
+                <button class="uk-button uk-button-danger" @click="deleteOrder(deleteOrderNum)" type="button">Аннулирование чека</button>
             </div>
 
         </div>

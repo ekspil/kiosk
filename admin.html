@@ -191,15 +191,15 @@
 
 
                     <div v-if="newPosition.setBool" class="uk-margin">
-                        <div v-for="si in newPosition.sets" class="uk-margin uk-child-width-expand@s uk-text-center" uk-grid>
+                        <div v-for="(si, index) in newPosition.sets" class="uk-margin uk-child-width-expand@s uk-text-center" uk-grid>
                             <div  class="uk-margin uk-width-1-6">
 
                                 <label>Товар</label>
-                                <select class="uk-select" v-model="si.value" @change="si.products.push(si.value)">
+                                <select class="uk-select" v-model="si.value" @change="newPosition.sets[index].products.push(si.value)">
                                     <option v-for="pos in list" v-if="pos.type==1"  :value="pos.id">{{pos.name}}</option>
                                 </select>
                             </div>
-                            <div v-for="it in si.products" class="uk-margin uk-text-middle uk-overflow-hidden" >{{findPositionById(it)}}</div>
+                            <div v-for="it in newPosition.sets[index].products" class="uk-margin uk-text-middle uk-overflow-hidden" >{{findPositionById(it)}}</div>
 
                         </div>
 

@@ -18,7 +18,7 @@ var app = new Vue({
         orderType: 1,
         litera: "F",
         pincode: [],
-        pincodeReal: "1234",
+        pincodeReal: "1234321",
         orderNumber: 254,
         payed: 0,
         timer: 60,

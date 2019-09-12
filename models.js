@@ -151,16 +151,16 @@ const Order = sequelize.define('orders', {
 
 const OrderPosition = sequelize.define('order_positions', {
 
-    uid: {
+    id: {
         type: Sequelize.DataTypes.INTEGER,
         allowNull: false,
         primaryKey: true,
         autoIncrement: true
     },
-    id: {
+    count: {
         type: Sequelize.DataTypes.INTEGER
     },
-    count: {
+    positionId: {
         type: Sequelize.DataTypes.INTEGER
     },
     type: {
