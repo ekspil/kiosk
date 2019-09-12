@@ -88,6 +88,11 @@ var app = new Vue({
                 this.thisCoupon.pop()
             }
 
+        },
+        cart: function (newC, oldC) {
+            if(newC.length == 0){
+                UIkit.modal('#modal-cart').hide();
+            }
         }
     },
     methods: {

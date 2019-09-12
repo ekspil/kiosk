@@ -244,8 +244,11 @@
             <div id="list-cart"  class="uk-panel-scrollable uk-panel-scrollable-cart uk-width-expand  uk-grid-collapse uk-flex-center uk-child-width-1-4 uk-text-center" uk-grid>
 
 
-                <a v-for="pos in cart" v-if="cart" href="#" :id="pos.id" @click="addToCart(pos)"><div class="uk-card uk-card-small uk-animation-scale-up">
-                    <div class="uk-card-media-top"><img :data-src="pos.img  || 'img/prod/default.jpg'" width="100%" height="100%" alt="" uk-img></div>
+                <a v-for="pos in cart" v-if="cart" href="#" :id="pos.id"><div class="uk-card uk-card-small uk-animation-scale-up">
+                    <div class="uk-card uk-card-media-top uk-position-relative"><img :data-src="pos.img  || 'img/prod/default.jpg'" width="100%" height="100%" alt="" uk-img>
+
+                        <div class="uk-position-center uk-panel"><h1><span class="cart-minus" @click="minusCart(pos)">- </span><span> {{pos.count}} </span><span @click="plusCart(pos)" class="cart-plus"> +</span></h1></div>
+                    </div>
                     <div class="uk-card-body">
                         <h3 class="uk-card-title">{{pos.count}} x {{pos.name}}</h3>
                         <p>{{pos.price*pos.count}} руб.</p>
