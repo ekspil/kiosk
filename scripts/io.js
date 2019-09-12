@@ -1,4 +1,5 @@
-var socketL = io.connect('localhost:3333');
+const ioserver = document.location.host.split(":")[0]
+var socketL = io.connect(ioserver+':3333');
 //var socketC = io.connect('192.168.15.150:3333');
 
 // socketL.emit('getData', {rest: 1}, (data) => {
