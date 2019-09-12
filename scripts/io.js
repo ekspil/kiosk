@@ -13,6 +13,7 @@ socketL.emit('getBaseData', {rest: 1}, (data) => {
    app.list = data.list
    app.groups = data.groups
    app.imgs = data.imgs
+   app.lastId = data.lastId
 
 });
 
@@ -34,13 +35,27 @@ function changePosition(newPosition){
 
 function makeOrder(dataCart){
     socketL.emit('makeOrder', dataCart, (data) => {
-        console.log(data)
-        app.payHelper = "Выводим информацию на кухонные мониторы..."
-        let msgId = app.litera+"-"+data.id
+        app.payHelper = "Выводим информацию на кухонные мониторы"
+        let strId = ""
+        if (String(data.id).length == 1){
+            strId = "00" + data.id
+        }
+        if (String(data.id).length == 2){
+            strId = "0" + data.id
+        }
+        if (String(data.id).length > 3){
+            strId = String(data.id).slice(-3)
+        }
+
+
+        let msgId = app.litera+"-"+strId
+
         SendET(app.serverET, app.cart, false, msgId, app.orderType)
-        setTimeout(()=>{app.payHelper = "Готово! Ваш заказ "+app.litera+"-"+data.id}, 1500)
-        setTimeout(()=>{app.payed = 1}, 3000)
-        setTimeout(app.start, 10000)
+        app.lastId = data.id
+
+        setTimeout(()=>{app.payHelper = "Готово! Ваш заказ "+msgId}, 2000)
+        setTimeout(()=>{app.payed = 1}, 2500)
+        setTimeout(app.start, 15000)
 
     });
 

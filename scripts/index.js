@@ -11,6 +11,7 @@ var app = new Vue({
         message: 'Привет!',
         deleteOrderNum: null,
         orderId: 0,
+        lastId: null,
         kkmServer: 'http://192.168.15.101:5893//Execute',
         serverET: "http://192.168.15.166:4000",
         groupId: 1,
@@ -63,6 +64,21 @@ var app = new Vue({
         msgId: function (){
             let msg = this.litera +"-"+ this.orderId
             return msg
+        },
+        msgIdBig: function (){
+            let newId = this.lastId
+            let strId = ""
+            if (String(newId).length == 1){
+                strId = "00" + newId
+            }
+            if (String(newId).length == 2){
+                strId = "0" + newId
+            }
+            if (String(newId).length > 3){
+                strId = String(newId).slice(-3)
+            }
+            strId = this.litera+"-"+strId
+            return strId
         }
 },
     watch: {
@@ -322,8 +338,8 @@ var app = new Vue({
             this.lastModal = ""
             this.start()
         },
-        printCheck: function (slip){
-            let my_aray_letters = returnArrayLetters('F-147')
+        printCheck: function (slip, strId){
+            let my_aray_letters = returnArrayLetters(strId)
             RegisterCheck(1, 0, false, my_aray_letters, this.cart, slip)
         },
         closeSh: function () {
@@ -350,13 +366,26 @@ var app = new Vue({
 
             if(Rezult.Command == "PayByPaymentCard" && Rezult.Status == 0){
                 let slip = Rezult.Slip.split("\n")
+                setTimeout(()=>{this.payHelper = "Печатаем чек..."}, 100)
+                let newId = this.lastId + 1
+                let strId = ""
+                if (String(newId).length == 1){
+                    strId = "00" + newId
+                }
+                if (String(newId).length == 2){
+                    strId = "0" + newId
+                }
+                if (String(newId).length > 3){
+                    strId = String(newId).slice(-3)
+                }
+                strId = this.litera+"-"+strId
+                this.printCheck(slip, strId)
 
-                this.printCheck(slip)
             }
             if(Rezult.Command == "RegisterCheck" && Rezult.Status == 0){
 
                 this.registerOrder(Rezult)
-                setTimeout(()=>{this.payHelper = "Печатаем чек..."}, 100)
+
             }
             if(Rezult.Command == "PayByPaymentCard" && Rezult.Status != 0){
 

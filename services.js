@@ -12,6 +12,7 @@ const getBaseData = async function(inData){
     let list = await model.Product.findAll()
     const groups = await model.Group.findAll()
     const imgs = await model.Img.findAll()
+    const lastId = await model.Order.max("id")
     for(let i in list){
         let sets = await list[i].getSets()
         list[i] = new ProductDTO(list[i])
@@ -21,7 +22,8 @@ const getBaseData = async function(inData){
     return {
         list,
         groups,
-        imgs
+        imgs,
+        lastId
     }
 
 
@@ -151,7 +153,8 @@ const makeOrder = async function(data){
     order.returnPay = false
     order.returnCheck = false
     cart = cart.map(item => {
-        item.positionId = item.id
+        let newId = String(item.id).split("-")
+        item.positionId = Number(newId[0])
         delete item.id
         return item
     })
