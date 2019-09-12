@@ -9,6 +9,7 @@ var app = new Vue({
     },
     data: {
         message: 'Привет!',
+        deleteOrderNum: null,
         orderId: 0,
         kkmServer: 'http://192.168.15.101:5893//Execute',
         serverET: "http://192.168.15.166:4000",
@@ -334,6 +335,11 @@ var app = new Vue({
         xRep: function () {
             XReport(0)
         },
+        hidePayModal: function () {
+
+            UIkit.modal('#modal-pay').hide();
+            this.payHelper = "Следуйте указаниям на пинпаде..."
+        },
         deviceOk: async function (Rezult, textStatus, jqXHR) {
 
             if(Rezult && Rezult.Status !== 0 && Rezult != "OK"){
@@ -344,17 +350,19 @@ var app = new Vue({
 
             if(Rezult.Command == "PayByPaymentCard" && Rezult.Status == 0){
                 let slip = Rezult.Slip.split("\n")
-                setTimeout(()=>{this.payHelper = "Печатаем чек..."}, 100)
+
                 this.printCheck(slip)
             }
             if(Rezult.Command == "RegisterCheck" && Rezult.Status == 0){
 
                 this.registerOrder(Rezult)
+                setTimeout(()=>{this.payHelper = "Печатаем чек..."}, 100)
             }
-            if(Rezult.Command == "PayByPaymentCard" && Rezult.Status == 0){
+            if(Rezult.Command == "PayByPaymentCard" && Rezult.Status != 0){
 
+                this.payHelper = "Ошибка оплаты, попробуйте снова!"
 
-
+                setTimeout(this.hidePayModal, 3000)
             }
 
         },
@@ -364,17 +372,14 @@ var app = new Vue({
             console.log(errorThrown)
         },
         registerOrder: async function (Rezult) {
+            let dataCart = {
+                cart: this.cart,
+                orderType: this.orderType,
+                fiscalNum: Rezult.CheckNumber
+            }
+            makeOrder(dataCart)
 
 
-            SendET(this.serverET, this.cart, false, this.msgId, this.orderType)
-
-
-            setTimeout(()=>{this.payHelper = "Выводим информацию на кухонные мониторы..."}, 2000)
-
-
-            setTimeout(()=>{this.payHelper = "Готово! Ваш заказ F-001"}, 6000)
-            setTimeout(()=>{this.payed = 1}, 6050)
-            setTimeout(this.start, 10000)
         }
     }
 })
