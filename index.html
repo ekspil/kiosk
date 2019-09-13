@@ -124,7 +124,7 @@
 
                 <div v-for="sets in thisSet.set" class="uk-position-relative uk-visible-toggle uk-light"  tabindex="-1"  uk-slider="finite: true">
                     <ul class="uk-text-center uk-slider-items uk-child-width-1-3" >
-                        <li v-for="item in sets.set"><a href="#"><img @click="setSelect(item, sets)" :src="getImgById(item)  || 'img/prod/default.jpg'" alt="" >{{getNameById(item)}}</a></li>
+                        <li v-for="item in sets.set" v-if="!item.hiden"><a href="#"><img @click="setSelect(item, sets)" :src="getImgById(item)  || 'img/prod/default.jpg'" alt="" >{{getNameById(item)}}</a></li>
                     </ul>
                     <a class="uk-position-center-left uk-position-small uk-slidenav-large" href="#" uk-slidenav-previous uk-slider-item="previous"></a>
                     <a class="uk-position-center-right uk-position-small uk-slidenav-large" href="#" uk-slidenav-next uk-slider-item="next"></a>
@@ -134,8 +134,8 @@
             <div class="uk-modal-header uk-text-center">
                 <h2 v-if="thisSet" class="uk-modal-title">Ваш {{thisSet.name}}:</h2>
             </div>
-            <div v-if="thisSet" class="uk-flex uk-flex-center">
-                <div v-for="select in selection" class="uk-card  uk-card-body uk-text-center "><img  :src="getImgById(select.id)  || 'img/prod/default.jpg'" alt="" >{{getNameById(select.id)}}</div>
+            <div v-if="thisSet" class="uk-flex uk-flex-center   uk-height-max-medium">
+                <div v-for="select in selection" class="uk-card  uk-card-body uk-text-center"><img  :src="getImgById(select.id)  || 'img/prod/default.jpg'" alt="" >{{getNameById(select.id)}}</div>
             </div>
 
             <div class="uk-modal-footer uk-text-center">
