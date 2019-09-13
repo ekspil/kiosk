@@ -188,7 +188,7 @@ let app = new Vue({
             UIkit.modal('#modal-addPos').show();
         },
         addPositionSend: function (newPosition) {
-            if(newPosition.sets.length > 0){
+            if(newPosition.sets && newPosition.sets.length > 0){
                 newPosition.type = 2
             }
             changePosition(newPosition)
