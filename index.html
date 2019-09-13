@@ -134,14 +134,19 @@
             <div class="uk-modal-header uk-text-center">
                 <h2 v-if="thisSet" class="uk-modal-title">Ваш {{thisSet.name}}:</h2>
             </div>
-            <div v-if="thisSet" class="uk-flex uk-flex-center   uk-height-max-large">
-                <div v-for="select in selection" class="uk-card  uk-card-body uk-text-center"><img  :src="getImgById(select.id)  || 'img/prod/default.jpg'" alt="" >{{getNameById(select.id)}}</div>
+            <div class="uk-height-max-large">
+
+                <div v-if="thisSet" class="uk-flex uk-flex-center">
+                    <div v-for="select in selection" class="uk-card  uk-card-body uk-text-center"><img class="uk-height-max-medium"  :src="getImgById(select.id)  || 'img/prod/default.jpg'" alt="" >{{getNameById(select.id)}}</div>
+                </div>
+
+                <div class="uk-modal-footer uk-text-center">
+                    <button class="uk-button uk-button-modal-default uk-modal-close" @click="clearTemp()" type="button">Передумал</button>
+                    <button class="uk-button uk-button-modal-ok" @click="addSetToCart(selection)" type="button">Выбрал</button>
+                </div>
+
             </div>
 
-            <div class="uk-modal-footer uk-text-center">
-                <button class="uk-button uk-button-modal-default uk-modal-close" @click="clearTemp()" type="button">Передумал</button>
-                <button class="uk-button uk-button-modal-ok" @click="addSetToCart(selection)" type="button">Выбрал</button>
-            </div>
 
         </div>
     </div>
