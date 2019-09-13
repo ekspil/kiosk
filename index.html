@@ -79,7 +79,7 @@
          <ul class="uk-slider-items uk-child-width-1-6 ">
              <li v-for="item in cart" class="uk-animation-shake ">
                  <img :src="item.img || 'img/prod/default.jpg'" alt="" >
-                 <div class="uk-position-center uk-panel"><h1><span class="cart-minus" @click="minusCart(item)">- </span><span> {{item.count}} </span><span @click="plusCart(item)" class="cart-plus"> +</span></h1></div>
+                 <div class="uk-position-center uk-panel"><h1><span class="cart-minus" @click="minusCart(item)">- </span><span class="cart-minus"> {{item.count}} </span><span @click="plusCart(item)" class="cart-plus"> +</span></h1></div>
              </li>
 
          </ul>
@@ -246,13 +246,13 @@
             <div class="uk-modal-header uk-text-center">
                 <h2  class="uk-modal-title">Корзина</h2>
             </div>
-            <div id="list-cart"  class="uk-panel-scrollable uk-panel-scrollable-cart uk-width-expand  uk-grid-collapse uk-flex-center uk-child-width-1-4 uk-text-center" uk-grid>
+            <div id="list-cart"  class="uk-panel-scrollable uk-panel-scrollable-cart uk-width-expand  uk-grid-collapse uk-flex-center uk-child-width-1-4 uk-text-center uk-light" uk-grid>
 
 
                 <a v-for="pos in cart" v-if="cart" href="#" :id="pos.id"><div class="uk-card uk-card-small uk-animation-scale-up">
                     <div class="uk-card uk-card-media-top uk-position-relative"><img :data-src="pos.img  || 'img/prod/default.jpg'" width="100%" height="100%" alt="" uk-img>
 
-                        <div class="uk-position-center uk-panel"><h1><span class="cart-minus" @click="minusCart(pos)">- </span><span> {{pos.count}} </span><span @click="plusCart(pos)" class="cart-plus"> +</span></h1></div>
+                        <div class="uk-position-center uk-panel"><h1><span class="cart-minus" @click="minusCart(pos)">- </span><span class="cart-minus"> {{pos.count}} </span><span @click="plusCart(pos)" class="cart-plus"> +</span></h1></div>
                     </div>
                     <div class="uk-card-body">
                         <h3 class="uk-card-title">{{pos.count}} x {{pos.name}}</h3>

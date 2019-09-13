@@ -366,7 +366,6 @@ var app = new Vue({
             if(Rezult && Rezult.Status !== 0 && Rezult != "OK"){
 
                 this.orderId = this.orderId + 1
-                SendET(this.serverET, false, Rezult.Error, this.msgId)
             }
 
             if(Rezult.Command == "PayByPaymentCard" && Rezult.Status == 0){
@@ -389,6 +388,13 @@ var app = new Vue({
             }
             if(Rezult.Command == "RegisterCheck" && Rezult.Status == 0){
 
+                this.registerOrder(Rezult)
+
+            }
+
+            if(Rezult.Command == "RegisterCheck" && Rezult.Status != 0){
+                this.payHelper = "Ошибка принтера, чек не будет распечатан! Возможно смена превысила 24 часа!"
+                Rezult.CheckNumber = 0
                 this.registerOrder(Rezult)
 
             }

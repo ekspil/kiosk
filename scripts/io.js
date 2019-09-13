@@ -36,7 +36,10 @@ function changePosition(newPosition){
 
 function makeOrder(dataCart){
     socketL.emit('makeOrder', dataCart, (data) => {
-        app.payHelper = "Выводим информацию на кухонные мониторы"
+        if(dataCart.fiscalNum != 0){
+            app.payHelper = "Выводим информацию на кухонные мониторы"
+        }
+
         let strId = ""
         if (String(data.id).length == 1){
             strId = "00" + data.id
