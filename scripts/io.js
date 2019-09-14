@@ -10,11 +10,21 @@ var socketL = io.connect(ioserver+':3333');
 // });
 
 socketL.emit('getBaseData', {rest: 1}, (data) => {
-   console.log(data)
+
    app.list = data.list
    app.groups = data.groups
    app.imgs = data.imgs
    app.lastId = data.lastId
+
+
+    function compare(a, b) {
+        if (a.name > b.name) return 1; // если первое значение больше второго
+        if (a.name == b.name) return 0; // если равны
+        if (a.name < b.name) return -1; // если первое значение меньше второго
+    }
+
+    app.list.sort(compare)
+
 
 });
 

@@ -49,7 +49,7 @@ const changePosition = async function(data){
         await prod.save()
 
 
-        if(data.sets.length > 0){
+        if(data.sets && data.sets.length > 0){
             data.sets = data.sets.map(se =>{
                 delete se.id
                 return se
@@ -83,7 +83,7 @@ const changePosition = async function(data){
 
 
         const product = await model.Product.create(prod)
-        if(data.sets.length > 0){
+        if(data.sets && data.sets.length > 0){
                 let thissets = await model.Set.bulkCreate(data.sets)
                 thissets = thissets.map(sets => {return new SetsDTO(sets)})
                 let thissetsarr = thissets.map(sets => {

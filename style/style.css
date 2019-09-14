@@ -156,9 +156,16 @@ svg{
     padding-left: 7%;
 }
 .uk-card-title-2 {
+
     font-size: 30px;
     margin: 10px;
     font-weight: bold;
+}
+.uk-card-title{
+    color: #652b1f;
+}
+.uk-card-badge{
+    background-color: #faa732;
 }
 .uk-notification{
     border-radius: 7px;
