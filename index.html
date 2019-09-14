@@ -267,7 +267,7 @@
             </div>
 
             <div  class="uk-text-center uk-position-bottom pay-cart-buttons" uk-grid>
-                <button class="uk-button  uk-width-1-2 uk-button-primary" @click="closeCart()">Повыбераю еще</button>
+                <button class="uk-button  uk-width-1-2 uk-button-primary" @click="closeCart()">Повыбираю еще</button>
                 <button class="uk-button  uk-width-1-2 uk-button-secondary" @click="pay()">Оплатить {{cart_sum}} руб.</button>
             </div>
 
@@ -276,7 +276,7 @@
 
 
 
-    <div id="modal-pay" class="uk-modal-full" uk-modal>
+    <div id="modal-pay" class="uk-modal-full" uk-modal="bg-close: false" @beforeshow="lockKeys()" @hidden="unlockKeys()">
         <div class="uk-modal-dialog">
             <div class="uk-grid-collapse uk-child-width-1-2@s uk-flex-middle" uk-grid>
                 <div class="uk-background-cover" style="background-image: url('img/service/pay.png');" uk-height-viewport></div>
@@ -352,6 +352,61 @@
 
 
 
+<!-- ВВОД Номера чека -->
+
+
+    <div id="modal-check-del" class="uk-flex-top"  uk-modal="bg-close: false; stack: true" v-on:hidden="">
+
+        <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical uk-text-center">
+            <button class="uk-modal-close-default" type="button" uk-close></button>
+            <div class="uk-modal-header uk-text-center">
+                <h2  class="uk-modal-title">Аннулирование чека</h2>
+            </div>
+            <form class="uk-search uk-search-large uk-width-1-1 uk-text-center">
+
+                <input class="uk-search-input uk-text-center" type="search" :placeholder="delFiscalNumHolder" :value="delFiscalNumString" maxlength="6" >
+            </form>
+
+
+            <div>
+                <div class="uk-button-group">
+                    <button class="uk-button uk-button-cupnum  uk-button-large uk-button-border-right" @click="delFiscalNum.push('1')">1</button>
+                    <button class="uk-button uk-button-cupnum uk-button-large uk-button-border-right uk-button-border-left" @click="delFiscalNum.push('2')">2</button>
+                    <button class="uk-button uk-button-cupnum uk-button-large uk-button-border-left" @click="delFiscalNum.push('3')">3</button>
+                </div>
+            </div>
+
+            <div >
+                <div class="uk-button-group">
+                    <button class="uk-button uk-button-cupnum uk-button-large uk-button-border-right uk-button-border-top" @click="delFiscalNum.push('4')">4</button>
+                    <button class="uk-button uk-button-cupnum uk-button-large uk-button-border-right uk-button-border-left uk-button-border-top" @click="delFiscalNum.push('5')">5</button>
+                    <button class="uk-button uk-button-cupnum uk-button-large uk-button-border-left uk-button-border-top" @click="delFiscalNum.push('6')">6</button>
+                </div>
+            </div>
+
+            <div>
+                <div class="uk-button-group">
+                    <button class="uk-button uk-button-cupnum uk-button-large uk-button-border-right uk-button-border-top" @click="delFiscalNum.push('7')">7</button>
+                    <button class="uk-button uk-button-cupnum uk-button-large uk-button-border-right uk-button-border-left uk-button-border-top" @click="delFiscalNum.push('8')">8</button>
+                    <button class="uk-button uk-button-cupnum uk-button-large uk-button-border-left uk-button-border-top" @click="delFiscalNum.push('9')">9</button>
+                </div>
+            </div>
+
+            <div>
+                <div class="uk-button-group">
+                    <button class="uk-button uk-button-coupok uk-button-large uk-button-border-top uk-button-border-right uk-button-border-top" @click="findOrder(false, Number(delFiscalNumString))">OK</button>
+                    <button class="uk-button uk-button-cupnum uk-button-large uk-button-border-right uk-button-border-left uk-button-border-top" @click="delFiscalNum.push('0')">0</button>
+                    <button class="uk-button uk-button-delete uk-button-large uk-button-border-left uk-button-border-top"  @click="delFiscalNum.pop()"><img src="img/service/backspace.png" width="50px" height="50px" style="margin: 0px" alt="" uk-img></button>
+                </div>
+            </div>
+            <div class="uk-modal-footer uk-text-center uk-grid uk-child-width-1-3" uk-grid>
+                <button v-if="delFiscalNumHolder == 'Чек найден успешно'" class="uk-button uk-position-bottom-center uk-button-danger" @click="deleteOrder(deletedCheck)" type="button">Аннулировать чек</button>
+            </div>
+        </div>
+    </div>
+
+
+
 
 
     <div id="modal-admin" class="uk-modal-full start-modal"  uk-modal="bg-close: false">
@@ -398,8 +453,7 @@
                 <button class="uk-button uk-button-danger" @click="closeSber()" type="button">Сверка итогов</button>
             </div>
             <div class="uk-modal-footer uk-text-center uk-grid uk-child-width-1-2" uk-grid>
-                <input class="uk-input" type="text" v-model="deleteOrderNum" placeholder="Фискальный номер чека" >
-                <button class="uk-button uk-button-danger" @click="deleteOrder(deleteOrderNum)" type="button">Аннулирование чека</button>
+                <button class="uk-button uk-button-danger" @click="keyBoardFiscal()" type="button">Аннулирование чека</button>
             </div>
 
         </div>

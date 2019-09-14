@@ -26,6 +26,13 @@ function changeGroup(newGroup){
     });
 
 }
+function deleteOrder(ordernum){
+    socketL.emit('deleteOrder', ordernum, (data) => {
+        console.log(data)
+
+    });
+
+}
 function changePosition(newPosition){
     socketL.emit('changePosition', newPosition, (data) => {
         console.log(data)

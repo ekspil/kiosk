@@ -62,6 +62,18 @@ io.on('connection', client => {
         returnFn(dataR)
     });
 
+    client.on('findOrder', async function(data, returnFn){
+
+        let dataR = await service.findOrder(data)
+        returnFn(dataR)
+    });
+
+    client.on('deleteOrder', async function(data, returnFn){
+
+        let dataR = await service.deleteOrder(data)
+        returnFn(dataR)
+    });
+
 
 
 });

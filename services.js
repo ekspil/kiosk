@@ -169,6 +169,79 @@ const makeOrder = async function(data){
 
 }
 
+const findOrder = async function(list){
+    const {fiscalNum, id} = list
+    let where = {}
+    if(fiscalNum){
+        where = {
+            fiscalNum
+        }
+    }
+    else if(id){
+        where = {
+            id
+        }
+    }
+    else {
+        return null
+    }
+
+    const order = await model.Order.findOne({where})
+
+    if(!order){
+        return false
+    }
+    let positions = await order.getOrder_positions()
+    positions = positions.map(pos => {
+        pos.id = pos.positionId
+        delete pos.positionId
+        return pos
+    })
+    const data = {
+        order,
+        positions
+    }
+    return data
+
+}
+
+
+
+const deleteOrder = async function(list){
+    let {fiscalNum, id, returnPay, returnCheck} = list
+    let where = {}
+    if(!returnPay){
+        returnPay = false
+    }
+    if(!returnCheck){
+        returnCheck = false
+    }
+    if(fiscalNum){
+        where = {
+            fiscalNum
+        }
+    }
+    else if(id){
+        where = {
+            id
+        }
+    }
+    else {
+        return null
+    }
+
+    const order = await model.Order.findOne({where})
+
+    if(!order){
+        return false
+    }
+    order.status = "deleted"
+    order.returnPay = returnPay
+    order.returnCheck = returnCheck
+    return  await order.save()
+
+}
+
 
 
 module.exports={
@@ -177,5 +250,7 @@ module.exports={
     changeGroup,
     getBaseData,
     addImg,
-    makeOrder
+    makeOrder,
+    findOrder,
+    deleteOrder
 }

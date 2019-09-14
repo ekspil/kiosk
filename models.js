@@ -137,7 +137,7 @@ const Order = sequelize.define('orders', {
         type: Sequelize.DataTypes.STRING,
     },
     fiscalNum: {
-        type: Sequelize.DataTypes.STRING
+        type: Sequelize.DataTypes.INTEGER
     },
     returnPay: {
         type: Sequelize.DataTypes.BOOLEAN

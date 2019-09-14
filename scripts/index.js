@@ -8,6 +8,11 @@ var app = new Vue({
 
     },
     data: {
+        operation: 0,
+        deletedCheck: null,
+        delFiscalNum: [],
+        delFiscalNumHolder: "Фискальный номер чека",
+        keyLock: false,
         message: 'Привет!',
         deleteOrderNum: null,
         orderId: 0,
@@ -57,6 +62,14 @@ var app = new Vue({
 
             this.timer=this.defaultTimer;
             return this.pincode.reduce((sum, arr) => {
+                return sum + arr
+
+            }, "")
+        },
+        delFiscalNumString: function () {
+
+            this.timer=this.defaultTimer;
+            return this.delFiscalNum.reduce((sum, arr) => {
                 return sum + arr
 
             }, "")
@@ -263,7 +276,9 @@ var app = new Vue({
                 return true
             }
             this.clearTemp();
+            this.operation = 0
             this.payed = 0;
+            this.keyLock = false;
             this.thisCoupon = [];
             this.thisCouponHolder="0000";
             this.cart=[];
@@ -303,12 +318,18 @@ var app = new Vue({
             UIkit.modal('#modal-cart').show();
         },
         closeCart: function () {
+            if(this.keyLock){
+                return false
+            }
             this.timer=this.defaultTimer;
             UIkit.modal('#modal-cart').hide();
         },
         pay: function () {
+            if(this.keyLock){
+                return false
+            }
             this.orderId++
-            this.timer=this.defaultTimer*3;
+            this.timer=this.defaultTimer*5;
             UIkit.modal('#modal-pay').show();
             PaymentByPaymentCard(2, this.cart_sum)
 
@@ -363,6 +384,7 @@ var app = new Vue({
         },
         deviceOk: async function (Rezult, textStatus, jqXHR) {
 
+
             if(Rezult && Rezult.Status !== 0 && Rezult != "OK"){
 
                 this.orderId = this.orderId + 1
@@ -404,6 +426,22 @@ var app = new Vue({
 
                 setTimeout(this.hidePayModal, 3000)
             }
+            if(Rezult.Command == "ReturnPaymentByPaymentCard" && Rezult.Status == 0){
+                let slip = Rezult.Slip.split("\n")
+                this.operation = 2
+                if(Rezult.Status == 0){
+                    this.deletedCheck.order.returnPay = true
+                }
+
+                this.deleteOrder(slip)
+            }
+            if(Rezult.Command == "RegisterCheck" && this.operation == 2){
+                this.operation = 3
+                if(Rezult.Status == 0){
+                    this.deletedCheck.order.returnCheck = true
+                }
+                this.deleteOrder(Rezult)
+            }
 
         },
         deviceNotOk: function (jqXHR, textStatus, errorThrown) {
@@ -420,6 +458,77 @@ var app = new Vue({
             makeOrder(dataCart)
 
 
+        },
+        lockKeys: function () {
+            this.keyLock = true
+        },
+        unlockKeys: function () {
+            this.keyLock = false
+        },
+        deleteOrder: function (data) {
+            if(this.operation == 1){
+                if(this.deletedCheck.order.returnPay == true){
+                    this.operation = 2
+                }
+                else{
+                    this.delFiscalNumHolder = "Приложите карту"
+                    ReturnPaymentByPaymentCard(0, this.deletedCheck)
+                }
+
+            }
+            if(this.operation == 2){
+                if(this.deletedCheck.order.returnCheck == true){
+                    this.operation = 3
+                }else{
+                    this.delFiscalNumHolder = "Ждите чек"
+                    ReturnCheck(0, this.deletedCheck.order, data)
+                }
+
+            }
+            if(this.operation == 3){
+                const sendData = {
+                    fiscalNum: this.deletedCheck.order.fiscalNum,
+                    returnPay: this.deletedCheck.order.returnPay,
+                    returnCheck: this.deletedCheck.order.returnCheck
+
+                }
+                socketL.emit('deleteOrder', sendData, (answer) => {
+                    this.delFiscalNum = []
+                    if(!answer){
+                        this.delFiscalNumHolder = "Ошибка при записи"
+                        this.operation == 0
+                    }else{
+
+                        this.delFiscalNumHolder = "Аннулирование успешно"
+
+                        this.operation == 0
+
+                    }
+
+
+                });
+            }
+
+        },
+        findOrder: function (id, fiscalNum) {
+            const sendData = {
+                id,
+                fiscalNum
+            }
+            socketL.emit('findOrder', sendData, (data) => {
+                this.delFiscalNum = []
+                if(!data){
+                    this.delFiscalNumHolder = "Чек не найден"
+                }else{
+                    this.delFiscalNumHolder = "Чек найден успешно"
+
+                }
+
+
+            });
+        },
+        keyBoardFiscal: function () {
+            UIkit.modal('#modal-check-del').show();
         }
     }
 })
