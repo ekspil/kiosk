@@ -137,7 +137,7 @@
             <div class="uk-height-max-large">
 
                 <div v-if="thisSet" class="uk-flex uk-flex-center">
-                    <div v-for="select in selection" class="uk-card  uk-card-body uk-text-center"><img class="uk-height-max-medium"  :src="getImgById(select.id)  || 'img/prod/default.jpg'" alt="" ><div class="uk-position-center uk-card-badge uk-label ">{{getNameById(select.id).slice(0, 12)}}</div></div>
+                    <div v-for="select in selection" class="uk-card  uk-card-body uk-text-center"><img class="uk-height-max-medium"  :src="getImgById(select.id)  || 'img/prod/default.jpg'" alt="" ><div class="uk-position-center uk-card-badge uk-label ">{{getNameById(select.id).slice(0, 12)+checkLength(getNameById(select.id))}}</div></div>
                 </div>
 
                 <div class="uk-modal-footer uk-text-center">

@@ -529,6 +529,14 @@ var app = new Vue({
         },
         keyBoardFiscal: function () {
             UIkit.modal('#modal-check-del').show();
+        },
+        checkLength: function (item) {
+            if(item.length > 12){
+                return "..."
+            }
+            else{
+                return ""
+            }
         }
     }
 })
