@@ -75,7 +75,7 @@ var app = new Vue({
             }, "")
         },
         msgId: function (){
-            let msg = this.litera +"-"+ this.orderId
+            let msg = this.litera +"-"+ (Number(this.lastId)+1)
             return msg
         },
         msgIdBig: function (){
@@ -328,7 +328,7 @@ var app = new Vue({
             if(this.keyLock){
                 return false
             }
-            this.orderId++
+
             this.timer=this.defaultTimer*5;
             UIkit.modal('#modal-pay').show();
             PaymentByPaymentCard(2, this.cart_sum)
@@ -385,12 +385,7 @@ var app = new Vue({
         deviceOk: async function (Rezult, textStatus, jqXHR) {
 
 
-            if(Rezult && Rezult.Status !== 0 && Rezult != "OK"){
-
-                this.orderId = this.orderId + 1
-            }
-
-            if(Rezult.Command == "PayByPaymentCard" && Rezult.Status == 0){
+            if(Rezult.Command == "PayByPaymentCard" && Rezult.Status == 0 && this.operation == 0){
                 let slip = Rezult.Slip.split("\n")
                 setTimeout(()=>{this.payHelper = "Печатаем чек..."}, 100)
                 let newId = this.lastId + 1
@@ -408,19 +403,19 @@ var app = new Vue({
                 this.printCheck(slip, strId)
 
             }
-            if(Rezult.Command == "RegisterCheck" && Rezult.Status == 0){
+            if(Rezult.Command == "RegisterCheck" && Rezult.Status == 0 && this.operation == 0){
 
                 this.registerOrder(Rezult)
 
             }
 
-            if(Rezult.Command == "RegisterCheck" && Rezult.Status != 0){
+            if(Rezult.Command == "RegisterCheck" && Rezult.Status != 0 && this.operation == 0){
                 this.payHelper = "Ошибка принтера, чек не будет распечатан! Возможно смена превысила 24 часа!"
                 Rezult.CheckNumber = 0
                 this.registerOrder(Rezult)
 
             }
-            if(Rezult.Command == "PayByPaymentCard" && Rezult.Status != 0){
+            if(Rezult.Command == "PayByPaymentCard" && Rezult.Status != 0  && this.operation == 0){
 
                 this.payHelper = "Ошибка оплаты, попробуйте снова!"
 
@@ -466,6 +461,7 @@ var app = new Vue({
             this.keyLock = false
         },
         deleteOrder: function (data) {
+            this.timer=this.defaultTimer;
             if(this.operation == 1){
                 if(this.deletedCheck.order.returnPay == true){
                     this.operation = 2
@@ -528,6 +524,7 @@ var app = new Vue({
             });
         },
         keyBoardFiscal: function () {
+            this.timer=this.defaultTimer;
             UIkit.modal('#modal-check-del').show();
         },
         checkLength: function (item) {
