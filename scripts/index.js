@@ -518,6 +518,7 @@ var app = new Vue({
                     this.delFiscalNumHolder = "Чек не найден"
                 }else{
                     this.delFiscalNumHolder = "Чек найден успешно"
+                    this.deletedCheck = data
 
                 }
 
