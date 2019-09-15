@@ -330,8 +330,9 @@ var app = new Vue({
             }
 
             this.timer=this.defaultTimer*5;
-            UIkit.modal('#modal-pay').show();
             PaymentByPaymentCard(2, this.cart_sum)
+            UIkit.modal('#modal-pay').show();
+
 
         },
         adminPanel: function () {
