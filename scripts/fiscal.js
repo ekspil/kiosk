@@ -278,9 +278,9 @@ function RegisterCheck(NumDevice, TypeCheck, IsBarCode, my_aray_letters, cart, s
         ],
 
         // Наличная оплата (2 знака после запятой)
-        Cash: 800,
+        Cash: 0.00,
         // Сумма электронной оплаты (2 знака после запятой)
-        ElectronicPayment: 0.01,
+        ElectronicPayment: 0.00,
         // Сумма из предоплаты (зачетом аванса) (2 знака после запятой)
         AdvancePayment: 0,
         // Сумма постоплатой(в кредит) (2 знака после запятой)
@@ -467,9 +467,9 @@ function ReturnCheck(NumDevice, cart, slip) {
         ],
 
         // Наличная оплата (2 знака после запятой)
-        Cash: 800,
+        Cash: 0.00,
         // Сумма электронной оплаты (2 знака после запятой)
-        ElectronicPayment: 0.01,
+        ElectronicPayment: 0.00,
         // Сумма из предоплаты (зачетом аванса) (2 знака после запятой)
         AdvancePayment: 0,
         // Сумма постоплатой(в кредит) (2 знака после запятой)
@@ -547,7 +547,7 @@ function ReturnCheck(NumDevice, cart, slip) {
 
 
 
-
+    let IsBarCode = false
     //Если чек без ШК то удаляем строку с ШК
     if (IsBarCode == false) {
         //Data.Cash = 100;
@@ -877,7 +877,7 @@ function SendET(server, cart, message, msgId, orderType){
                             id: guid(),
                             unit: msgId,
                             checkType: orderType,
-                            station: 0,
+                            station: cart[it].selected[ii].station,
                             name: cart[it].selected[ii].name
                         },
                         ExecuteSuccess
@@ -896,7 +896,7 @@ function SendET(server, cart, message, msgId, orderType){
                             id: guid(),
                             unit: msgId,
                             checkType: orderType,
-                            station: 0,
+                            station: cart[it].station,
                             name: cart[it].name
                         },
                         ExecuteSuccess

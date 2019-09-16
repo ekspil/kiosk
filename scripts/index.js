@@ -478,7 +478,7 @@ var app = new Vue({
                     this.operation = 3
                 }else{
                     this.delFiscalNumHolder = "Ждите чек"
-                    ReturnCheck(0, this.deletedCheck.order, data)
+                    ReturnCheck(0, this.deletedCheck.positions, data)
                 }
 
             }
@@ -519,6 +519,8 @@ var app = new Vue({
                 }else{
                     this.delFiscalNumHolder = "Чек найден успешно"
                     this.deletedCheck = data
+                    this.operation = 1
+
 
                 }
 
