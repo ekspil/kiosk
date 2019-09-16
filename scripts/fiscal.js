@@ -286,7 +286,7 @@ function RegisterCheck(NumDevice, TypeCheck, IsBarCode, my_aray_letters, cart, s
         // Наличная оплата (2 знака после запятой)
         Cash: 0.00,
         // Сумма электронной оплаты (2 знака после запятой)
-        ElectronicPayment: cartSum.toFixed(2),
+        ElectronicPayment: cartSum().toFixed(2),
         // Сумма из предоплаты (зачетом аванса) (2 знака после запятой)
         AdvancePayment: 0,
         // Сумма постоплатой(в кредит) (2 знака после запятой)
@@ -482,7 +482,7 @@ function ReturnCheck(NumDevice, cart, slip) {
         // Наличная оплата (2 знака после запятой)
         Cash: 0.00,
         // Сумма электронной оплаты (2 знака после запятой)
-        ElectronicPayment: cartSum.toFixed(2),
+        ElectronicPayment: cartSum().toFixed(2),
         // Сумма из предоплаты (зачетом аванса) (2 знака после запятой)
         AdvancePayment: 0,
         // Сумма постоплатой(в кредит) (2 знака после запятой)
