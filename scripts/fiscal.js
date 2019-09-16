@@ -196,7 +196,13 @@ function guid() {
 
 
 function RegisterCheck(NumDevice, TypeCheck, IsBarCode, my_aray_letters, cart, slip) {
+    let cartSum = function(){
 
+        return cart.reduce((sum, current) => {
+            return sum + current.count * current.price
+        }, 0);
+
+    }
     // Подготовка данных команды
     var Data = {
         // Команда серверу
@@ -280,7 +286,7 @@ function RegisterCheck(NumDevice, TypeCheck, IsBarCode, my_aray_letters, cart, s
         // Наличная оплата (2 знака после запятой)
         Cash: 0.00,
         // Сумма электронной оплаты (2 знака после запятой)
-        ElectronicPayment: 0.00,
+        ElectronicPayment: cartSum.toFixed(2),
         // Сумма из предоплаты (зачетом аванса) (2 знака после запятой)
         AdvancePayment: 0,
         // Сумма постоплатой(в кредит) (2 знака после запятой)
@@ -392,6 +398,13 @@ function RegisterCheck(NumDevice, TypeCheck, IsBarCode, my_aray_letters, cart, s
 
 function ReturnCheck(NumDevice, cart, slip) {
 
+    let cartSum = function(){
+
+        return cart.reduce((sum, current) => {
+            return sum + current.count * current.price
+        }, 0);
+
+    }
     // Подготовка данных команды
     var Data = {
         // Команда серверу
@@ -469,7 +482,7 @@ function ReturnCheck(NumDevice, cart, slip) {
         // Наличная оплата (2 знака после запятой)
         Cash: 0.00,
         // Сумма электронной оплаты (2 знака после запятой)
-        ElectronicPayment: 0.00,
+        ElectronicPayment: cartSum.toFixed(2),
         // Сумма из предоплаты (зачетом аванса) (2 знака после запятой)
         AdvancePayment: 0,
         // Сумма постоплатой(в кредит) (2 знака после запятой)
