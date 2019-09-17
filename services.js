@@ -3,7 +3,7 @@ const ImgDTO = require("./dto/imgDTO")
 const SetsDTO = require("./dto/setsDTO")
 const ProductDTO = require("./dto/productDTO")
 const OrderDTO = require("./dto/orderDTO")
-
+const {gt, lte, ne, in: opIn} = require('sequelize').Op
 const hello = async function(){
     console.log('Hello!')
 }
@@ -152,14 +152,30 @@ const makeOrder = async function(data){
     order.fiscalNum = fiscalNum
     order.returnPay = false
     order.returnCheck = false
+
+    const createdOrder = await model.Order.create(order)
+    let newCart = []
     cart = cart.map(item => {
+        if(item.selected && item.selected.length > 0){
+            for(let i in item.selected ){
+                item.selected[i].count = item.count
+            }
+            newCart.push(...item.selected)
+            return item
+
+        }else{
+            newCart.push(item)
+            return item
+        }
+
+    })
+    newCart = newCart.map(item => {
         let newId = String(item.id).split("-")
         item.positionId = Number(newId[0])
         delete item.id
         return item
     })
-    const createdOrder = await model.Order.create(order)
-    let positions = await model.OrderPosition.bulkCreate(cart)
+    let positions = await model.OrderPosition.bulkCreate(newCart)
     positions = positions.map(sets => {
         return sets.id
     })
@@ -242,6 +258,35 @@ const deleteOrder = async function(list){
 
 }
 
+const thisDayOrders = async function(day){
+if(!day){
+    let date = new Date
+    let d = date.getDate()
+    if(d < 10){
+        d = "0"+d
+    }
+    let month = date.getMonth() + 1
+    if(month < 10){
+        month = "0"+month
+    }
+    let year = date.getFullYear()
+    day = year +"-"+ month+ "-" + d
+}
+
+ let where = {
+     createdAt: {
+         [gt]: day+ " 00:00:00.0+10" },
+     createdAt: {
+         [lte]: day+ " 23:59:59.999+10" },
+ }
+ let result = await model.Order.findAll({where})
+    result = result.map(order => {
+        return new OrderDTO(order)
+    })
+
+    return result
+}
+
 
 
 module.exports={
@@ -252,5 +297,6 @@ module.exports={
     addImg,
     makeOrder,
     findOrder,
-    deleteOrder
+    deleteOrder,
+    thisDayOrders
 }

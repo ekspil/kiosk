@@ -205,6 +205,12 @@ var app = new Vue({
                 id: selection_list.id,
                 img: selection_list.img,
                 name: selection_list.name,
+                station: selection_list.station,
+                position: selection_list.position,
+                codeOneC: selection_list.codeOneC,
+                hiden: selection_list.hiden,
+                blocked: selection_list.blocked,
+                helper: selection_list.helper,
                 type: selection_list.type,
                 set: selection_list.set,
                 n: sets.n
