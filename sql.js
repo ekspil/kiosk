@@ -1,7 +1,8 @@
 const Sequelize = require('sequelize');
-const sequelize = new Sequelize('kiosk_rb', 'postgres', 'postgres', {
-    host: 'localhost',
-    port: '5433',
+const conf = require('./conf/back');
+const sequelize = new Sequelize(conf.sqlBase, conf.sqlLogin, conf.sqlPass, {
+    host: conf.sqlServ,
+    port: conf.sqlPort,
     dialect: 'postgres',
     logging: false
 });
