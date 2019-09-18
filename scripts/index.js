@@ -24,7 +24,7 @@ var app = new Vue({
         orderType: 1,
         litera: "F",
         pincode: [],
-        pincodeReal: "1234321",
+        pincodeReal: managerPass,
         orderNumber: 254,
         payed: 0,
         timer: 60,
