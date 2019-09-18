@@ -108,13 +108,17 @@ const changeGroup = async function(data){
         const group = await model.Group.findOne({where})
         group.name = data.name
         group.img = data.img
+        group.blocked = data.blocked
+        group.position = data.position
         return await group.save()
 
 
     }else{
         const group = {
-           name: data.name,
-           img: data.img
+            name: data.name,
+            img: data.img,
+            blocked: data.blocked,
+            position: data.position
           }
 
 

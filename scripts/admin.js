@@ -25,7 +25,9 @@ let app = new Vue({
         newGroup: {
             id: null,
             img: "",
-            name: ""
+            name: "",
+            blocked: false,
+            position: "99"
         },
         imgs:[],
         list: [
@@ -162,7 +164,9 @@ let app = new Vue({
             this.newGroup = {
                 id: null,
                     img: "",
-                    name: ""
+                    name: "",
+                    blocked: false,
+                    position: "99"
             }
 
             //UIkit.modal('#modal-addGroup').show();

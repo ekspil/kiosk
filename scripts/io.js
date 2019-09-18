@@ -1,5 +1,6 @@
 const ioserver = document.location.host.split(":")[0]
 var socketL = io.connect(ioserver+':3333');
+let mainGroup = 1
 //var socketC = io.connect('192.168.15.150:3333');
 
 // socketL.emit('getData', {rest: 1}, (data) => {
@@ -24,8 +25,26 @@ socketL.emit('getBaseData', {rest: 1}, (data) => {
         if (compA == compB) return 0; // если равны
         if (compA < compB) return -1; // если первое значение меньше второго
     }
+    function compareG(a, b) {
+        let compA = a.position + a.name
+        let compB = b.position + b.name
+        if (compA > compB) return 1; // если первое значение больше второго
+        if (compA == compB) return 0; // если равны
+        if (compA < compB) return -1; // если первое значение меньше второго
+    }
 
     app.list.sort(compare)
+    app.groups.sort(compareG)
+
+    for(let i in app.groups){
+        if(!app.groups[i].blocked){
+            app.groupId = app.groups[i].id
+            mainGroup = app.groups[i].id
+            break
+        }
+
+    }
+
 
 
 });
@@ -104,3 +123,7 @@ window.addEventListener('touchend', ev => {
         ev.stopImmediatePropagation();
     };
 }, { passive: false });
+
+
+
+

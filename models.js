@@ -114,6 +114,13 @@ const Group = sequelize.define('groups', {
         type: Sequelize.DataTypes.STRING,
         allowNull: false
     },
+    position: {
+        type: Sequelize.DataTypes.STRING,
+        allowNull: false
+    },
+    blocked: {
+        type: Sequelize.DataTypes.BOOLEAN
+    }
 }, {
     // options
 });

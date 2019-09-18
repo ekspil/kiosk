@@ -142,7 +142,10 @@ svg{
     width: 40%;
 }
 
-
+.padmargmin {
+    padding: 0px;
+    margin: 0px;
+}
 .uk-button-active {
     background-color: white;
     height: 50px;
@@ -154,6 +157,7 @@ svg{
 }
 .mainmenu{
     padding-left: 7%;
+    text-transform: uppercase;
 }
 .uk-card-title-2 {
 
@@ -266,4 +270,16 @@ svg{
 .uk-button-danger{
     background-color: #ad8aad;
     border: 1px solid red ;
+}
+.modal-set-place {
+    width: 700px;
+}
+.right-arrow{
+    position: relative;
+    top: 20%;
+
+}.right-arrow-ok{
+    color: #3bfa00;
+    position: relative;
+    top: 20%;
 }

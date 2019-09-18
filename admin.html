@@ -241,10 +241,16 @@
                         <option v-for="img in imgs" :value="img.img">{{img.name}}</option>
                     </select>
                 </div>
+                <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid">
+                    <label><input class="uk-checkbox" type="checkbox" v-model="newGroup.blocked" name="blocked"> Заблокирован</label>
+                </div>
+
                 <div class="uk-text-center">
                     <img :data-src="newGroup.img" width="300" height="200" alt="" uk-img>
                 </div>
-
+                <div class="uk-margin">
+                    <input class="uk-input" type="text" placeholder="Позиция" v-model="newGroup.position">
+                </div>
                 <div class="uk-margin">
                     <button class="uk-button uk-button-default" @click="addGroupSend(newGroup)">Создать</button>
                 </div>

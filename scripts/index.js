@@ -195,7 +195,13 @@ var app = new Vue({
             const [selection] = this.list.filter(item => item.id == id);
             return selection.img
         },
-        setSelect: function (it, sets) {
+
+        getItemById: function(id){
+
+            const [selection] = this.list.filter(item => item.id == id);
+            return selection
+        },
+        setSelect: function (it, sets, index) {
             this.timer=this.defaultTimer;
 
             const [selection_list] = this.list.filter(item => item.id == it);
@@ -223,7 +229,7 @@ var app = new Vue({
             this.selection = this.selection.filter(item => item.n != sets.n);
             this.selection.push(selection)
             this.selection.sort(compare)
-
+            $('#'+index).html('<span uk-icon="icon: check; ratio: 2" class="right-arrow-ok"></span>');
 
         },
         clearTemp: function () {
@@ -233,7 +239,8 @@ var app = new Vue({
         addSetToCart: function (selectedProducts) {
             this.timer=this.defaultTimer;
             if(selectedProducts.length != this.thisSet.set.length){
-                UIkit.modal('#modal-error-count').show();
+                //UIkit.modal('#modal-error-count').show();
+                $('.right-arrow').html('<span uk-icon="icon: arrow-right; ratio: 2" class="right-arrow uk-animation-shake"></span>');
                 return false
             }
             this.thisSet.selected = selectedProducts
@@ -284,6 +291,7 @@ var app = new Vue({
             this.clearTemp();
             this.operation = 0
             this.payed = 0;
+            this.groupId = mainGroup
             this.keyLock = false;
             this.thisCoupon = [];
             this.thisCouponHolder="0000";
