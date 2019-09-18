@@ -18,9 +18,11 @@ socketL.emit('getBaseData', {rest: 1}, (data) => {
 
 
     function compare(a, b) {
-        if (a.name > b.name) return 1; // если первое значение больше второго
-        if (a.name == b.name) return 0; // если равны
-        if (a.name < b.name) return -1; // если первое значение меньше второго
+        let compA = a.groupId + a.name
+        let compB = b.groupId + b.name
+        if (compA > compB) return 1; // если первое значение больше второго
+        if (compA == compB) return 0; // если равны
+        if (compA < compB) return -1; // если первое значение меньше второго
     }
 
     app.list.sort(compare)
@@ -81,3 +83,24 @@ function makeOrder(dataCart){
     });
 
 }
+
+window.addEventListener('touchmove', ev => {
+    if (ev.touches.length > 1) {
+        ev.preventDefault();
+        ev.stopImmediatePropagation();
+    };
+}, { passive: false });
+
+window.addEventListener('touchstart', ev => {
+    if (ev.touches.length > 1) {
+        ev.preventDefault();
+        ev.stopImmediatePropagation();
+    };
+}, { passive: false });
+
+window.addEventListener('touchend', ev => {
+    if (ev.touches.length > 1) {
+        ev.preventDefault();
+        ev.stopImmediatePropagation();
+    };
+}, { passive: false });

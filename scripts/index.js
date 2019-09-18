@@ -18,7 +18,7 @@ var app = new Vue({
         orderId: 0,
         lastId: null,
         kkmServer: 'http://'+ioserver+':5893//Execute',
-        serverET: "http://10.3.0.20:3000",
+        serverET: "http://10.2.0.25:3000",
         groupId: 1,
         lastModal: "",
         orderType: 1,

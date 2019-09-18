@@ -883,7 +883,7 @@ function SendET(server, cart, message, msgId, orderType){
         for (let it in cart){
             if(cart[it].selected){
                 for(let ii in cart[it].selected){
-
+                    for(let c = 1; c <= cart[it].count; c++){
                     $.get(
                         server+'/new',
                         {
@@ -895,6 +895,8 @@ function SendET(server, cart, message, msgId, orderType){
                         },
                         ExecuteSuccess
                     );
+
+                    }
 
                 }
 

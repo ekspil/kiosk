@@ -157,9 +157,14 @@ const makeOrder = async function(data){
     let newCart = []
     cart = cart.map(item => {
         if(item.selected && item.selected.length > 0){
+            let summa =  0
             for(let i in item.selected ){
                 item.selected[i].count = item.count
+                item.selected[i].price = Number((Number(item.price) / item.selected.length).toFixed(0))
+                summa = summa + item.selected[i].price
             }
+            let raznica = Number(item.price) - summa
+            item.selected[0].price = item.selected[0].price + raznica
             newCart.push(...item.selected)
             return item
 
