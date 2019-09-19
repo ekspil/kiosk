@@ -92,7 +92,7 @@ function makeOrder(dataCart){
 
         let msgId = app.litera+"-"+strId
 
-        SendET(app.serverET, app.cart, false, msgId, app.orderType)
+        SendET(serverEO, app.cart, false, msgId, app.orderType)
         app.lastId = data.id
 
         setTimeout(()=>{app.payHelper = "Готово! Ваш заказ "+msgId}, 2000)
