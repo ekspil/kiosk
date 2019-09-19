@@ -1,2 +1,4 @@
-let serverEO = "10.2.0.25:3000"
+let serverEO = "192.168.15.95:3006"
 let managerPass = "1234321"
+let fiscalDevice = 4
+let pinpadDevice = 1

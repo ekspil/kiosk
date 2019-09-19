@@ -344,7 +344,7 @@ var app = new Vue({
             }
 
             this.timer=this.defaultTimer*5;
-            PaymentByPaymentCard(2, this.cart_sum)
+            PaymentByPaymentCard(pinpadDevice, this.cart_sum)
             UIkit.modal('#modal-pay').show();
 
 
@@ -381,7 +381,7 @@ var app = new Vue({
         },
         printCheck: function (slip, strId){
             let my_aray_letters = returnArrayLetters(strId)
-            RegisterCheck(1, 0, false, my_aray_letters, this.cart, slip)
+            RegisterCheck(fiscalDevice, 0, false, my_aray_letters, this.cart, slip)
         },
         closeSh: function () {
             CloseShift(0)
@@ -483,7 +483,7 @@ var app = new Vue({
                 }
                 else{
                     this.delFiscalNumHolder = "Приложите карту"
-                    ReturnPaymentByPaymentCard(0, this.deletedCheck)
+                    ReturnPaymentByPaymentCard(pinpadDevice, this.deletedCheck)
                 }
 
             }
@@ -492,7 +492,7 @@ var app = new Vue({
                     this.operation = 3
                 }else{
                     this.delFiscalNumHolder = "Ждите чек"
-                    ReturnCheck(0, this.deletedCheck.positions, data)
+                    ReturnCheck(fiscalDevice, this.deletedCheck.positions, data)
                 }
 
             }
