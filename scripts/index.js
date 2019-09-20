@@ -411,7 +411,7 @@ var app = new Vue({
                 if (String(newId).length == 2){
                     strId = "0" + newId
                 }
-                if (String(newId).length > 3){
+                if (String(newId).length >= 3){
                     strId = String(newId).slice(-3)
                 }
                 strId = this.litera+"-"+strId
