@@ -85,7 +85,7 @@ function makeOrder(dataCart){
         if (String(data.id).length == 2){
             strId = "0" + data.id
         }
-        if (String(data.id).length > 3){
+        if (String(data.id).length >= 3){
             strId = String(data.id).slice(-3)
         }
 
