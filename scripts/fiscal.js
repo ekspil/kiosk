@@ -884,6 +884,8 @@ function SendET(server, cart, message, msgId, orderType){
             if(cart[it].selected){
                 for(let ii in cart[it].selected){
                     for(let c = 1; c <= cart[it].count; c++){
+                        let [parent] = app.groups.filter(gr => gr.id == cart[it].selected[ii].groupId)
+
                     $.get(
                         server+'/new',
                         {
@@ -891,7 +893,8 @@ function SendET(server, cart, message, msgId, orderType){
                             unit: msgId,
                             checkType: orderType,
                             station: cart[it].selected[ii].station,
-                            name: cart[it].selected[ii].name
+                            name: cart[it].selected[ii].name,
+                            parent: parent.name
                         },
                         ExecuteSuccess
                     );
@@ -904,7 +907,7 @@ function SendET(server, cart, message, msgId, orderType){
             }
             else{
                 for(let c = 1; c <= cart[it].count; c++){
-
+                    let [parent] = app.groups.filter(gr => gr.id == cart[it].groupId)
                     $.get(
                         server+'/new',
                         {
@@ -912,7 +915,8 @@ function SendET(server, cart, message, msgId, orderType){
                             unit: msgId,
                             checkType: orderType,
                             station: cart[it].station,
-                            name: cart[it].name
+                            name: cart[it].name,
+                            parent: parent.name
                         },
                         ExecuteSuccess
                     );
