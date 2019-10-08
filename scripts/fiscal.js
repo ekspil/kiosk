@@ -849,37 +849,20 @@ function Settlement(NumDevice) {
 function SendET(server, cart, message, msgId, orderType){
 
     if(message){
-        message = message.split(" ")
-        let string = ""
-        for(let word in message){
-            string = string+ " " + message[word]
-            if(string.length > 20 || Number(Number(word)+1) === message.length){
                 $.get(
                     server+'/new',
                     {
                         id: guid(),
                         unit: msgId,
-                        checkType: 3,
+                        checkType: orderType,
                         station: 0,
-                        name: string
+                        name: message
                     },
                     ExecuteSuccess
                 );
-            string = ""
-            }
-        }
-
-        $.get(
-            server+'/newCheck',
-            {
-                id: msgId,
-                checkType: 3,
-            },
-            ExecuteSuccess
-        );
 
     }
-    else if(cart){
+    if(cart){
         for (let it in cart){
             if(cart[it].selected){
                 for(let ii in cart[it].selected){

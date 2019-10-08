@@ -463,7 +463,8 @@ var app = new Vue({
             let dataCart = {
                 cart: this.cart,
                 orderType: this.orderType,
-                fiscalNum: Rezult.CheckNumber
+                fiscalNum: Rezult.CheckNumber,
+                error: Rezult.Error
             }
             makeOrder(dataCart)
 

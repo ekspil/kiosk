@@ -91,8 +91,11 @@ function makeOrder(dataCart){
 
 
         let msgId = app.litera+"-"+strId
-
-        SendET(serverEO, app.cart, false, msgId, app.orderType)
+        let message = false
+        if(dataCart.error){
+            message = dataCart.error
+        }
+        SendET(serverEO, app.cart, message, msgId, app.orderType)
         app.lastId = data.id
 
         setTimeout(()=>{app.payHelper = "Готово! Ваш заказ "+msgId}, 2000)
