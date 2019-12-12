@@ -71,7 +71,7 @@ socketC.emit('getBaseData', {rest: 1}, (data) => {
 });
 
 socketL.emit('getBaseData', {rest: 1}, (data) => {
-
+    console.log(data)
    app.lastId = data.lastId
 
 
