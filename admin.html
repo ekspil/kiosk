@@ -135,6 +135,23 @@
                         </div>
                     </div>
 
+
+                    <div class="uk-grid-small" uk-grid>
+
+                        <div class="uk-width-1-4">
+                            <input class="uk-input" type="text" placeholder="Цена 2" v-model="newPosition.price2" name="price2">
+                        </div>
+                        <div class="uk-width-1-4">
+                            <input class="uk-input" type="text" placeholder="Цена 3" v-model="newPosition.price3" name="price3">
+                        </div>
+                        <div class="uk-width-1-4">
+                            <input class="uk-input" type="text" placeholder="Цена 4" v-model="newPosition.price4" name="price4">
+                        </div>
+                        <div class="uk-width-1-4">
+                            <input class="uk-input" type="text" placeholder="Цена 5" v-model="newPosition.price5" name="price5">
+                        </div>
+                    </div>
+
                     <div class="uk-margin">
                         <label>Группа товаров
                         <select class="uk-select" v-model="newPosition.groupId" name="groupId">
@@ -302,7 +319,7 @@
 
 </div>
 
-
+<script src="conf/front.js"></script>
 <script src="scripts/io.js"></script>
 <script src="scripts/admin.js"></script>
 <script src="scripts/fiscal.js"></script>

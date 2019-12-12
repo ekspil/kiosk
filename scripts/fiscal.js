@@ -846,41 +846,54 @@ function Settlement(NumDevice) {
     ExecuteCommand(Data);
 }
 
-function SendET(server, cart, message, msgId, orderType){
+async function sendNew(server, unit, checkType, station, name, parent){
+    try {
+        const { data } = await axios.get(server+'/new', {
+            params: {
+                id: guid(),
+                unit,
+                checkType,
+                station,
+                name,
+                parent
+            }
+        })
+        return data
+    } catch (e) {
+        throw new Error(e)
+    }
+}
+
+
+async function sendNewCheck(server, id, checkType){
+    try {
+        const { data } = await axios.get(server+'/newCheck', {
+            params: {
+                id,
+                checkType
+            }
+        })
+        return data
+    } catch (e) {
+        throw new Error(e)
+    }
+}
+
+
+
+
+async function SendET(server, cart, message, msgId, orderType){
 
     if(message){
-                $.get(
-                    server+'/new',
-                    {
-                        id: guid(),
-                        unit: msgId,
-                        checkType: orderType,
-                        station: 0,
-                        name: message
-                    },
-                    ExecuteSuccess
-                );
-
-    }
+        await sendNew(server, msgId, orderType, 0, message, "")
+                }
     if(cart){
         for (let it in cart){
             if(cart[it].selected){
                 for(let ii in cart[it].selected){
                     for(let c = 1; c <= cart[it].count; c++){
                         let [parent] = app.groups.filter(gr => gr.id == cart[it].selected[ii].groupId)
-
-                    $.get(
-                        server+'/new',
-                        {
-                            id: guid(),
-                            unit: msgId,
-                            checkType: orderType,
-                            station: cart[it].selected[ii].station,
-                            name: cart[it].selected[ii].name,
-                            parent: parent.name
-                        },
-                        ExecuteSuccess
-                    );
+                        await sendNew(server, msgId, orderType, cart[it].selected[ii].station, cart[it].selected[ii].name, parent.name)
 
                     }
 
@@ -891,18 +904,8 @@ function SendET(server, cart, message, msgId, orderType){
             else{
                 for(let c = 1; c <= cart[it].count; c++){
                     let [parent] = app.groups.filter(gr => gr.id == cart[it].groupId)
-                    $.get(
-                        server+'/new',
-                        {
-                            id: guid(),
-                            unit: msgId,
-                            checkType: orderType,
-                            station: cart[it].station,
-                            name: cart[it].name,
-                            parent: parent.name
-                        },
-                        ExecuteSuccess
-                    );
+                    await sendNew(server, msgId, orderType, cart[it].station, cart[it].name, parent.name)
+
                 }
 
             }
@@ -910,14 +913,8 @@ function SendET(server, cart, message, msgId, orderType){
 
 
         }
-        $.get(
-            server+'/newCheck',
-            {
-                id: msgId,
-                checkType: orderType,
-            },
-            ExecuteSuccess
-        );
+        await sendNewCheck(server, msgId, orderType)
+
     }
 
 }

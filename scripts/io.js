@@ -1,21 +1,42 @@
 const ioserver = document.location.host.split(":")[0]
-var socketL = io.connect(ioserver+':3333');
+let socketL = io.connect(ioserver+':3333');
 let mainGroup = 1
-//var socketC = io.connect('192.168.15.150:3333');
+let socketC = io.connect(centralServer+':3333');
 
-// socketL.emit('getData', {rest: 1}, (data) => {
-//
-//     app.list = data.list
-//     app.groups = data.groups
-//
-// });
 
-socketL.emit('getBaseData', {rest: 1}, (data) => {
 
-   app.list = data.list
-   app.groups = data.groups
-   app.imgs = data.imgs
-   app.lastId = data.lastId
+socketC.emit('getBaseData', {rest: 1}, (data) => {
+    data.list = data.list.map(item => {
+        if(item.img.indexOf('http://') == -1){
+            item.img = 'http://'+centralServer+':88/'+item.img
+        }
+        switch (priceCat) {
+            case 1: item.price = item.price; break;
+            case 2: item.price = item.price2; break;
+            case 3: item.price = item.price3; break;
+            case 4: item.price = item.price4; break;
+            case 5: item.price = item.price5; break;
+            default: item.price = item.price;
+        }
+
+        return item
+    })
+    data.groups = data.groups.map(item => {
+        if(item.img.indexOf('http://') == -1){
+            item.img = 'http://'+centralServer+':88/'+item.img
+        }
+        return item
+    })
+    data.imgs = data.imgs.map(item => {
+        if(item.img.indexOf('http://') == -1){
+            item.img = 'http://'+centralServer+':88/'+item.img
+        }
+        return item
+    })
+
+    app.list = data.list
+    app.groups = data.groups
+    app.imgs = data.imgs
 
 
     function compare(a, b) {
@@ -45,6 +66,13 @@ socketL.emit('getBaseData', {rest: 1}, (data) => {
 
     }
 
+
+
+});
+
+socketL.emit('getBaseData', {rest: 1}, (data) => {
+
+   app.lastId = data.lastId
 
 
 });

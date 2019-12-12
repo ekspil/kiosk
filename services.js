@@ -41,6 +41,10 @@ const changePosition = async function(data){
             prod.name = data.name
             prod.img = data.img
             prod.price = data.price
+            prod.price2 = data.price2
+            prod.price3 = data.price3
+            prod.price4 = data.price4
+            prod.price5 = data.price5
             prod.helper = data.helper
             prod.coupon = data.coupon
             prod.groupId = data.groupId
@@ -74,6 +78,10 @@ const changePosition = async function(data){
            name: data.name,
            img: data.img,
            price: data.price,
+           price2: data.price2,
+           price3: data.price3,
+           price4: data.price4,
+           price5: data.price5,
            helper: data.helper,
            coupon: data.coupon,
            groupId: data.groupId,

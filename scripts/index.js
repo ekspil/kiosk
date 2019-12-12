@@ -22,7 +22,7 @@ var app = new Vue({
         groupId: 1,
         lastModal: "",
         orderType: 1,
-        litera: "F",
+        litera: litera_kiosk,
         pincode: [],
         pincodeReal: managerPass,
         orderNumber: 254,
@@ -109,6 +109,18 @@ var app = new Vue({
         }
     },
     methods: {
+        groupEmpty: function(groupItem){
+            if(groupItem.blocked){
+                return false
+            }
+            let [anyItem] = this.list.filter(item => item.groupId == groupItem.id && !item.blocked && !item.hiden)
+            if(anyItem){
+                return true
+            }
+            else{
+                return false
+            }
+        },
         addToCart: function(newItem){
             this.timer=this.defaultTimer;
             let tempItem = {};

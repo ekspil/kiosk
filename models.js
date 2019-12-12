@@ -74,6 +74,22 @@ const Product = sequelize.define('products', {
     price: {
         type: Sequelize.DataTypes.INTEGER
         // allowNull defaults to true
+    },
+    price2: {
+        type: Sequelize.DataTypes.INTEGER
+        // allowNull defaults to true
+    },
+    price3: {
+        type: Sequelize.DataTypes.INTEGER
+        // allowNull defaults to true
+    },
+    price4: {
+        type: Sequelize.DataTypes.INTEGER
+        // allowNull defaults to true
+    },
+    price5: {
+        type: Sequelize.DataTypes.INTEGER
+        // allowNull defaults to true
     }
 }, {
     // options
