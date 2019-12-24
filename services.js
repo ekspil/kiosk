@@ -221,7 +221,7 @@ const findOrder = async function(list){
         return null
     }
 
-    const order = await model.Order.findOne({where})
+    const order = await model.Order.findOne({where, order: [['id', 'DESC']]})
 
     if(!order){
         return false
@@ -265,7 +265,7 @@ const deleteOrder = async function(list){
         return null
     }
 
-    const order = await model.Order.findOne({where})
+    const order = await model.Order.findOne({where, order: [['id', 'DESC']]})
 
     if(!order){
         return false
