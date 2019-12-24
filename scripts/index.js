@@ -415,7 +415,6 @@ var app = new Vue({
 
             if(Rezult.Command == "PayByPaymentCard" && Rezult.Status == 0 && this.operation == 0){
                 this.lastPayData = Rezult
-                console.log(Rezult)
                 let slip = Rezult.Slip.split("\n")
                 setTimeout(()=>{this.payHelper = "Печатаем чек..."}, 100)
                 let newId = this.lastId + 1
