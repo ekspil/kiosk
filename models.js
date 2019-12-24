@@ -333,7 +333,7 @@ Product.hasMany(LangItem, {
     foreignKey: "product_id",
     as: "langItems"
 })
-sequelize.sync({ force: true })
+//sequelize.sync({ force: true })
 
 module.exports = {
     User,
