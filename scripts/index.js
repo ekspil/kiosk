@@ -11,6 +11,7 @@ var app = new Vue({
         operation: 0,
         deletedCheck: null,
         delFiscalNum: [],
+        lastPayData: {},
         delFiscalNumHolder: "Фискальный номер чека",
         keyLock: false,
         message: 'Привет!',
@@ -413,6 +414,8 @@ var app = new Vue({
 
 
             if(Rezult.Command == "PayByPaymentCard" && Rezult.Status == 0 && this.operation == 0){
+                this.lastPayData = Rezult
+                console.log(Rezult)
                 let slip = Rezult.Slip.split("\n")
                 setTimeout(()=>{this.payHelper = "Печатаем чек..."}, 100)
                 let newId = this.lastId + 1
@@ -476,7 +479,9 @@ var app = new Vue({
                 cart: this.cart,
                 orderType: this.orderType,
                 fiscalNum: Rezult.CheckNumber,
-                error: Rezult.Error
+                error: Rezult.Error,
+                RRNCode: this.lastPayData.RRNCode,
+                AuthorizationCode: this.lastPayData.AuthorizationCode
             }
             makeOrder(dataCart)
 

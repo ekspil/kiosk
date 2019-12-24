@@ -159,6 +159,12 @@ const Order = sequelize.define('orders', {
     status: {
         type: Sequelize.DataTypes.STRING,
     },
+    AuthorizationCode: {
+        type: Sequelize.DataTypes.STRING,
+    },
+    RRNCode: {
+        type: Sequelize.DataTypes.STRING,
+    },
     fiscalNum: {
         type: Sequelize.DataTypes.INTEGER
     },
@@ -275,13 +281,59 @@ const Kiosk = sequelize.define('kiosks', {
 }, {
     // options
 });
+const Lang = sequelize.define('langs', {
+    // attributes
+    id: {
+        type: Sequelize.DataTypes.INTEGER,
+        allowNull: false,
+        primaryKey: true,
+        autoIncrement: true
+    },
+    name: {
+        type: Sequelize.DataTypes.STRING,
+
+    },
+    printName: {
+        type: Sequelize.DataTypes.STRING,
+
+    },
+}, {
+    // options
+});
+const LangItem = sequelize.define('lang_items', {
+    // attributes
+    id: {
+        type: Sequelize.DataTypes.INTEGER,
+        allowNull: false,
+        primaryKey: true,
+        autoIncrement: true
+    },
+    name: {
+        type: Sequelize.DataTypes.STRING,
+
+    },
+    printName: {
+        type: Sequelize.DataTypes.STRING,
+
+    },
+    img: {
+        type: Sequelize.DataTypes.STRING,
+
+    },
+}, {
+    // options
+});
 
 
 Product.hasMany(Set)
 Group.hasMany(Product)
 Order.hasMany(OrderPosition)
-
-//sequelize.sync({ force: true })
+Lang.hasMany(LangItem)
+Product.hasMany(LangItem, {
+    foreignKey: "product_id",
+    as: "langItems"
+})
+sequelize.sync({ force: true })
 
 module.exports = {
     User,
@@ -290,5 +342,7 @@ module.exports = {
     Group,
     Img,
     Order,
-    OrderPosition
+    OrderPosition,
+    Lang,
+    LangItem
 }

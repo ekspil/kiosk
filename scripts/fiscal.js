@@ -816,8 +816,8 @@ function ReturnPaymentByPaymentCard(NumDevice, data, operation) {
         Amount: data.order.sum,
 
         ReceiptNumber: data.order.id,
-        RRNCode: "",
-        AuthorizationCode: "",
+        RRNCode: data.order.RRNCode,
+        AuthorizationCode: data.order.AuthorizationCode,
         IdCommand: guid()
 
     };

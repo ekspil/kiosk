@@ -153,7 +153,7 @@ const addImg = async function(data){
 
 const makeOrder = async function(data){
 
-    let {cart, fiscalNum, orderType} = data
+    let {cart, fiscalNum, orderType, RRNCode, AuthorizationCode} = data
     let order = {}
     order.orderType = orderType
     order.payType = 2
@@ -164,6 +164,8 @@ const makeOrder = async function(data){
     order.fiscalNum = fiscalNum
     order.returnPay = false
     order.returnCheck = false
+    order.RRNCode = RRNCode
+    order.AuthorizationCode = AuthorizationCode
 
     const createdOrder = await model.Order.create(order)
     let newCart = []
