@@ -5,6 +5,7 @@ var app = new Vue({
     mounted: function () {
         const timer = setInterval(this.checkTimer, 1000)
         this.start()
+        this.lockKiosk()
 
     },
     data: {
