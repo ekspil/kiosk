@@ -189,6 +189,7 @@ let app = new Vue({
 
                 }
                 this.newPosition = pos
+                if(!this.newPosition.sets){this.newPosition.sets=[]}
             }else{
                 this.newPosition.id = null
             }
