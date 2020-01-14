@@ -24,7 +24,7 @@ app.post("/upload/img/prod", async function (req, res, next) {
     if(!filedata)
         res.send("Ошибка при загрузке файла");
     else
-        res.redirect("../../admin.html")
+        res.redirect("../../manager.html")
 });
 
 
@@ -52,6 +52,12 @@ io.on('connection', client => {
     client.on('changePosition', async function(data, returnFn){
 
         let dataR = await service.changePosition(data)
+        returnFn(dataR)
+    });
+
+    client.on('changeLangItem', async function(data, returnFn){
+
+        let dataR = await service.changeLangItem(data)
         returnFn(dataR)
     });
 

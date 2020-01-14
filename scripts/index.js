@@ -5,10 +5,12 @@ var app = new Vue({
     mounted: function () {
         const timer = setInterval(this.checkTimer, 1000)
         this.start()
-        this.lockKiosk()
+        //this.lockKiosk()
 
     },
     data: {
+        lang: 'ru',
+        langs: false,
         operation: 0,
         deletedCheck: null,
         delFiscalNum: [],
@@ -111,6 +113,26 @@ var app = new Vue({
         }
     },
     methods: {
+        getPosLangName: function(pos){
+            if(this.lang == "ru") {
+                return pos.name
+            }
+            else{
+                return pos[this.lang]
+            }
+        },
+        getGrLangName: function(gr){
+            if(this.lang == "ru") {
+                return gr.name
+            }
+            else{
+                return gr[this.lang]
+            }
+        },
+        getMenuString: function(string){
+            const button = this.langs[string]
+            return button[this.lang]
+        },
         groupEmpty: function(groupItem){
             if(groupItem.blocked){
                 return false

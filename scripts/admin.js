@@ -4,6 +4,16 @@ let app = new Vue({
     },
     data: {
         message: 'Привет!',
+        menu: 'menu',
+        langs: {
+            pay: {
+                ru: "",
+                en: "",
+                jp: "",
+                cn: "",
+                ko: "",
+            }
+        },
 
         newSetCount: null,
         newPosition: {
@@ -21,6 +31,10 @@ let app = new Vue({
             coupon: null,
             helper: "",
             img: "",
+            en: "",
+            jp: "",
+            cn: "",
+            ko: "",
             name: "",
             type: 1,
             sets: []
@@ -30,6 +44,10 @@ let app = new Vue({
             id: null,
             img: "",
             name: "",
+            en: "",
+            jp: "",
+            cn: "",
+            ko: "",
             blocked: false,
             position: "99"
         },
@@ -145,6 +163,26 @@ let app = new Vue({
         }
     },
     methods:{
+        adminSortPos: function (pos) {
+            let groups = this.groups.filter(gr => gr.selected === true)
+            if (groups.length < 1) {
+                return true
+            }
+            let [group] = this.groups.filter(gr => gr.id == pos.groupId && gr.selected )
+            if(group){
+                return true
+            }
+
+            return false
+
+
+        },
+        saveLangItem: async function (langItem, property) {
+
+            await saveLangItem(langItem, property)
+            return true
+
+        },
         thisGroup: function (pos) {
             [group] = this.groups.filter(gr => gr.id == pos.groupId)
             if(!group){
@@ -167,10 +205,14 @@ let app = new Vue({
             changeGroup(newGroup)
             this.newGroup = {
                 id: null,
-                    img: "",
-                    name: "",
-                    blocked: false,
-                    position: "99"
+                img: "",
+                name: "",
+                en: "",
+                jp: "",
+                cn: "",
+                ko: "",
+                blocked: false,
+                position: "99"
             }
 
             //UIkit.modal('#modal-addGroup').show();
@@ -218,6 +260,10 @@ let app = new Vue({
                     helper: "",
                     img: "",
                     name: "",
+                    en: "",
+                    jp: "",
+                    cn: "",
+                    ko: "",
                     type: 1,
                     sets: []
 

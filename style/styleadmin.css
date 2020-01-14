@@ -1,5 +1,13 @@
-body {
-    margin: 0px;
+html, body {
+    height: 100%; /* Высота родителя */
+    margin: 0; /* Убираем отступы у страницы */
+}
+
+.uk-card-badge {
+    position: absolute;
+    top: 3px;
+    z-index: 1;
+    right: unset;
 }
 
 h3 {

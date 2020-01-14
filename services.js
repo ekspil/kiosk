@@ -12,6 +12,7 @@ const getBaseData = async function(inData){
     let list = await model.Product.findAll()
     const groups = await model.Group.findAll()
     const imgs = await model.Img.findAll()
+    const langs = await model.LangItem.findAll()
     const lastId = await model.Order.max("id")
     for(let i in list){
         let sets = await list[i].getSets()
@@ -23,7 +24,8 @@ const getBaseData = async function(inData){
         list,
         groups,
         imgs,
-        lastId
+        lastId,
+        langs
     }
 
 
@@ -50,6 +52,10 @@ const changePosition = async function(data){
             prod.groupId = data.groupId
             prod.position = data.position
             prod.codeOneC = data.codeOneC
+            prod.en = data.en
+            prod.cn = data.cn
+            prod.jp = data.jp
+            prod.ko = data.ko
         await prod.save()
 
 
@@ -86,7 +92,11 @@ const changePosition = async function(data){
            coupon: data.coupon,
            groupId: data.groupId,
            position: data.position,
-           codeOneC: data.codeOneC
+           codeOneC: data.codeOneC,
+           en: data.en,
+           jp: data.jp,
+           cn: data.cn,
+           ko: data.ko
           }
 
 
@@ -118,6 +128,10 @@ const changeGroup = async function(data){
         group.img = data.img
         group.blocked = data.blocked
         group.position = data.position
+        group.en = data.en
+        group.cn = data.cn
+        group.jp = data.jp
+        group.ko = data.ko
         return await group.save()
 
 
@@ -126,7 +140,11 @@ const changeGroup = async function(data){
             name: data.name,
             img: data.img,
             blocked: data.blocked,
-            position: data.position
+            position: data.position,
+            en: data.en,
+            jp: data.jp,
+            cn: data.cn,
+            ko: data.ko
           }
 
 
@@ -148,6 +166,21 @@ const addImg = async function(data){
 
         const answer = await model.Img.create(img)
         return new ImgDTO(answer)
+
+}
+const changeLangItem = async function(data){
+        const {id} = data
+        const where = {
+            id
+        }
+        const item = await model.LangItem.findOne({where})
+        item.ru = data.ru
+        item.en = data.en
+        item.jp = data.jp
+        item.cn = data.cn
+        item.ko = data.ko
+        await item.save()
+        return true
 
 }
 
@@ -317,5 +350,6 @@ module.exports={
     makeOrder,
     findOrder,
     deleteOrder,
-    thisDayOrders
+    thisDayOrders,
+    changeLangItem
 }

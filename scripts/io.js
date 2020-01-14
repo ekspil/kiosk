@@ -37,6 +37,16 @@ socketC.emit('getBaseData', {rest: 1}, (data) => {
     app.list = data.list
     app.groups = data.groups
     app.imgs = data.imgs
+    data.langs = data.langs.map(lang => {
+        lang.button = "Сохранить"
+        return lang
+    })
+    let langs = {}
+    for(let item of data.langs){
+        langs[item.name]=item
+    }
+    app.langs = langs
+
 
 
     function compare(a, b) {
@@ -95,6 +105,24 @@ function deleteOrder(ordernum){
 function changePosition(newPosition){
     socketL.emit('changePosition', newPosition, (data) => {
         console.log(data)
+
+    });
+
+}
+async function saveLangItem(lamgItem, property){
+    app.langs[property].button = "Ждите..."
+    socketL.emit('changeLangItem', lamgItem, (data) => {
+        if(data == true) {
+            app.langs[property].button = "Готово!"
+
+            setTimeout(()=>{app.langs[property].button = "Сохранить"}, 1000)
+        }
+        else{
+            app.langs[property].button = "Ошибка!"
+
+            setTimeout(()=>{app.langs[property].button = "Сохранить"}, 1000)
+        }
+        return data
 
     });
 

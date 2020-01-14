@@ -90,6 +90,22 @@ const Product = sequelize.define('products', {
     price5: {
         type: Sequelize.DataTypes.INTEGER
         // allowNull defaults to true
+    },
+    en: {
+        type: Sequelize.DataTypes.STRING,
+
+    },
+    jp: {
+        type: Sequelize.DataTypes.STRING,
+
+    },
+    cn: {
+        type: Sequelize.DataTypes.STRING,
+
+    },
+    ko: {
+        type: Sequelize.DataTypes.STRING,
+
     }
 }, {
     // options
@@ -136,6 +152,22 @@ const Group = sequelize.define('groups', {
     },
     blocked: {
         type: Sequelize.DataTypes.BOOLEAN
+    },
+    en: {
+        type: Sequelize.DataTypes.STRING,
+
+    },
+    jp: {
+        type: Sequelize.DataTypes.STRING,
+
+    },
+    cn: {
+        type: Sequelize.DataTypes.STRING,
+
+    },
+    ko: {
+        type: Sequelize.DataTypes.STRING,
+
     }
 }, {
     // options
@@ -312,11 +344,23 @@ const LangItem = sequelize.define('lang_items', {
         type: Sequelize.DataTypes.STRING,
 
     },
-    printName: {
+    ru: {
         type: Sequelize.DataTypes.STRING,
 
     },
-    img: {
+    en: {
+        type: Sequelize.DataTypes.STRING,
+
+    },
+    jp: {
+        type: Sequelize.DataTypes.STRING,
+
+    },
+    cn: {
+        type: Sequelize.DataTypes.STRING,
+
+    },
+    ko: {
         type: Sequelize.DataTypes.STRING,
 
     },
@@ -329,10 +373,7 @@ Product.hasMany(Set)
 Group.hasMany(Product)
 Order.hasMany(OrderPosition)
 Lang.hasMany(LangItem)
-Product.hasMany(LangItem, {
-    foreignKey: "product_id",
-    as: "langItems"
-})
+
 //sequelize.sync({ force: true })
 
 module.exports = {
