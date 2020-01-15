@@ -5,7 +5,7 @@ var app = new Vue({
     mounted: function () {
         const timer = setInterval(this.checkTimer, 1000)
         this.start()
-        //this.lockKiosk()
+        this.lockKiosk()
 
     },
     data: {
@@ -132,6 +132,16 @@ var app = new Vue({
         getMenuString: function(string){
             const button = this.langs[string]
             return button[this.lang]
+        },
+        mainGroup: function(){
+            for(let i in this.groups){
+                if(!this.groups[i].blocked && this.groupEmpty(this.groups[i])){
+                this.groupId = this.groups[i].id
+                mainGroup = this.groups[i].id
+                break
+            }
+
+        }
         },
         groupEmpty: function(groupItem){
             if(groupItem.blocked){
@@ -324,6 +334,7 @@ var app = new Vue({
             if(atr){
                 return true
             }
+            this.mainGroup()
             this.clearTemp();
             this.operation = 0
             this.payed = 0;
