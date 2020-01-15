@@ -111,6 +111,16 @@ var app = new Vue({
         }
     },
     methods: {
+        mainGroup: function(){
+            for(let i in this.groups){
+                if(!this.groups[i].blocked && this.groupEmpty(this.groups[i])){
+                this.groupId = this.groups[i].id
+                mainGroup = this.groups[i].id
+                break
+            }
+
+        }
+        },
         groupEmpty: function(groupItem){
             if(groupItem.blocked){
                 return false
@@ -302,6 +312,7 @@ var app = new Vue({
             if(atr){
                 return true
             }
+            this.mainGroup()
             this.clearTemp();
             this.operation = 0
             this.payed = 0;
