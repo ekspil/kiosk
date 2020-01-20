@@ -131,6 +131,7 @@ var app = new Vue({
         },
         getMenuString: function(string){
             const button = this.langs[string]
+
             return button[this.lang]
         },
         mainGroup: function(){

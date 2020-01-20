@@ -7,6 +7,21 @@ const {gt, lte, ne, in: opIn} = require('sequelize').Op
 const hello = async function(){
     console.log('Hello!')
 }
+const migrate = require('./migrate/index.js')
+
+const fillTableMenu = async function(array){
+    for (let item of array){
+        const where = {
+            name: item.name
+        }
+        const check = await model.LangItem.findOne({where})
+
+        if(check) continue
+        await model.LangItem.create(item)
+    }
+}
+setTimeout(fillTableMenu, 5000, migrate.menu)
+
 const getBaseData = async function(inData){
 
     let list = await model.Product.findAll()

@@ -33,7 +33,7 @@
 
      <div id="menu" class="uk-width-1-4 ">
          <div class="menu-list ">
-             <a @click="coupon()" class=" uk-button uk-button-menu uk-button-coupon uk-width-1-1 uk-inline" href="#"><h3 class="uk-position-center-left mainmenu"><span v-if="langs">{{getMenuString('КУПОНЫ')}}</span> </h3><span class="uk-position-center-right uk-padding-small" uk-icon="heart"></span></a>
+             <a @click="coupon()" class=" uk-button uk-button-menu uk-button-coupon uk-width-1-1 uk-inline" href="#"><h3 class="uk-position-center-left mainmenu"><span v-if="langs">{{getMenuString('KUPON')}}</span> </h3><span class="uk-position-center-right uk-padding-small" uk-icon="heart"></span></a>
              <a v-for="groupItem in groups" v-if="groupEmpty(groupItem)" @click="menuClick(groupItem)" :class="menuClass(groupItem)" href="#"><h3 class="uk-position-center-left mainmenu">{{getPosLangName(groupItem)}}</h3></a>
 
 
@@ -58,7 +58,7 @@
              <div class="uk-card-media-top"><img :data-src="pos.img || 'img/prod/default.jpg'" width="100%" height="100%" alt="" uk-img></div>
              <div class="uk-card-body">
                  <h3 class="uk-card-title">{{getPosLangName(pos)}}</h3>
-                 <p>{{pos.price}} <span v-if="langs">{{getMenuString('руб')}}</span></p>
+                 <p>{{pos.price}} <span v-if="langs">{{getMenuString('RUB')}}</span></p>
              </div>
          </div></a>
 
@@ -70,7 +70,7 @@
 
  <div id="footer"  class="uk-position-bottom uk-overlay uk-overlay-default uk-text-center">
 
-<div class="uk-width-1-1" v-if="langs"><h3 class="uk-text-center"><span v-if="langs">{{getMenuString('Ваш заказ')}}</span> ({{cart_sum}} <span v-if="langs">{{getMenuString('руб')}}</span>) </h3></div>
+<div class="uk-width-1-1" v-if="langs"><h3 class="uk-text-center"><span v-if="langs">{{getMenuString('YOUR_ORDER')}}</span> ({{cart_sum}} <span v-if="langs">{{getMenuString('RUB')}}</span>) </h3></div>
 
 
 
@@ -92,8 +92,8 @@
     <ul class="uk-slider-nav uk-dotnav uk-flex-center uk-margin"></ul>
 </div>
      <div v-if="langs"  class="uk-text-center uk-position-bottom pay-buttons" uk-grid>
-         <button class="uk-button  uk-width-1-2 uk-button-primary" @click="start()" ><span v-if="langs">{{getMenuString('cancel')}}</span></button>
-         <button class="uk-button  uk-width-1-2 uk-button-secondary" @click="toCart()"><span v-if="langs">{{getMenuString('Перейти к оформлению')}}</span></button>
+         <button class="uk-button  uk-width-1-2 uk-button-primary" @click="start()" ><span v-if="langs">{{getMenuString('CANCEL')}}</span></button>
+         <button class="uk-button  uk-width-1-2 uk-button-secondary" @click="toCart()"><span v-if="langs">{{getMenuString('GO_TO_CART')}}</span></button>
      </div>
 
 
@@ -117,7 +117,7 @@
 
 
             <div v-if="langs" class="uk-modal-header uk-text-center">
-                <h2 v-if="thisSet" class="uk-modal-title"><span v-if="langs">{{getMenuString('Выберите все...')}}</span> {{thisSet.set.length}} <span v-if="langs">{{getMenuString('...позиции набора')}}</span>:</h2>
+                <h2 v-if="thisSet" class="uk-modal-title"><span v-if="langs">{{getMenuString('SELECT_ALL')}}</span> {{thisSet.set.length}} <span v-if="langs">{{getMenuString('COMPLECT_POSITIONS')}}</span>:</h2>
             </div>
 
             <div v-if="thisSet" class="uk-modal-body uk-text-center" uk-overflow-auto>
@@ -148,7 +148,7 @@
 
             </div>
             <div class="uk-modal-header uk-text-center">
-                <h2 v-if="thisSet" class="uk-modal-title"><span v-if="langs">{{getMenuString('your')}}</span> {{thisSet.name}}:</h2>
+                <h2 v-if="thisSet" class="uk-modal-title"><span v-if="langs">{{getMenuString('YOUR')}}</span> {{thisSet.name}}:</h2>
             </div>
             <div class="uk-height-max-large">
 
@@ -158,7 +158,7 @@
                 </div>
 
                 <div class="uk-modal-footer uk-text-center">
-                    <button class="uk-button uk-button-modal-default uk-modal-close" @click="clearTemp()" type="button"><span v-if="langs">{{getMenuString('Передумал')}}</span></button>
+                    <button class="uk-button uk-button-modal-default uk-modal-close" @click="clearTemp()" type="button"><span v-if="langs">{{getMenuString('BACK')}}</span></button>
                     <button class="uk-button uk-button-modal-ok" @click="addSetToCart(selection)" type="button"></span></button>
                 </div>
 
@@ -175,9 +175,9 @@
         <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical uk-text-center">
 
 
-            <p><span v-if="langs">{{getMenuString('Вы выбрали не все позиции')}}</span></p>
+            <p><span v-if="langs">{{getMenuString('NOT_ALL_POSITIONS')}}</span></p>
             <p> </p>
-            <button class="uk-button uk-button-primary uk-text-center" type="button" @click="showModalSet()"><span v-if="langs">{{getMenuString('Продолжить выбор')}}</span></button>
+            <button class="uk-button uk-button-primary uk-text-center" type="button" @click="showModalSet()"><span v-if="langs">{{getMenuString('CONTINUE_SELECTION')}}</span></button>
 
         </div>
     </div>
@@ -189,7 +189,7 @@
         <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical uk-text-center">
             <button class="uk-modal-close-default" type="button" uk-close></button>
             <div class="uk-modal-header uk-text-center">
-                <h2  class="uk-modal-title"><span v-if="langs">{{getMenuString('Введите номер купона')}}</span></h2>
+                <h2  class="uk-modal-title"><span v-if="langs">{{getMenuString('ENTER_COUPON_NUMBER')}}</span></h2>
             </div>
             <form class="uk-search uk-search-large uk-width-1-1 uk-text-center">
 
@@ -265,7 +265,7 @@
                     </div>
                     <br>
                     <br>
-                    <div v-if="langs"><h1>{{getMenuString('Выберете опцию заказа')}}</h1></div>
+                    <div v-if="langs"><h1>{{getMenuString('SELECT_ORDER_OPTION')}}</h1></div>
 
 
                     </div>
@@ -282,7 +282,7 @@
     <div id="modal-cart" class="uk-modal-full start-modal"  uk-modal="bg-close: false">
         <div class="uk-modal-dialog start-modal" >
             <div v-if="langs" class="uk-modal-header uk-text-center">
-                <h2  class="uk-modal-title">{{getMenuString('Корзина')}}</h2>
+                <h2  class="uk-modal-title">{{getMenuString('CART')}}</h2>
             </div>
             <div id="list-cart"  class="uk-panel-scrollable uk-panel-scrollable-cart uk-width-expand  uk-grid-collapse uk-flex-center uk-child-width-1-4 uk-text-center" uk-grid>
 
@@ -294,19 +294,19 @@
                     </div>
                     <div v-if="langs" class="uk-card-body">
                         <h3 class="uk-card-title ">{{pos.count}} x {{getPosLangName(pos)}}</h3>
-                        <p>{{pos.price*pos.count}} {{getMenuString('руб')}}</p>
+                        <p>{{pos.price*pos.count}} {{getMenuString('RUB')}}</p>
                     </div>
                 </div></a>
 
 
             </div>
             <div v-if="langs" class="uk-modal-header uk-text-center">
-                <h2  class="uk-modal-title">{{getMenuString('Сумма вашего заказа')}}: {{cart_sum}}  {{getMenuString('руб')}}</h2>
+                <h2  class="uk-modal-title">{{getMenuString('ORDER_SUM')}}: {{cart_sum}}  {{getMenuString('RUB')}}</h2>
             </div>
 
             <div v-if="langs"  class="uk-text-center uk-position-bottom pay-cart-buttons" uk-grid>
-                <button class="uk-button  uk-width-1-2 uk-button-primary" @click="closeCart()">{{getMenuString('Назад в меню')}}</button>
-                <button class="uk-button  uk-width-1-2 uk-button-secondary" @click="pay()">{{getMenuString('pay')}} {{cart_sum}} {{getMenuString('руб')}}</button>
+                <button class="uk-button  uk-width-1-2 uk-button-primary" @click="closeCart()">{{getMenuString('BACK_TO_MENU')}}</button>
+                <button class="uk-button  uk-width-1-2 uk-button-secondary" @click="pay()">{{getMenuString('PAY')}} {{cart_sum}} {{getMenuString('RUB')}}</button>
             </div>
 
         </div>
@@ -319,16 +319,16 @@
             <div class="uk-grid-collapse uk-child-width-1-2@s uk-flex-middle" uk-grid>
                 <div class="uk-background-cover" style="background-image: url('img/service/pay.png');" uk-height-viewport></div>
                 <div v-if="payed==0" class="uk-padding-large uk-text-center">
-                    <h1><span v-if="langs">{{getMenuString('Организуем процедуру оплаты')}}</span></h1>
+                    <h1><span v-if="langs">{{getMenuString('PAYING')}}</span></h1>
                     <p id="loading"><span  id="spinner" uk-spinner="ratio: 4.5"></span></p>
                     <p>{{payHelper}}</p>
                 </div>
                 <div v-if="payed==1" class="uk-padding-large uk-text-center">
 
-                    <h1><span v-if="langs">{{getMenuString('Заказ номер')}}</span>:</h1>
+                    <h1><span v-if="langs">{{getMenuString('ORDER_NUMBER')}}</span>:</h1>
                     <p class="orderNumber">{{msgIdBig}}</p>
                     <p id="loading"><img data-src='img/service/ok.png' width="100%" height="100%" alt="" uk-img></p>
-                    <p><span v-if="langs">{{getMenuString('Вы выбрали не все позиции')}}</span></p>
+                    <p><span v-if="langs">{{getMenuString('NOT_ALL_POSITIONS')}}</span></p>
                 </div>
             </div>
         </div>
