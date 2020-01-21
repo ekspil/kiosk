@@ -19,6 +19,7 @@ const fillTableMenu = async function(array){
         if(check) continue
         await model.LangItem.create(item)
     }
+    console.log("Значения меню проверены")
 }
 setTimeout(fillTableMenu, 5000, migrate.menu)
 
@@ -27,6 +28,7 @@ const getBaseData = async function(inData){
     let list = await model.Product.findAll()
     const groups = await model.Group.findAll()
     const imgs = await model.Img.findAll()
+    const helpers = await model.Helper.findAll()
     const langs = await model.LangItem.findAll()
     const lastId = await model.Order.max("id")
     for(let i in list){
@@ -40,7 +42,8 @@ const getBaseData = async function(inData){
         groups,
         imgs,
         lastId,
-        langs
+        langs,
+        helpers
     }
 
 
@@ -164,6 +167,30 @@ const changeGroup = async function(data){
 
 
         return await model.Group.create(group)
+
+
+    }
+
+}
+const changeHelper = async function(data){
+    if(data.id){
+        const where = {
+            id: data.id
+        }
+        const helper = await model.Helper.findOne({where})
+        helper.name = data.name
+        helper.set = data.set
+        return await helper.save()
+
+
+    }else{
+        const helper = {
+            name: data.name,
+            set: data.set
+          }
+
+
+        return await model.Helper.create(helper)
 
 
     }
@@ -366,5 +393,6 @@ module.exports={
     findOrder,
     deleteOrder,
     thisDayOrders,
-    changeLangItem
+    changeLangItem,
+    changeHelper
 }

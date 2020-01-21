@@ -37,6 +37,7 @@ socketC.emit('getBaseData', {rest: 1}, (data) => {
     app.list = data.list
     app.groups = data.groups
     app.imgs = data.imgs
+    app.helpers = data.helpers
     data.langs = data.langs.map(lang => {
         lang.button = "Сохранить"
         return lang
@@ -90,6 +91,13 @@ socketL.emit('getBaseData', {rest: 1}, (data) => {
 
 function changeGroup(newGroup){
     socketL.emit('changeGroup', newGroup, (data) => {
+        console.log(data)
+
+    });
+
+}
+function changeHelper(helper){
+    socketL.emit('changeHelper', helper, (data) => {
         console.log(data)
 
     });

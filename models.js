@@ -130,6 +130,26 @@ const Set = sequelize.define('sets', {
 }, {
     // options
 })
+
+const Helper = sequelize.define('helpers', {
+    // attributes
+    id: {
+        type: Sequelize.DataTypes.INTEGER,
+        allowNull: false,
+        primaryKey: true,
+        autoIncrement: true
+    },
+    name: {
+        type: Sequelize.DataTypes.STRING,
+        allowNull: false
+    },
+    set: {
+        type: Sequelize.DataTypes.ARRAY(Sequelize.DataTypes.INTEGER),
+        allowNull: false
+    }
+}, {
+    // options
+})
 const Group = sequelize.define('groups', {
     // attributes
     id: {
@@ -385,5 +405,6 @@ module.exports = {
     Order,
     OrderPosition,
     Lang,
-    LangItem
+    LangItem,
+    Helper
 }

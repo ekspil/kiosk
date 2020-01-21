@@ -3,11 +3,39 @@ var app = express();
 const multer  = require("multer");
 var server = require('http').Server(app);
 const service = require('./services.js')
-
+const basicAuth = require('basic-auth');
 
 
 app.use(express.static(__dirname+'/'));
+
+
 app.use(multer({dest:"img/prod"}).single("filedata"));
+
+
+const auth = function (req, res, next) {
+    function unauthorized(res) {
+        res.set('WWW-Authenticate', 'Basic realm=Authorization Required');
+        return res.sendStatus(401);
+    };
+
+    let user = basicAuth(req)
+
+    if (!user || !user.name || !user.pass) {
+        return unauthorized(res)
+    }
+
+    if (user.name === 'admin' && user.pass === 'locffadm') {
+        return next()
+    } else {
+        return unauthorized(res)
+    }
+}
+
+
+app.get('/manager.html',auth , function(req,res){
+    res.sendFile(__dirname+'/manager-secret0101.html');
+});
+
 
 app.post("/upload/img/prod", async function (req, res, next) {
     let filedata = req.file;
@@ -65,6 +93,12 @@ io.on('connection', client => {
     client.on('changeGroup', async function(data, returnFn){
 
         let dataR = await service.changeGroup(data)
+        returnFn(dataR)
+    });
+
+    client.on('changeHelper', async function(data, returnFn){
+
+        let dataR = await service.changeHelper(data)
         returnFn(dataR)
     });
 

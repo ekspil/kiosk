@@ -4,7 +4,11 @@ let app = new Vue({
     },
     data: {
         message: 'Привет!',
+        helpers: [],
         menu: 'menu',
+        temp: {
+            select: ""
+        },
         langs: {
             pay: {
                 ru: "",
@@ -16,6 +20,7 @@ let app = new Vue({
         },
 
         newSetCount: null,
+        newHelper: {name: "", set: []},
         newPosition: {
             id: null,
             groupId: 1,
@@ -201,6 +206,16 @@ let app = new Vue({
 
             UIkit.modal('#modal-addGroup').show();
         },
+        addHelper: function (pos) {
+            if(pos){
+                this.newHelper = pos
+            }else{
+                this.newHelper = {name: "", set: []}
+                this.newGroup.id = null
+            }
+
+            UIkit.modal('#modal-addHelper').show();
+        },
         addGroupSend: function (newGroup) {
             changeGroup(newGroup)
             this.newGroup = {
@@ -216,6 +231,16 @@ let app = new Vue({
             }
 
             //UIkit.modal('#modal-addGroup').show();
+        },
+        addHelperSend: function (helper) {
+            changeHelper(helper)
+            this.newHelper = {
+                id: null,
+                name: "",
+                set: []
+            }
+
+            UIkit.modal('#modal-addHelper').hide();
         },
         addPosition: function (pos){
 
@@ -274,9 +299,17 @@ let app = new Vue({
 
             UIkit.modal('#modal-addImg').show();
         },
+        notif: function (value) {
+
+            console.log(value)
+        },
         findPositionById: function (id) {
             const [position] = this.list.filter(item => item.id == id)
             return position.name
+        },
+        findFullPositionById: function (id) {
+            const [position] = this.list.filter(item => item.id == id)
+            return position
         }
     }
 })
