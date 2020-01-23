@@ -89,6 +89,14 @@ socketL.emit('getBaseData', {rest: 1}, (data) => {
 });
 
 
+function checkBonus(number){
+    socketL.emit('checkBonus', number, (data) => {
+        app.phone.sum = data.sum
+
+    });
+
+}
+
 function changeGroup(newGroup){
     socketL.emit('changeGroup', newGroup, (data) => {
         console.log(data)

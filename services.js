@@ -1,8 +1,11 @@
 const model = require('./models.js')
+const axios = require('axios')
 const ImgDTO = require("./dto/imgDTO")
 const SetsDTO = require("./dto/setsDTO")
 const ProductDTO = require("./dto/productDTO")
 const OrderDTO = require("./dto/orderDTO")
+const deliveryApikey = "MDU3NThhMTYxMGE4ZDYyM2M3OTk0NDc1ODg1ZmVlYzU4N2FmMmJjMg"
+
 const {gt, lte, ne, in: opIn} = require('sequelize').Op
 const hello = async function(){
     console.log('Hello!')
@@ -22,6 +25,21 @@ const fillTableMenu = async function(array){
     console.log("Значения меню проверены")
 }
 setTimeout(fillTableMenu, 5000, migrate.menu)
+
+const checkBonus = async function(phone) {
+    try {
+        const response = await axios.get('https://delivery.rb24.ru/bonus_api/check', {
+            params: {
+                phone,
+                apikey: "MDU3NThhMTYxMGE4ZDYyM2M3OTk0NDc1ODg1ZmVlYzU4N2FmMmJjMg"
+            }
+        })
+        return response.data
+    } catch (e) {
+        throw new Error(e)
+    }
+
+}
 
 const getBaseData = async function(inData){
 
@@ -394,5 +412,6 @@ module.exports={
     deleteOrder,
     thisDayOrders,
     changeLangItem,
-    changeHelper
+    changeHelper,
+    checkBonus
 }

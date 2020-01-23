@@ -108,6 +108,12 @@ io.on('connection', client => {
         returnFn(dataR)
     });
 
+    client.on('checkBonus', async function(data, returnFn){
+
+        let dataR = await service.checkBonus(data)
+        returnFn(dataR)
+    });
+
     client.on('deleteOrder', async function(data, returnFn){
 
         let dataR = await service.deleteOrder(data)

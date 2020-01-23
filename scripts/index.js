@@ -11,6 +11,11 @@ var app = new Vue({
     data: {
         lang: 'ru',
         helperNum: '1',
+        phone: {
+            enter: false,
+            number: "",
+            sum: ""
+        },
         langs: false,
         operation: 0,
         deletedCheck: null,
@@ -620,6 +625,18 @@ var app = new Vue({
         modalHide: function (modal) {
             this.timer=this.defaultTimer;
             UIkit.modal(modal).hide();
+        },
+        checkBonus: async function (number) {
+            checkBonus(number)
+        },
+        minusBonus: async function (number) {
+            minusBonus(number, sum, pin)
+        },
+        getPin: async function (number) {
+            getPin(number)
+        },
+        addBonus: async function (number) {
+            addBonus(number, sum)
         },
         checkLength: function (item) {
             if(item.length > 12){

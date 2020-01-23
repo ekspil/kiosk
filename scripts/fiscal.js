@@ -865,9 +865,28 @@ async function sendNew(server, unit, checkType, station, name, parent){
 }
 
 
+async function checkBonusSD(phone){
+    try {
+        const { sum } = await axios.get('https://delivery.rb24.ru/bonus_api/check', {
+            params: {
+                phone,
+                apikey: "MDU3NThhMTYxMGE4ZDYyM2M3OTk0NDc1ODg1ZmVlYzU4N2FmMmJjMg"
+            }
+        })
+        return sum
+    } catch (e) {
+        throw new Error(e)
+    }
+}
+
+
 async function sendNewCheck(server, id, checkType){
     try {
         const { data } = await axios.get(server+'/newCheck', {
+            headers: {
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Origin": "*",
+            },
             params: {
                 id,
                 checkType

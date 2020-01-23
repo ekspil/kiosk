@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="mobile-web-app-capable" content="yes">
+
     <link rel="stylesheet" href="modules/uikit3/css/uikit.css" />
     <link href="style/style.css" type="text/css" rel="stylesheet" />
     <link href="modules/animate.css/animate.min.css" rel="stylesheet" type="text/css">
@@ -40,6 +41,55 @@
 
 
          </div>
+         <div  class="uk-card-header">
+             <div class="uk-grid-small uk-flex-middle" uk-grid>
+                 <div class="uk-width-auto">
+                     <img class="uk-border-circle" width="40" height="40" src="img/service/smart-phone.png">
+                 </div>
+                 <div v-if="phone.number"  class="uk-width-expand">
+                     <h3 class="uk-card-title uk-margin-remove-bottom">+7{{phone.number}}</h3>
+                     <p v-if="phone.sum" class="uk-text-meta uk-margin-remove-top">Доступно: <b>{{phone.sum}}</b> роялти</p>
+                 </div>
+                 <div v-if="!phone.number" @click="phone.enter = true"  class="uk-width-expand">
+                     <h3 class="uk-card-title uk-margin-remove-bottom">ВВЕДИТЕ НОМЕР</h3>
+                     <p class="uk-text-meta uk-margin-remove-top">В формате 9025555222</p>
+                 </div>
+             </div>
+         </div>
+         <div v-if="phone.enter" class="menu-list ">
+             <div>
+                 <div class="uk-button-group">
+                     <button class="uk-button uk-button-cupnum  uk-button-large uk-button-border-right" @click="phone.number += ('1')">1</button>
+                     <button class="uk-button uk-button-cupnum uk-button-large uk-button-border-right uk-button-border-left" @click="phone.number += ('2')">2</button>
+                     <button class="uk-button uk-button-cupnum uk-button-large uk-button-border-left" @click="phone.number += ('3')">3</button>
+                 </div>
+             </div>
+
+             <div >
+                 <div class="uk-button-group">
+                     <button class="uk-button uk-button-cupnum uk-button-large uk-button-border-right uk-button-border-top" @click="phone.number += ('4')">4</button>
+                     <button class="uk-button uk-button-cupnum uk-button-large uk-button-border-right uk-button-border-left uk-button-border-top" @click="phone.number += ('5')">5</button>
+                     <button class="uk-button uk-button-cupnum uk-button-large uk-button-border-left uk-button-border-top" @click="phone.number += ('6')">6</button>
+                 </div>
+             </div>
+
+             <div>
+                 <div class="uk-button-group">
+                     <button class="uk-button uk-button-cupnum uk-button-large uk-button-border-right uk-button-border-top" @click="phone.number += ('7')">7</button>
+                     <button class="uk-button uk-button-cupnum uk-button-large uk-button-border-right uk-button-border-left uk-button-border-top" @click="phone.number += ('8')">8</button>
+                     <button class="uk-button uk-button-cupnum uk-button-large uk-button-border-left uk-button-border-top" @click="phone.number += ('9')">9</button>
+                 </div>
+             </div>
+
+             <div>
+                 <div class="uk-button-group">
+                     <button class="uk-button uk-button-coupok uk-button-large uk-button-border-top uk-button-border-right uk-button-border-top" @click="checkBonus(phone.number)">OK</button>
+                     <button class="uk-button uk-button-cupnum uk-button-large uk-button-border-right uk-button-border-left uk-button-border-top" @click="phone.number += ('0')">0</button>
+                     <button class="uk-button uk-button-delete uk-button-large uk-button-border-left uk-button-border-top"  @click="phone.number = phone.number.slice(0, -1)"><img src="img/service/backspace.png" width="50px" height="50px" style="margin: 0px" alt="" uk-img></button>
+                 </div>
+             </div>
+         </div>
+
 
 
 
