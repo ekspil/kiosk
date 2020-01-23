@@ -177,11 +177,13 @@
 
 
             <div v-if="langs" class="uk-modal-header uk-text-center">
-                <h2  class="uk-modal-title"><span v-if="langs">{{getMenuString('HELPER')}}</span></h2>
+                <p  class="uk-modal-title"><span v-if="langs">{{getMenuString('HELPER')}}</span></p>
+                <p  class="uk-modal-title"><span v-if="langs">{{getMenuString('DO_NOT_FORGET_EXTRAS')}}</span></p>
             </div>
 
 
-            <div  class="uk-panel-scrollable uk-width-expand  uk-grid-collapse uk-flex-center uk-child-width-1-3 uk-text-center" uk-grid>
+
+            <div  class="uk-panel-scrollable uk-width-expand  uk-grid-collapse uk-flex-center uk-child-width-1-4 uk-text-center" uk-grid>
 
 
                 <a v-for="pos in getHelpersById" v-if="pos.groupId === groupId && !pos.coupon && !pos.hiden && !pos.blocked" href="#"  @click="addToCart(pos)" class="uk-height-max-large"><div class="uk-card uk-card-small uk-animation-scale-up">

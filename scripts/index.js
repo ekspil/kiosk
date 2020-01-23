@@ -67,7 +67,8 @@ var app = new Vue({
         getHelpersById: function () {
             this.timer=this.defaultTimer;
             const [helper] = this.helpers.filter(item => item.id == this.helperNum)
-            console.log
+            if(!helper) return
+
             const helpersArray =  helper.set.map(help => {
                 const [pos] = this.list.filter(p => p.id == help)
                 return pos
