@@ -21,5 +21,8 @@ module.exports = {
         {name: "BACK_TO_MENU", ru: "Назад в меню"},
         {name: "ORDER_NUMBER", ru: "Заказ номер"},
         {name: "PAYING", ru: "Организуем процедуру оплаты"},
+        {name: "CLOSE", ru: "Закрыть"},
+        {name: "OK", ru: "OK"},
+        {name: "HELPER", ru: "ВМЕСТЕ ВКУСНЕЕ!"},
     ]
 }

@@ -5,11 +5,12 @@ var app = new Vue({
     mounted: function () {
         const timer = setInterval(this.checkTimer, 1000)
         this.start()
-        this.lockKiosk()
+        //this.lockKiosk()
 
     },
     data: {
         lang: 'ru',
+        helperNum: '1',
         langs: false,
         operation: 0,
         deletedCheck: null,
@@ -39,6 +40,7 @@ var app = new Vue({
             active: "uk-button uk-button-active uk-button-menu uk-width-1-1 uk-inline",
         },
         groups: [],
+        helpers: null,
         cart: [],
         thisSet: null,
         thisCoupon: [],
@@ -61,6 +63,17 @@ var app = new Vue({
                 return sum + arr
 
             }, "")
+        },
+        getHelpersById: function () {
+            this.timer=this.defaultTimer;
+            const [helper] = this.helpers.filter(item => item.id == this.helperNum)
+            console.log
+            const helpersArray =  helper.set.map(help => {
+                const [pos] = this.list.filter(p => p.id == help)
+                return pos
+            })
+
+            return helpersArray
         },
         pincodeString: function () {
 
@@ -157,7 +170,9 @@ var app = new Vue({
             }
         },
         addToCart: function(newItem){
+
             this.timer=this.defaultTimer;
+            this.helperNum = newItem.helper
             let tempItem = {};
             for (var key in newItem) {
                 tempItem[key] = newItem[key];
@@ -177,7 +192,7 @@ var app = new Vue({
                     tempItem.count = 1
                     this.cart.push(tempItem)
                     if(tempItem.helper){
-                        UIkit.notification( {message: "<h3 class='uk-card-title uk-text-center'>"+tempItem.helper+"</h3>", pos: 'top-center', status:'warning', timeout: 2000})
+                        this.modalShow("#modal-helper")
                     }
 
                 }else{
@@ -596,6 +611,14 @@ var app = new Vue({
         keyBoardFiscal: function () {
             this.timer=this.defaultTimer;
             UIkit.modal('#modal-check-del').show();
+        },
+        modalShow: function (modal) {
+            this.timer=this.defaultTimer;
+            UIkit.modal(modal).show();
+        },
+        modalHide: function (modal) {
+            this.timer=this.defaultTimer;
+            UIkit.modal(modal).hide();
         },
         checkLength: function (item) {
             if(item.length > 12){
