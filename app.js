@@ -113,6 +113,21 @@ io.on('connection', client => {
         let dataR = await service.checkBonus(data)
         returnFn(dataR)
     });
+    client.on('getPin', async function(data, returnFn){
+
+        let dataR = await service.getPin(data)
+        returnFn(dataR)
+    });
+    client.on('minusBonus', async function(data, returnFn){
+
+        let dataR = await service.minusBonus(data)
+        returnFn(dataR)
+    });
+    client.on('plusBonus', async function(data, returnFn){
+
+        let dataR = await service.plusBonus(data)
+        returnFn(dataR)
+    });
 
     client.on('deleteOrder', async function(data, returnFn){
 

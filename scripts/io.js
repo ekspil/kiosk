@@ -91,7 +91,67 @@ socketL.emit('getBaseData', {rest: 1}, (data) => {
 
 function checkBonus(number){
     socketL.emit('checkBonus', number, (data) => {
-        app.phone.sum = data.sum
+        console.log(data)
+        if(data.error == 1){
+
+            UIkit.notification( {message: "<h3 class='uk-card-title uk-text-center'>Ошибка! Возможно номер не зарегистрирован. Пройдите на кассу для регистрации.</h3>", pos: 'top-center', status:'warning', timeout: 2000})
+            app.phone = {
+                enter: false,
+                number: "",
+                sum: "",
+                pin: "",
+                pinUser: "",
+                ok: false,
+                pinErrors: 0
+            }
+        }else{
+            app.phone.sum = data.sum
+        }
+
+
+    });
+
+}
+
+function minusBonus(number, sum, pin){
+    const sendData = {
+        number,
+        sum,
+        pin
+    }
+    socketL.emit('minusBonus', sendData, (data) => {
+        if(data.error == false){
+
+        }else{
+            app.payHelper = "Ошибка списания бонусов"
+            setTimeout(() =>{UIkit.modal('#modal-pay').hide()}, 2000)
+        }
+
+
+    });
+
+}
+
+function getPin(number, sum){
+    const sendData = {
+        number,
+        sum
+    }
+    socketL.emit('getPin', sendData, (data) => {
+        app.phone.pin = data.pin
+        app.pay("enterPin")
+
+    });
+
+}
+
+function plusBonus(number, sum){
+    const sendData = {
+        number,
+        sum
+    }
+    socketL.emit('plusBonus', sendData, (data) => {
+        app.phone.ok = true
 
     });
 

@@ -14,7 +14,11 @@ var app = new Vue({
         phone: {
             enter: false,
             number: "",
-            sum: ""
+            sum: "",
+            pin: "",
+            pinUser: "",
+            ok: false,
+            pinErrors: 0
         },
         langs: false,
         operation: 0,
@@ -356,6 +360,15 @@ var app = new Vue({
             if(atr){
                 return true
             }
+            this.phone = {
+                    enter: false,
+                    number: "",
+                    sum: "",
+                    pin: "",
+                    ok: false,
+                    pinUser: "",
+                    pinErrors: 0
+            }
             this.mainGroup()
             this.clearTemp();
             this.operation = 0
@@ -407,10 +420,20 @@ var app = new Vue({
             this.timer=this.defaultTimer;
             UIkit.modal('#modal-cart').hide();
         },
-        pay: function () {
+        pay: function (type) {
             if(this.keyLock){
                 return false
             }
+            if(type == "bonus"){
+                getPin(this.phone.number, this.cart_sum)
+                return
+            }
+
+            if(type == "enterPin"){
+                UIkit.modal('#modal-pin-royalty').show();
+                return
+            }
+
 
             this.timer=this.defaultTimer*5;
             PaymentByPaymentCard(pinpadDevice, this.cart_sum)
@@ -629,14 +652,29 @@ var app = new Vue({
         checkBonus: async function (number) {
             checkBonus(number)
         },
-        minusBonus: async function (number) {
+        minusBonus: async function (number, sum, pin) {
             minusBonus(number, sum, pin)
         },
-        getPin: async function (number) {
-            getPin(number)
+        getPin: async function (number, sum) {
+            getPin(number, sum)
         },
-        addBonus: async function (number) {
-            addBonus(number, sum)
+        plusBonus: async function (number, sum) {
+            plusBonus(number, sum)
+        },
+        checkBonusPin: async function () {
+            if(this.phone.pin == this.phone.pinUser){
+                minusBonus(this.phone.number, this.cart_sum, this.phone.pinUser)
+                this.payHelper = "Ожидание транзакции на сервере бонусов..."
+                UIkit.modal('#modal-pay').show();
+
+            }else if(this.phone.pinErrors > 2){
+                this.start()
+            }
+            else{
+                UIkit.notification( {message: "<h3 class='uk-card-title uk-text-center'>Неверный PIN!</h3>", pos: 'top-center', status:'warning', timeout: 2000})
+                this.phone.pinErrors++
+
+            }
         },
         checkLength: function (item) {
             if(item.length > 12){

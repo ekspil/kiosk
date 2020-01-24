@@ -56,7 +56,7 @@
                  </div>
              </div>
          </div>
-         <div v-if="phone.enter" class="menu-list ">
+         <div v-if="phone.enter && !phone.sum" class="menu-list ">
              <div>
                  <div class="uk-button-group">
                      <button class="uk-button uk-button-cupnum  uk-button-large uk-button-border-right" @click="phone.number += ('1')">1</button>
@@ -406,9 +406,14 @@
                 <h2  class="uk-modal-title">{{getMenuString('ORDER_SUM')}}: {{cart_sum}}  {{getMenuString('RUB')}}</h2>
             </div>
 
-            <div v-if="langs"  class="uk-text-center uk-position-bottom pay-cart-buttons" uk-grid>
+            <div v-if="langs && phone.sum < cart_sum"  class="uk-text-center uk-position-bottom pay-cart-buttons" uk-grid>
                 <button class="uk-button  uk-width-1-2 uk-button-primary" @click="closeCart()">{{getMenuString('BACK_TO_MENU')}}</button>
                 <button class="uk-button  uk-width-1-2 uk-button-secondary" @click="pay()">{{getMenuString('PAY')}} {{cart_sum}} {{getMenuString('RUB')}}</button>
+            </div>
+            <div v-if="langs && phone.sum >= cart_sum"  class="uk-text-center uk-position-bottom pay-cart-buttons" uk-grid>
+                <button class="uk-button  uk-width-1-3 uk-button-primary" @click="closeCart()">{{getMenuString('BACK_TO_MENU')}}</button>
+                <button class="uk-button  uk-width-1-3 uk-button-secondary-bonus" @click="pay('bonus')">Оплатить бонусами</button>
+                <button class="uk-button  uk-width-1-3 uk-button-secondary" @click="pay()">{{getMenuString('PAY')}} {{cart_sum}} {{getMenuString('RUB')}}</button>
             </div>
 
         </div>
@@ -485,6 +490,57 @@
                     <button class="uk-button uk-button-coupok uk-button-large uk-button-border-top uk-button-border-right uk-button-border-top" @click="checkAdminPin()">OK</button>
                     <button class="uk-button uk-button-cupnum uk-button-large uk-button-border-right uk-button-border-left uk-button-border-top" @click="pincode.push('0')">0</button>
                     <button class="uk-button uk-button-delete uk-button-large uk-button-border-left uk-button-border-top"  @click="pincode.pop()"><img src="img/service/backspace.png" width="50px" height="50px" style="margin: 0px" alt="" uk-img></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ВВОД ПИНКОДА -->
+
+
+    <div id="modal-pin-royalty" class="uk-flex-top" uk-modal="stack: true" v-on:hidden="phone.pin = ''">
+
+        <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical uk-text-center">
+            <button class="uk-modal-close-default" type="button" uk-close></button>
+            <div class="uk-modal-header uk-text-center">
+                <h2  class="uk-modal-title">Вам на телефон отправлено SMS с кодом</h2>
+            </div>
+            <form class="uk-search uk-search-large uk-width-1-1 uk-text-center">
+
+                <input class="uk-search-input uk-text-center" type="search" placeholder="Введите пинкод" :value="phone.pinUser" maxlength="6" >
+            </form>
+
+
+            <div>
+                <div class="uk-button-group">
+                    <button class="uk-button uk-button-cupnum  uk-button-large uk-button-border-right" @click="phone.pinUser += ('1')">1</button>
+                    <button class="uk-button uk-button-cupnum uk-button-large uk-button-border-right uk-button-border-left" @click="phone.pinUser += ('2')">2</button>
+                    <button class="uk-button uk-button-cupnum uk-button-large uk-button-border-left" @click="phone.pinUser += ('3')">3</button>
+                </div>
+            </div>
+
+            <div >
+                <div class="uk-button-group">
+                    <button class="uk-button uk-button-cupnum uk-button-large uk-button-border-right uk-button-border-top" @click="phone.pinUser += ('4')">4</button>
+                    <button class="uk-button uk-button-cupnum uk-button-large uk-button-border-right uk-button-border-left uk-button-border-top" @click="phone.pinUser += ('5')">5</button>
+                    <button class="uk-button uk-button-cupnum uk-button-large uk-button-border-left uk-button-border-top" @click="phone.pinUser += ('6')">6</button>
+                </div>
+            </div>
+
+            <div>
+                <div class="uk-button-group">
+                    <button class="uk-button uk-button-cupnum uk-button-large uk-button-border-right uk-button-border-top" @click="phone.pinUser += ('7')">7</button>
+                    <button class="uk-button uk-button-cupnum uk-button-large uk-button-border-right uk-button-border-left uk-button-border-top" @click="phone.pinUser += ('8')">8</button>
+                    <button class="uk-button uk-button-cupnum uk-button-large uk-button-border-left uk-button-border-top" @click="phone.pinUser += ('9')">9</button>
+                </div>
+            </div>
+
+            <div>
+                <div class="uk-button-group">
+                    <button class="uk-button uk-button-coupok uk-button-large uk-button-border-top uk-button-border-right uk-button-border-top" @click="checkBonusPin()">OK</button>
+                    <button class="uk-button uk-button-cupnum uk-button-large uk-button-border-right uk-button-border-left uk-button-border-top" @click="phone.pinUser += ('0')">0</button>
+                    <button class="uk-button uk-button-delete uk-button-large uk-button-border-left uk-button-border-top"  @click="phone.pinUser = phone.pinUser.slice(0, -1)"><img src="img/service/backspace.png" width="50px" height="50px" style="margin: 0px" alt="" uk-img></button>
                 </div>
             </div>
         </div>

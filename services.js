@@ -40,6 +40,55 @@ const checkBonus = async function(phone) {
     }
 
 }
+const plusBonus = async function(data) {
+    const {sum, number} = data
+    try {
+        const response = await axios.get('https://delivery.rb24.ru/bonus_api/plus', {
+            params: {
+                summa: sum,
+                phone: number,
+                apikey: "MDU3NThhMTYxMGE4ZDYyM2M3OTk0NDc1ODg1ZmVlYzU4N2FmMmJjMg"
+            }
+        })
+        return response.data
+    } catch (e) {
+        throw new Error(e)
+    }
+
+}
+const minusBonus = async function(data) {
+    const {sum, number, pin} = data
+    try {
+        const response = await axios.get('https://delivery.rb24.ru/bonus_api/minus', {
+            params: {
+                pincode: pin,
+                summa: sum,
+                phone: number,
+                apikey: "MDU3NThhMTYxMGE4ZDYyM2M3OTk0NDc1ODg1ZmVlYzU4N2FmMmJjMg"
+            }
+        })
+        return response.data
+    } catch (e) {
+        throw new Error(e)
+    }
+
+}
+const getPin = async function(data) {
+    const {sum, number} = data
+    try {
+        const response = await axios.get('https://delivery.rb24.ru/bonus_api/sendPin', {
+            params: {
+                summa: sum,
+                phone: number,
+                apikey: "MDU3NThhMTYxMGE4ZDYyM2M3OTk0NDc1ODg1ZmVlYzU4N2FmMmJjMg"
+            }
+        })
+        return response.data
+    } catch (e) {
+        throw new Error(e)
+    }
+
+}
 
 const getBaseData = async function(inData){
 
@@ -413,5 +462,8 @@ module.exports={
     thisDayOrders,
     changeLangItem,
     changeHelper,
-    checkBonus
+    checkBonus,
+    getPin,
+    minusBonus,
+    plusBonus
 }

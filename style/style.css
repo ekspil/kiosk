@@ -131,6 +131,10 @@ svg{
     background-color: #499300;
     color: white;
 }
+.uk-button-secondary-bonus{
+    background-color: #739300;
+    color: white;
+}
 .uk-button-modal-default{
     margin-right: 10%;
     width: 40%;
