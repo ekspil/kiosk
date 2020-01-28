@@ -471,9 +471,9 @@ var app = new Vue({
             this.lastModal = ""
             this.start()
         },
-        printCheck: function (slip, strId){
+        printCheck: function (slip, strId, isFiscal){
             let my_aray_letters = returnArrayLetters(strId)
-            RegisterCheck(fiscalDevice, 0, false, my_aray_letters, this.cart, slip)
+            RegisterCheck(fiscalDevice, 0, false, my_aray_letters, this.cart, slip, isFiscal)
         },
         closeSh: function () {
             CloseShift(0)
@@ -495,7 +495,7 @@ var app = new Vue({
             if(Rezult.Command == "PayByPaymentCard" && Rezult.Status == 0 && this.operation == 0){
                 this.lastPayData = Rezult
                 let slip = Rezult.Slip.split("\n")
-                setTimeout(()=>{this.payHelper = "Печатаем чек..."}, 100)
+                setTimeout(()=>{this.payHelper = "Печатаем чек..."}, 700)
                 let newId = this.lastId + 1
                 let strId = ""
                 if (String(newId).length == 1){
@@ -508,7 +508,15 @@ var app = new Vue({
                     strId = String(newId).slice(-3)
                 }
                 strId = this.litera+"-"+strId
-                this.printCheck(slip, strId)
+                if(this.phone.number && this.phone.sum !== "" ){
+                    const sumBP = String(this.cart_sum).slice(0, -2) * 10
+                    if(sumBP > 0){
+                        this.payHelper = "Начисляем бонусы..."
+                        plusBonus(this.phone.number, sumBP)
+                    }
+
+                }
+                this.printCheck(slip, strId, true)
 
             }
             if(Rezult.Command == "RegisterCheck" && Rezult.Status == 0 && this.operation == 0){
@@ -559,7 +567,8 @@ var app = new Vue({
                 fiscalNum: Rezult.CheckNumber,
                 error: Rezult.Error,
                 RRNCode: this.lastPayData.RRNCode,
-                AuthorizationCode: this.lastPayData.AuthorizationCode
+                AuthorizationCode: this.lastPayData.AuthorizationCode,
+                bonus: this.phone.ok
             }
             makeOrder(dataCart)
 

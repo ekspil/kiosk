@@ -208,6 +208,9 @@ const Order = sequelize.define('orders', {
     sum: {
         type: Sequelize.DataTypes.STRING,
     },
+    discountCard: {
+        type: Sequelize.DataTypes.STRING,
+    },
     status: {
         type: Sequelize.DataTypes.STRING,
     },

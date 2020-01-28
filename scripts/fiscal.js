@@ -195,7 +195,7 @@ function guid() {
 }
 
 
-function RegisterCheck(NumDevice, TypeCheck, IsBarCode, my_aray_letters, cart, slip) {
+function RegisterCheck(NumDevice, TypeCheck, IsBarCode, my_aray_letters, cart, slip, isFiscal) {
     let cartSum = function(){
 
         return cart.reduce((sum, current) => {
@@ -232,7 +232,7 @@ function RegisterCheck(NumDevice, TypeCheck, IsBarCode, my_aray_letters, cart, s
         // Поле не обязательно
         IdCommand: guid(),
         // Это фискальный или не фискальный чек
-        IsFiscalCheck: true,
+        IsFiscalCheck: isFiscal,
         // Тип чека;
         // 0 – продажа;                             10 – покупка;
         // 1 – возврат продажи;                     11 - возврат покупки;

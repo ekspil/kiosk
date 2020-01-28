@@ -121,7 +121,22 @@ function minusBonus(number, sum, pin){
     }
     socketL.emit('minusBonus', sendData, (data) => {
         if(data.error == false){
-
+            app.phone.ok = true
+            let slip = []
+            setTimeout(()=>{this.payHelper = "Печатаем чек..."}, 100)
+            let newId = app.lastId + 1
+            let strId = ""
+            if (String(newId).length == 1){
+                strId = "00" + newId
+            }
+            if (String(newId).length == 2){
+                strId = "0" + newId
+            }
+            if (String(newId).length >= 3){
+                strId = String(newId).slice(-3)
+            }
+            strId = app.litera+"-"+strId
+            app.printCheck(slip, strId, false)
         }else{
             app.payHelper = "Ошибка списания бонусов"
             setTimeout(() =>{UIkit.modal('#modal-pay').hide()}, 2000)
@@ -151,7 +166,23 @@ function plusBonus(number, sum){
         sum
     }
     socketL.emit('plusBonus', sendData, (data) => {
-        app.phone.ok = true
+
+            let slip = []
+            setTimeout(()=>{this.payHelper = "Печатаем чек..."}, 100)
+            let newId = app.lastId + 1
+            let strId = ""
+            if (String(newId).length == 1){
+                strId = "00" + newId
+            }
+            if (String(newId).length == 2){
+                strId = "0" + newId
+            }
+            if (String(newId).length >= 3){
+                strId = String(newId).slice(-3)
+            }
+            strId = app.litera+"-"+strId
+            app.printCheck(slip, strId, false)
+
 
     });
 

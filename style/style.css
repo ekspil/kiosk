@@ -207,17 +207,30 @@ svg{
     width: 100px;
     background-color: #babec2;
 }
+.uk-button-paneldel{
+    width: 92px;
+    background-color: #babec2;
+}
 .uk-button-coupok{
     width: 100px;
     background-color: #ff8000;
 }
+.uk-button-panelok{
+    width: 92px;
+    background-color: #ff8000;
+}
 .uk-button-cupnum{
-    width: 100px;
+     width: 100px;
+     height: 70px;
+     font-size: 22px;
+     background-color: white;
+ }
+.uk-button-panel{
+    width: 92px;
     height: 70px;
     font-size: 22px;
     background-color: white;
 }
-
 
 ::-webkit-scrollbar-button {
     background-repeat:no-repeat;

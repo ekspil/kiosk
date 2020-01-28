@@ -31,7 +31,7 @@ const checkBonus = async function(phone) {
         const response = await axios.get('https://delivery.rb24.ru/bonus_api/check', {
             params: {
                 phone,
-                apikey: "MDU3NThhMTYxMGE4ZDYyM2M3OTk0NDc1ODg1ZmVlYzU4N2FmMmJjMg"
+                apikey: deliveryApikey
             }
         })
         return response.data
@@ -47,7 +47,7 @@ const plusBonus = async function(data) {
             params: {
                 summa: sum,
                 phone: number,
-                apikey: "MDU3NThhMTYxMGE4ZDYyM2M3OTk0NDc1ODg1ZmVlYzU4N2FmMmJjMg"
+                apikey: deliveryApikey
             }
         })
         return response.data
@@ -64,7 +64,7 @@ const minusBonus = async function(data) {
                 pincode: pin,
                 summa: sum,
                 phone: number,
-                apikey: "MDU3NThhMTYxMGE4ZDYyM2M3OTk0NDc1ODg1ZmVlYzU4N2FmMmJjMg"
+                apikey: deliveryApikey
             }
         })
         return response.data
@@ -80,7 +80,7 @@ const getPin = async function(data) {
             params: {
                 summa: sum,
                 phone: number,
-                apikey: "MDU3NThhMTYxMGE4ZDYyM2M3OTk0NDc1ODg1ZmVlYzU4N2FmMmJjMg"
+                apikey: deliveryApikey
             }
         })
         return response.data
@@ -294,11 +294,18 @@ const changeLangItem = async function(data){
 }
 
 const makeOrder = async function(data){
+    let moneyOrBonus = 2
 
-    let {cart, fiscalNum, orderType, RRNCode, AuthorizationCode} = data
+    let {cart, fiscalNum, orderType, discountCard, bonus, RRNCode, AuthorizationCode} = data
+    if(bonus){
+        moneyOrBonus = 3
+    }
     let order = {}
     order.orderType = orderType
-    order.payType = 2
+    order.discountCard = discountCard || "" +
+        "" +
+        ""
+    order.payType = moneyOrBonus
     order.sum = cart.reduce((sum, current) => {
         return sum + current.count * current.price
     }, 0);

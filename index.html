@@ -59,33 +59,33 @@
          <div v-if="phone.enter && !phone.sum" class="menu-list ">
              <div>
                  <div class="uk-button-group">
-                     <button class="uk-button uk-button-cupnum  uk-button-large uk-button-border-right" @click="phone.number += ('1')">1</button>
-                     <button class="uk-button uk-button-cupnum uk-button-large uk-button-border-right uk-button-border-left" @click="phone.number += ('2')">2</button>
-                     <button class="uk-button uk-button-cupnum uk-button-large uk-button-border-left" @click="phone.number += ('3')">3</button>
+                     <button class="uk-button uk-button-panel  uk-button-medium uk-button-border-right" @click="phone.number += ('1')">1</button>
+                     <button class="uk-button uk-button-panel uk-button-medium uk-button-border-right uk-button-border-left" @click="phone.number += ('2')">2</button>
+                     <button class="uk-button uk-button-panel uk-button-medium uk-button-border-left" @click="phone.number += ('3')">3</button>
                  </div>
              </div>
 
              <div >
                  <div class="uk-button-group">
-                     <button class="uk-button uk-button-cupnum uk-button-large uk-button-border-right uk-button-border-top" @click="phone.number += ('4')">4</button>
-                     <button class="uk-button uk-button-cupnum uk-button-large uk-button-border-right uk-button-border-left uk-button-border-top" @click="phone.number += ('5')">5</button>
-                     <button class="uk-button uk-button-cupnum uk-button-large uk-button-border-left uk-button-border-top" @click="phone.number += ('6')">6</button>
+                     <button class="uk-button uk-button-panel uk-button-medium uk-button-border-right uk-button-border-top" @click="phone.number += ('4')">4</button>
+                     <button class="uk-button uk-button-panel uk-button-medium uk-button-border-right uk-button-border-left uk-button-border-top" @click="phone.number += ('5')">5</button>
+                     <button class="uk-button uk-button-panel uk-button-medium uk-button-border-left uk-button-border-top" @click="phone.number += ('6')">6</button>
                  </div>
              </div>
 
              <div>
                  <div class="uk-button-group">
-                     <button class="uk-button uk-button-cupnum uk-button-large uk-button-border-right uk-button-border-top" @click="phone.number += ('7')">7</button>
-                     <button class="uk-button uk-button-cupnum uk-button-large uk-button-border-right uk-button-border-left uk-button-border-top" @click="phone.number += ('8')">8</button>
-                     <button class="uk-button uk-button-cupnum uk-button-large uk-button-border-left uk-button-border-top" @click="phone.number += ('9')">9</button>
+                     <button class="uk-button uk-button-panel uk-button-medium uk-button-border-right uk-button-border-top" @click="phone.number += ('7')">7</button>
+                     <button class="uk-button uk-button-panel uk-button-medium-large uk-button-border-right uk-button-border-left uk-button-border-top" @click="phone.number += ('8')">8</button>
+                     <button class="uk-button uk-button-panel uk-button-medium uk-button-border-left uk-button-border-top" @click="phone.number += ('9')">9</button>
                  </div>
              </div>
 
              <div>
                  <div class="uk-button-group">
-                     <button class="uk-button uk-button-coupok uk-button-large uk-button-border-top uk-button-border-right uk-button-border-top" @click="checkBonus(phone.number)">OK</button>
-                     <button class="uk-button uk-button-cupnum uk-button-large uk-button-border-right uk-button-border-left uk-button-border-top" @click="phone.number += ('0')">0</button>
-                     <button class="uk-button uk-button-delete uk-button-large uk-button-border-left uk-button-border-top"  @click="phone.number = phone.number.slice(0, -1)"><img src="img/service/backspace.png" width="50px" height="50px" style="margin: 0px" alt="" uk-img></button>
+                     <button class="uk-button uk-button-panelok uk-button-medium uk-button-border-top uk-button-border-right uk-button-border-top" @click="checkBonus(phone.number)">OK</button>
+                     <button class="uk-button uk-button-panel uk-button-medium uk-button-border-right uk-button-border-left uk-button-border-top" @click="phone.number += ('0')">0</button>
+                     <button class="uk-button uk-button-paneldel uk-button-medium uk-button-border-left uk-button-border-top"  @click="phone.number = phone.number.slice(0, -1)"><img src="img/service/backspace.png" width="50px" height="50px" style="margin: 0px" alt="" uk-img></button>
                  </div>
              </div>
          </div>
