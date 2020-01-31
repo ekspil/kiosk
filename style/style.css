@@ -181,10 +181,13 @@ svg{
 }
 .start-modal{
     height: 100%;
-    background-color: black;
+    background-color: #2d292a;
 }
 .pay-buttons{
     height: 25%;
+}
+.select-order-h1{
+    color: #b5b4b2;
 }
 .pay-cart-buttons{
     height: 7%;
