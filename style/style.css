@@ -181,6 +181,10 @@ svg{
 }
 .start-modal{
     height: 100%;
+    background-color: white;
+}
+.start-modal-b{
+    height: 100%;
     background-color: #2d292a;
 }
 .pay-buttons{
