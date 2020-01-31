@@ -181,6 +181,7 @@ svg{
 }
 .start-modal{
     height: 100%;
+    background-color: black;
 }
 .pay-buttons{
     height: 25%;

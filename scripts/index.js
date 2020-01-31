@@ -22,6 +22,7 @@ var app = new Vue({
         },
         langs: false,
         operation: 0,
+        mainScreens: false,
         deletedCheck: null,
         delFiscalNum: [],
         lastPayData: {},
@@ -474,6 +475,10 @@ var app = new Vue({
         printCheck: function (slip, strId, isFiscal){
             let my_aray_letters = returnArrayLetters(strId)
             RegisterCheck(fiscalDevice, 0, false, my_aray_letters, this.cart, slip, isFiscal)
+        },
+        printSlip: function (slip, strId){
+            let my_aray_letters = returnArrayLetters(strId)
+            PrintSlip(fiscalDevice, my_aray_letters, this.cart)
         },
         closeSh: function () {
             CloseShift(0)

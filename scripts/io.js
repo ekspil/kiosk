@@ -1,5 +1,7 @@
 const ioserver = document.location.host.split(":")[0]
+    //document.location.host.split(":")[0]
 let socketL = io.connect(ioserver+':3333');
+    //io.connect(ioserver+':3333');
 let mainGroup = 1
 let socketC = io.connect(centralServer+':3333');
 
@@ -37,6 +39,7 @@ socketC.emit('getBaseData', {rest: 1}, (data) => {
     app.list = data.list
     app.groups = data.groups
     app.imgs = data.imgs
+    app.mainScreens = data.mainScreens
     app.helpers = data.helpers
     data.langs = data.langs.map(lang => {
         lang.button = "Сохранить"
@@ -90,6 +93,7 @@ socketL.emit('getBaseData', {rest: 1}, (data) => {
 
 
 function checkBonus(number){
+    console.log("Check")
     socketL.emit('checkBonus', number, (data) => {
         console.log(data)
         if(data.error == 1){
@@ -136,7 +140,7 @@ function minusBonus(number, sum, pin){
                 strId = String(newId).slice(-3)
             }
             strId = app.litera+"-"+strId
-            app.printCheck(slip, strId, false)
+            app.printSlip(slip, strId)
         }else{
             app.payHelper = "Ошибка списания бонусов"
             setTimeout(() =>{UIkit.modal('#modal-pay').hide()}, 2000)
@@ -181,7 +185,7 @@ function plusBonus(number, sum){
                 strId = String(newId).slice(-3)
             }
             strId = app.litera+"-"+strId
-            app.printCheck(slip, strId, false)
+            app.printCheck(slip, strId, true)
 
 
     });
@@ -190,6 +194,14 @@ function plusBonus(number, sum){
 
 function changeGroup(newGroup){
     socketL.emit('changeGroup', newGroup, (data) => {
+        console.log(data)
+
+    });
+
+}
+
+function changeMainScreen(newMainScreen){
+    socketL.emit('changeMainScreen', newMainScreen, (data) => {
         console.log(data)
 
     });

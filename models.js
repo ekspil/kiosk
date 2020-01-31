@@ -317,6 +317,34 @@ const Img = sequelize.define('imgs', {
 }, {
     // options
 });
+
+const MainScreen = sequelize.define('main_screen', {
+    // attributes
+    id: {
+        type: Sequelize.DataTypes.INTEGER,
+        allowNull: false,
+        primaryKey: true,
+        autoIncrement: true
+    },
+    img: {
+        type: Sequelize.DataTypes.STRING,
+        allowNull: false
+
+    },
+    name: {
+        type: Sequelize.DataTypes.STRING,
+        allowNull: false
+    },
+    blocked: {
+        type: Sequelize.DataTypes.BOOLEAN
+    },
+    restorans: {
+        type: Sequelize.DataTypes.STRING
+    },
+
+}, {
+    // options
+});
 const Kiosk = sequelize.define('kiosks', {
     // attributes
     id: {
@@ -397,7 +425,8 @@ Group.hasMany(Product)
 Order.hasMany(OrderPosition)
 Lang.hasMany(LangItem)
 
-//sequelize.sync({ force: true })
+sequelize.sync()
+//{ force: true }
 
 module.exports = {
     User,
@@ -409,5 +438,6 @@ module.exports = {
     OrderPosition,
     Lang,
     LangItem,
-    Helper
+    Helper,
+    MainScreen
 }

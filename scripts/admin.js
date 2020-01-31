@@ -4,6 +4,7 @@ let app = new Vue({
     },
     data: {
         message: 'Привет!',
+        mainScreens: false,
         helpers: [],
         menu: 'menu',
         temp: {
@@ -55,6 +56,13 @@ let app = new Vue({
             ko: "",
             blocked: false,
             position: "99"
+        },
+        newMainScreen: {
+            id: null,
+            img: "",
+            name: "",
+            blocked: false,
+            restorans: ""
         },
         imgs:[],
         list: [
@@ -206,6 +214,15 @@ let app = new Vue({
 
             UIkit.modal('#modal-addGroup').show();
         },
+        addMainScreen: function (pos) {
+            if(pos){
+                this.newMainScreen = pos
+            }else{
+                this.newMainScreen.id = null
+            }
+
+            UIkit.modal('#modal-addMainScreen').show();
+        },
         addHelper: function (pos) {
             if(pos){
                 this.newHelper = pos
@@ -228,6 +245,18 @@ let app = new Vue({
                 ko: "",
                 blocked: false,
                 position: "99"
+            }
+
+            //UIkit.modal('#modal-addGroup').show();
+        },
+        addMainScreenSend: function (newMainScreen) {
+            changeMainScreen(newMainScreen)
+            this.newMainScreen = {
+                id: null,
+                img: "",
+                name: "",
+                blocked: false,
+                restorans: ""
             }
 
             //UIkit.modal('#modal-addGroup').show();

@@ -92,8 +92,15 @@ function ErrorSuccess(jqXHR, textStatus, errorThrown) {
 
 
 // Пример печати  произвольного текста (Слип-чека)
-function PrintSlip(NumDevice, IsBarCode) {
+function PrintSlip(NumDevice, my_aray_letters, cart) {
 
+    let cartSum = function(){
+
+        return cart.reduce((sum, current) => {
+            return sum + current.count * current.price
+        }, 0);
+
+    }
     // Подготовка данных команды
     var Data = {
         Command: "RegisterCheck",
@@ -105,81 +112,73 @@ function PrintSlip(NumDevice, IsBarCode) {
         // Строки чека
         CheckStrings: [
             //При вставке в текст символов ">#10#<" строка при печати выровнеется по центру, где 10 - это на сколько меньше станет строка ККТ
-            {
-                PrintText: {
-                    Text: ">#2#<ООО \"Тестовая организация\"",
-                    Font: 1,
-                },
-            },
+            // {
+            //     PrintText: {
+            //         Text: ">#2#<ООО \"Тестовая организация\"",
+            //         Font: 1,
+            //     },
+            // },
             // При вставке в текст в середину строки символов "<#10#>" Левая часть строки будет выравнена по левому краю, правая по правому, где 10 - это на сколько меньше станет строка ККТ
             // При вставке в текст в середину строки символов "<#10#>>" Левая часть строки будет выравнена по правому краю, правая по правому, где 10 - отступ от правого клая
+            { PrintText: { Text: "                   РОЯЛ БУРГЕР" }, },
+            { PrintText: { Text: "  " }, },
+            { PrintText: { Text: "  " }, },
             { PrintText: { Text: "<<->>" }, },
-            { PrintText: { Text: "Пример №1 печати поля:<#16#>154,41" }, },
-            { PrintText: { Text: "2-рое поле:<#16#>4,00" }, },
-            { PrintText: { Text: "<<->>" }, },
-            { PrintText: { Text: "Пример №2 печати поля:<#8#>>4,00" }, },
-            { PrintText: { Text: "2-рое поле:<#8#>>1544,00" }, },
-            { PrintText: { Text: "<<->>" }, },
-            // Строка с печатью штрих-кода
-            {
-                BarCode: {
-                    // Тип штрих-кода: "EAN8", "EAN13", "CODE39", "QR", "PDF417".
-                    BarcodeType: "EAN13",
-                    // Значение штрих-кода
-                    Barcode: "1254789547853",
-                },
-            },
+            { PrintText: { Text: my_aray_letters[0] }, },
+            { PrintText: { Text: my_aray_letters[1] }, },
+            { PrintText: { Text: my_aray_letters[2] }, },
+            { PrintText: { Text: my_aray_letters[3] }, },
+            { PrintText: { Text: my_aray_letters[4] }, },
+            { PrintText: { Text: "  " }, },
+            { PrintText: { Text: "  " }, },
             { PrintText: { Text: "<<->>" }, },
             // Строка с печатью текста определенным шрифтом
-            {
-                PrintText: {
-                    Text: "Шрифт № 1",
-                    Font: 1, // 1-4, 0 - по настройкам ККМ
-                    Intensity: 15, // 1-15, 0 - по настройкам ККМ
-                },
-            },
-            {
-                PrintText: {
-                    Text: "Шрифт № 2",
-                    Font: 2, // 1-4, 0 - по настройкам ККМ
-                    Intensity: 10, // 1-15, 0 - по настройкам ККМ
-                },
-            },
-            {
-                PrintText: {
-                    Text: "Шрифт № 3",
-                    //Text: "Это тестовый товар. Тест на длинную строку в наименование товара или услуги.",
-                    Font: 3, // 1-4, 0 - по настройкам ККМ
-                    Intensity: 5, // 1-15, 0 - по настройкам ККМ
-                },
-            },
-            {
-                PrintText: {
-                    Text: "Шрифт № 4",
-                    Font: 4, // 1-4, 0 - по настройкам ККМ
-                    Intensity: 0, // 1-15, 0 - по настройкам ККМ
-                },
-            },
-            {
-                BarCode: {
-                    // Тип штрих-кода: "EAN8", "EAN13", "CODE39", "QR", "PDF417".
-                    BarcodeType: "QR",
-                    // Значение штрих-кода
-                    Barcode: "12345DFG",
-                },
-            },
+            // {
+            //     PrintText: {
+            //         Text: "Шрифт № 1",
+            //         Font: 1, // 1-4, 0 - по настройкам ККМ
+            //         Intensity: 15, // 1-15, 0 - по настройкам ККМ
+            //     },
+            // },
+            // {
+            //     PrintText: {
+            //         Text: "Шрифт № 2",
+            //         Font: 2, // 1-4, 0 - по настройкам ККМ
+            //         Intensity: 10, // 1-15, 0 - по настройкам ККМ
+            //     },
+            // },
+            // {
+            //     PrintText: {
+            //         Text: "Шрифт № 3",
+            //         //Text: "Это тестовый товар. Тест на длинную строку в наименование товара или услуги.",
+            //         Font: 3, // 1-4, 0 - по настройкам ККМ
+            //         Intensity: 5, // 1-15, 0 - по настройкам ККМ
+            //     },
+            // },
+            // {
+            //     PrintText: {
+            //         Text: "Шрифт № 4",
+            //         Font: 4, // 1-4, 0 - по настройкам ККМ
+            //         Intensity: 0, // 1-15, 0 - по настройкам ККМ
+            //     },
+            // },
         ],
     };
 
-    //Если чек без ШК то удаляес строку с ШК
-    if (IsBarCode == false) {
-        //Data.Cash = 100;
-        for (var i = 0; i < Data.CheckStrings.length; i++) {
-            if (Data.CheckStrings[i] != undefined && Data.CheckStrings[i].BarCode != undefined) {
-                Data.CheckStrings[i].BarCode = null;
+    for (let i of cart){
+        Data.CheckStrings.push({ PrintText: { Text: i.count+" * "+i.name+"<#16#>0,00" }, })
+        if(i.selected){
+            for(let ii of i.selected){
+                Data.CheckStrings.push({ PrintText: { Text: "          -"+ii.name }, })
             }
         }
     }
+
+    Data.CheckStrings.push({ PrintText: { Text: "<<->>" }, })
+    Data.CheckStrings.push({ PrintText: { Text: "Оплачено:<#8#>>0,00" }, })
+    Data.CheckStrings.push({ PrintText: { Text: "Использовано бонусов:<#8#>>"+cartSum()+",00" }, })
+    Data.CheckStrings.push({ PrintText: { Text: "<<->>" }, })
+    Data.CheckStrings.push({ PrintText: { Text: "<<->>" }, })
 
     // Вызов команды
     ExecuteCommand(Data);
@@ -883,10 +882,6 @@ async function checkBonusSD(phone){
 async function sendNewCheck(server, id, checkType){
     try {
         const { data } = await axios.get(server+'/newCheck', {
-            headers: {
-                "Content-Type": "application/json",
-                "Access-Control-Allow-Origin": "*",
-            },
             params: {
                 id,
                 checkType

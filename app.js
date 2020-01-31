@@ -96,6 +96,13 @@ io.on('connection', client => {
         returnFn(dataR)
     });
 
+
+    client.on('changeMainScreen', async function(data, returnFn){
+
+        let dataR = await service.changeMainScreen(data)
+        returnFn(dataR)
+    });
+
     client.on('changeHelper', async function(data, returnFn){
 
         let dataR = await service.changeHelper(data)

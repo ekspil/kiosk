@@ -95,6 +95,7 @@ const getBaseData = async function(inData){
     let list = await model.Product.findAll()
     const groups = await model.Group.findAll()
     const imgs = await model.Img.findAll()
+    const mainScreens = await model.MainScreen.findAll()
     const helpers = await model.Helper.findAll()
     const langs = await model.LangItem.findAll()
     const lastId = await model.Order.max("id")
@@ -110,7 +111,8 @@ const getBaseData = async function(inData){
         imgs,
         lastId,
         langs,
-        helpers
+        helpers,
+        mainScreens
     }
 
 
@@ -234,6 +236,35 @@ const changeGroup = async function(data){
 
 
         return await model.Group.create(group)
+
+
+    }
+
+}
+
+const changeMainScreen = async function(data){
+    if(data.id){
+        const where = {
+            id: data.id
+        }
+        const mainScreen = await model.MainScreen.findOne({where})
+        mainScreen.name = data.name
+        mainScreen.img = data.img
+        mainScreen.blocked = data.blocked
+        mainScreen.restorans = data.restorans
+        return await mainScreen.save()
+
+
+    }else{
+        const mainScreen = {
+            name: data.name,
+            img: data.img,
+            blocked: data.blocked,
+            restorans: data.restorans,
+          }
+
+
+        return await model.MainScreen.create(mainScreen)
 
 
     }
@@ -472,5 +503,6 @@ module.exports={
     checkBonus,
     getPin,
     minusBonus,
-    plusBonus
+    plusBonus,
+    changeMainScreen
 }

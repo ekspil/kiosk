@@ -25,5 +25,6 @@ module.exports = {
         {name: "OK", ru: "OK"},
         {name: "HELPER", ru: "ВМЕСТЕ ВКУСНЕЕ!"},
         {name: "DO_NOT_FORGET_EXTRAS", ru: "Не забудьте взять дополнение к вашему блюду"},
+        {name: "WAIT_FOR_ORDER", ru: "Ожидайте заказ в зоне выдачи..."},
     ]
 }
