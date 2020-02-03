@@ -5,7 +5,7 @@ var app = new Vue({
     mounted: function () {
         const timer = setInterval(this.checkTimer, 1000)
         this.start()
-        //this.lockKiosk()
+        this.lockKiosk()
 
     },
     data: {
@@ -373,6 +373,7 @@ var app = new Vue({
             this.mainGroup()
             this.clearTemp();
             this.operation = 0
+            this.lang = "ru"
             this.payed = 0;
             this.groupId = mainGroup
             this.keyLock = false;
