@@ -236,7 +236,7 @@
             <div  class="uk-panel-scrollable uk-width-expand  uk-grid-collapse uk-flex-center uk-child-width-1-4 uk-text-center" uk-grid>
 
 
-                <a v-for="pos in getHelpersById" v-if="pos.groupId === groupId && !pos.coupon && !pos.hiden && !pos.blocked" href="#"  @click="addToCart(pos)" class="uk-height-max-large"><div class="uk-card uk-card-small uk-animation-scale-up">
+                <a v-for="pos in getHelpersById" v-if="!pos.hiden && !pos.blocked" href="#"  @click="addToCart(pos, true)" class="uk-height-max-large"><div class="uk-card uk-card-small uk-animation-scale-up">
                     <div class="uk-card-media-top"><img :data-src="pos.img || 'img/prod/default.jpg'" width="100%" height="100%" alt="" uk-img></div>
                     <div class="uk-card-body">
                         <h3 class="uk-card-title">{{getPosLangName(pos)}}</h3>
