@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="mobile-web-app-capable" content="yes">
+
     <link rel="stylesheet" href="modules/uikit3/css/uikit.css" />
     <link href="style/style.css" type="text/css" rel="stylesheet" />
     <link href="modules/animate.css/animate.min.css" rel="stylesheet" type="text/css">
@@ -23,7 +24,7 @@
 <body>
 
 
-<div id="app" class="uk-position-fixed">
+<div id="app" class="uk-position-fixed" >
 
 
  <div id="header" class="uk-overflow-hidden">
@@ -33,13 +34,62 @@
 
      <div id="menu" class="uk-width-1-4 ">
          <div class="menu-list ">
-             <a @click="coupon()" class=" uk-button uk-button-menu uk-button-coupon uk-width-1-1 uk-inline" href="#"><h3 class="uk-position-center-left mainmenu">КУПОНЫ </h3><span class="uk-position-center-right uk-padding-small" uk-icon="heart"></span></a>
-             <a v-for="groupItem in groups" v-if="groupEmpty(groupItem)" @click="menuClick(groupItem)" :class="menuClass(groupItem)" href="#"><h3 class="uk-position-center-left mainmenu">{{groupItem.name}}</h3></a>
+             <a @click="coupon()" class=" uk-button uk-button-menu uk-button-coupon uk-width-1-1 uk-inline" href="#"><h3 class="uk-position-center-left mainmenu"><span v-if="langs">{{getMenuString('KUPON')}}</span> </h3><span class="uk-position-center-right uk-padding-small" uk-icon="heart"></span></a>
+             <a v-for="groupItem in groups" v-if="groupEmpty(groupItem)" @click="menuClick(groupItem)" :class="menuClass(groupItem)" href="#"><h3 class="uk-position-center-left mainmenu">{{getPosLangName(groupItem)}}</h3></a>
 
 
 
 
          </div>
+         <div  class="uk-card-header">
+             <div class="uk-grid-small uk-flex-middle" uk-grid>
+                 <div class="uk-width-auto">
+                     <img class="uk-border-circle" width="40" height="40" src="img/service/smart-phone.png">
+                 </div>
+                 <div v-if="phone.number"  class="uk-width-expand">
+                     <h3 class="uk-card-title uk-margin-remove-bottom">+7{{phone.number}}</h3>
+                     <p v-if="phone.sum" class="uk-text-meta uk-margin-remove-top">Доступно: <b>{{phone.sum}}</b> роялти</p>
+                 </div>
+                 <div v-if="!phone.number" @click="phone.enter = true"  class="uk-width-expand">
+                     <h3 class="uk-card-title uk-margin-remove-bottom">ВВЕДИТЕ НОМЕР</h3>
+                     <p class="uk-text-meta uk-margin-remove-top">В формате 9025555222</p>
+                 </div>
+             </div>
+         </div>
+         <div v-if="phone.enter && !phone.sum" class="menu-list ">
+             <div>
+                 <div class="uk-button-group">
+                     <button class="uk-button uk-button-panel  uk-button-medium uk-button-border-right" @click="phone.number += ('1')">1</button>
+                     <button class="uk-button uk-button-panel uk-button-medium uk-button-border-right uk-button-border-left" @click="phone.number += ('2')">2</button>
+                     <button class="uk-button uk-button-panel uk-button-medium uk-button-border-left" @click="phone.number += ('3')">3</button>
+                 </div>
+             </div>
+
+             <div >
+                 <div class="uk-button-group">
+                     <button class="uk-button uk-button-panel uk-button-medium uk-button-border-right uk-button-border-top" @click="phone.number += ('4')">4</button>
+                     <button class="uk-button uk-button-panel uk-button-medium uk-button-border-right uk-button-border-left uk-button-border-top" @click="phone.number += ('5')">5</button>
+                     <button class="uk-button uk-button-panel uk-button-medium uk-button-border-left uk-button-border-top" @click="phone.number += ('6')">6</button>
+                 </div>
+             </div>
+
+             <div>
+                 <div class="uk-button-group">
+                     <button class="uk-button uk-button-panel uk-button-medium uk-button-border-right uk-button-border-top" @click="phone.number += ('7')">7</button>
+                     <button class="uk-button uk-button-panel uk-button-medium-large uk-button-border-right uk-button-border-left uk-button-border-top" @click="phone.number += ('8')">8</button>
+                     <button class="uk-button uk-button-panel uk-button-medium uk-button-border-left uk-button-border-top" @click="phone.number += ('9')">9</button>
+                 </div>
+             </div>
+
+             <div>
+                 <div class="uk-button-group">
+                     <button class="uk-button uk-button-panelok uk-button-medium uk-button-border-top uk-button-border-right uk-button-border-top" @click="checkBonus(phone.number)">OK</button>
+                     <button class="uk-button uk-button-panel uk-button-medium uk-button-border-right uk-button-border-left uk-button-border-top" @click="phone.number += ('0')">0</button>
+                     <button class="uk-button uk-button-paneldel uk-button-medium uk-button-border-left uk-button-border-top"  @click="phone.number = phone.number.slice(0, -1)"><img src="img/service/backspace.png" width="50px" height="50px" style="margin: 0px" alt="" uk-img></button>
+                 </div>
+             </div>
+         </div>
+
 
 
 
@@ -57,8 +107,8 @@
 <a v-for="pos in list" v-if="pos.groupId === groupId && !pos.coupon && !pos.hiden && !pos.blocked" href="#"  @click="addToCart(pos)" class="uk-height-max-large"><div class="uk-card uk-card-small uk-animation-scale-up">
              <div class="uk-card-media-top"><img :data-src="pos.img || 'img/prod/default.jpg'" width="100%" height="100%" alt="" uk-img></div>
              <div class="uk-card-body">
-                 <h3 class="uk-card-title">{{pos.name}}</h3>
-                 <p>{{pos.price}} руб.</p>
+                 <h3 class="uk-card-title">{{getPosLangName(pos)}}</h3>
+                 <p>{{pos.price}} <span v-if="langs">{{getMenuString('RUB')}}</span></p>
              </div>
          </div></a>
 
@@ -70,7 +120,7 @@
 
  <div id="footer"  class="uk-position-bottom uk-overlay uk-overlay-default uk-text-center">
 
-<div class="uk-width-1-1"><h3 class="uk-text-center">ВАШ ЗАКАЗ ({{cart_sum}} руб.) </h3></div>
+<div class="uk-width-1-1" v-if="langs"><h3 class="uk-text-center"><span v-if="langs">{{getMenuString('YOUR_ORDER')}}</span> ({{cart_sum}} <span v-if="langs">{{getMenuString('RUB')}}</span>) </h3></div>
 
 
 
@@ -91,9 +141,9 @@
      </div>
     <ul class="uk-slider-nav uk-dotnav uk-flex-center uk-margin"></ul>
 </div>
-     <div  class="uk-text-center uk-position-bottom pay-buttons" uk-grid>
-         <button class="uk-button  uk-width-1-2 uk-button-primary" @click="start()" >Отмена</button>
-         <button class="uk-button  uk-width-1-2 uk-button-secondary" @click="toCart()">Перейти к оформлению</button>
+     <div v-if="langs"  class="uk-text-center uk-position-bottom pay-buttons" uk-grid>
+         <button class="uk-button  uk-width-1-2 uk-button-primary" @click="start()" ><span v-if="langs">{{getMenuString('CANCEL')}}</span></button>
+         <button class="uk-button  uk-width-1-2 uk-button-secondary" @click="toCart()"><span v-if="langs">{{getMenuString('GO_TO_CART')}}</span></button>
      </div>
 
 
@@ -116,8 +166,8 @@
 
 
 
-            <div class="uk-modal-header uk-text-center">
-                <h2 v-if="thisSet" class="uk-modal-title">Выберите все {{thisSet.set.length}} позиции набора:</h2>
+            <div v-if="langs" class="uk-modal-header uk-text-center">
+                <h2 v-if="thisSet" class="uk-modal-title"><span v-if="langs">{{getMenuString('SELECT_ALL')}}</span> {{thisSet.set.length}} <span v-if="langs">{{getMenuString('COMPLECT_POSITIONS')}}</span>:</h2>
             </div>
 
             <div v-if="thisSet" class="uk-modal-body uk-text-center" uk-overflow-auto>
@@ -148,7 +198,7 @@
 
             </div>
             <div class="uk-modal-header uk-text-center">
-                <h2 v-if="thisSet" class="uk-modal-title">Ваш {{thisSet.name}}:</h2>
+                <h2 v-if="thisSet" class="uk-modal-title"><span v-if="langs">{{getMenuString('YOUR')}}</span> {{thisSet.name}}:</h2>
             </div>
             <div class="uk-height-max-large">
 
@@ -158,8 +208,8 @@
                 </div>
 
                 <div class="uk-modal-footer uk-text-center">
-                    <button class="uk-button uk-button-modal-default uk-modal-close" @click="clearTemp()" type="button">Передумал</button>
-                    <button class="uk-button uk-button-modal-ok" @click="addSetToCart(selection)" type="button">Выбрал</button>
+                    <button class="uk-button uk-button-modal-default uk-modal-close" @click="clearTemp()" type="button"><span v-if="langs">{{getMenuString('BACK')}}</span></button>
+                    <button class="uk-button uk-button-modal-ok" @click="addSetToCart(selection)" type="button"><span v-if="langs">{{getMenuString('OK')}}</span></button>
                 </div>
 
             </div>
@@ -171,13 +221,65 @@
 
 
 
+    <div v-if="helpers" id="modal-helper" uk-modal="bg-close: false">
+        <div class="uk-modal-dialog modal-set-place">
+
+
+
+            <div v-if="langs" class="uk-modal-header uk-text-center">
+                <p  class="uk-modal-title"><span v-if="langs">{{getMenuString('HELPER')}}</span></p>
+                <p  class="uk-modal-title"><span v-if="langs">{{getMenuString('DO_NOT_FORGET_EXTRAS')}}</span></p>
+            </div>
+
+
+
+            <div  class="uk-panel-scrollable uk-width-expand  uk-grid-collapse uk-flex-center uk-child-width-1-4 uk-text-center" uk-grid>
+
+
+                <a v-for="pos in getHelpersById" v-if="pos.groupId === groupId && !pos.coupon && !pos.hiden && !pos.blocked" href="#"  @click="addToCart(pos)" class="uk-height-max-large"><div class="uk-card uk-card-small uk-animation-scale-up">
+                    <div class="uk-card-media-top"><img :data-src="pos.img || 'img/prod/default.jpg'" width="100%" height="100%" alt="" uk-img></div>
+                    <div class="uk-card-body">
+                        <h3 class="uk-card-title">{{getPosLangName(pos)}}</h3>
+                        <p>{{pos.price}} <span v-if="langs">{{getMenuString('RUB')}}</span></p>
+                    </div>
+                </div></a>
+
+
+            </div>
+
+
+
+
+                <div class="uk-modal-footer uk-text-center">
+                    <button class="uk-button uk-button-modal-default uk-modal-close" @click="modalHide('#modal-helper')" type="button"><span v-if="langs">{{getMenuString('CLOSE')}}</span></button>
+                    <button class="uk-button uk-button-modal-ok" @click="modalHide('#modal-helper')" type="button"><span v-if="langs">{{getMenuString('OK')}}</span></button>
+                </div>
+
+            </div>
+
+
+     </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     <div id="modal-error-count" class="uk-flex-top uk-text-center" uk-modal="bg-close: false; stack: true">
         <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical uk-text-center">
 
 
-            <p>Вы выбрали не все позиции!</p>
+            <p><span v-if="langs">{{getMenuString('NOT_ALL_POSITIONS')}}</span></p>
             <p> </p>
-            <button class="uk-button uk-button-primary uk-text-center" type="button" @click="showModalSet()">Продолжить выбор</button>
+            <button class="uk-button uk-button-primary uk-text-center" type="button" @click="showModalSet()"><span v-if="langs">{{getMenuString('CONTINUE_SELECTION')}}</span></button>
 
         </div>
     </div>
@@ -189,7 +291,7 @@
         <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical uk-text-center">
             <button class="uk-modal-close-default" type="button" uk-close></button>
             <div class="uk-modal-header uk-text-center">
-                <h2  class="uk-modal-title">Введите номер купона</h2>
+                <h2  class="uk-modal-title"><span v-if="langs">{{getMenuString('ENTER_COUPON_NUMBER')}}</span></h2>
             </div>
             <form class="uk-search uk-search-large uk-width-1-1 uk-text-center">
 
@@ -240,19 +342,69 @@
 
 
     <div id="modal-start" class="uk-modal-full"  uk-modal="bg-close: false">
-        <div class="uk-modal-dialog start-modal" >
+        <div class="uk-modal-dialog start-modal start-modal-b uk-inline" >
+
             <div class="uk-position-top-right uk-overlay "><span @dblclick="adminPanel(pincode)"  uk-icon="icon: cog; ratio: 1"></span></div>
-            <div class="uk-grid-collapse uk-child-width-1-1 " uk-grid>
-                <div class="uk-background-cover"  ><img src="img/service/bg.jpg"   alt="" uk-img></div>
-                <div class="uk-padding-large uk-text-center">
-                    <div><h1>Выберете опцию заказа</h1></div>
-                    <div class="uk-grid uk-child-width-1-2 " uk-grid>
-                        <div @click="outOrder()"><img src="img/service/out.jpg"   alt="" uk-img></div>
-                        <div @click="hereOrder()"><img src="img/service/here.jpg"  alt="" uk-img></div>
+            <div class="uk-grid-collapse uk-child-width-1-1" uk-grid>
+
+                <div class="uk-background-cover"  >
+                    <!--<img src="img/service/bg.jpg"   alt="" uk-img>-->
+
+
+                    <div class="uk-position-relative uk-visible-toggle uk-light" tabindex="-1" uk-slider="center: true; autoplay: true; autoplay-interval: 10000; finite: false">
+
+                        <ul class="uk-slider-items uk-grid uk-grid-match" uk-height-viewport="offset-top: true; offset-bottom: 30">
+                            <li class="uk-width-1-1" v-for="img in mainScreens">
+                                <div class="uk-cover-container">
+                                    <img :src="img.img" alt="" uk-cover>
+                                    <div class="uk-position-center uk-panel"><h1></h1></div>
+                                </div>
+                            </li>
+                            <li class="uk-width-1-1">
+                                <div class="uk-cover-container">
+                                    <img src="img/service/!bg.jpg" alt="" uk-cover>
+                                    <div class="uk-position-center uk-panel"><h1></h1></div>
+                                </div>
+                            </li>
+                            <li class="uk-width-1-1">
+                                <div class="uk-cover-container">
+                                    <img src="img/service/bg.jpg" alt="" uk-cover>
+                                    <div class="uk-position-center uk-panel"><h1></h1></div>
+                                </div>
+                            </li>
+                        </ul>
+
+                        <a class="uk-position-center-left uk-position-small uk-hidden-hover" href="#" uk-slidenav-previous uk-slider-item="previous"></a>
+                        <a class="uk-position-center-right uk-position-small uk-hidden-hover" href="#" uk-slidenav-next uk-slider-item="next"></a>
 
                     </div>
 
+
+
+                </div>
+                <div class="uk-padding-large uk-text-center uk-inline" uk-grid>
+
+                    <div class="uk-position-top-right  uk-width-2-5 uk-child-width-1-5 uk-grid-collapse" uk-grid>
+                        <div @click="lang='ru'" ><img data-src="img/service/ru.png" width="100" height="100"  alt="" uk-img></div>
+                        <div @click="lang='en'"><img data-src="img/service/en.png" width="100" height="100"  alt="" uk-img></div>
+                        <div @click="lang='jp'"><img data-src="img/service/jp.png" width="100" height="100"  alt="" uk-img></div>
+                        <div @click="lang='cn'"><img data-src="img/service/cn.png" width="100" height="100"  alt="" uk-img></div>
+                        <div @click="lang='ko'"><img data-src="img/service/ko.png" width="100" height="100"  alt="" uk-img></div>
+
+
+
                     </div>
+                    <br>
+                    <br><br>
+                    <div v-if="langs"><h1 class="select-order-h1">{{getMenuString('SELECT_ORDER_OPTION')}}</h1></div>
+
+
+                    </div>
+                <div class="uk-grid uk-child-width-1-2 uk-position-bottom uk-margin-remove" uk-grid>
+                    <div v-if="langs" class="uk-margin-auto uk-text-center uk-padding-remove uk-margin-small-bottom" @click="outOrder()"><img :src="'img/service/'+getMenuString('IMG_OUT')"   alt="" uk-img></div>
+                    <div v-if="langs" class="uk-margin-auto uk-text-center uk-padding-remove uk-margin-small-bottom" @click="hereOrder()"><img :src="'img/service/'+getMenuString('IMG_HERE')"  alt="" uk-img></div>
+
+                </div>
             </div>
         </div>
     </div>
@@ -260,8 +412,8 @@
 
     <div id="modal-cart" class="uk-modal-full start-modal"  uk-modal="bg-close: false">
         <div class="uk-modal-dialog start-modal" >
-            <div class="uk-modal-header uk-text-center">
-                <h2  class="uk-modal-title">Корзина</h2>
+            <div v-if="langs" class="uk-modal-header uk-text-center">
+                <h2  class="uk-modal-title">{{getMenuString('CART')}}</h2>
             </div>
             <div id="list-cart"  class="uk-panel-scrollable uk-panel-scrollable-cart uk-width-expand  uk-grid-collapse uk-flex-center uk-child-width-1-4 uk-text-center" uk-grid>
 
@@ -271,21 +423,26 @@
 
                         <div class="uk-position-center uk-panel"><h1><span class="cart-minus" @click="minusCart(pos)">- </span><span class="cart-minus"> {{pos.count}} </span><span @click="plusCart(pos)" class="cart-plus"> +</span></h1></div>
                     </div>
-                    <div class="uk-card-body">
-                        <h3 class="uk-card-title ">{{pos.count}} x {{pos.name}}</h3>
-                        <p>{{pos.price*pos.count}} руб.</p>
+                    <div v-if="langs" class="uk-card-body">
+                        <h3 class="uk-card-title ">{{pos.count}} x {{getPosLangName(pos)}}</h3>
+                        <p>{{pos.price*pos.count}} {{getMenuString('RUB')}}</p>
                     </div>
                 </div></a>
 
 
             </div>
-            <div class="uk-modal-header uk-text-center">
-                <h2  class="uk-modal-title">Сумма вашего заказа: {{cart_sum}} руб.</h2>
+            <div v-if="langs" class="uk-modal-header uk-text-center">
+                <h2  class="uk-modal-title">{{getMenuString('ORDER_SUM')}}: {{cart_sum}}  {{getMenuString('RUB')}}</h2>
             </div>
 
-            <div  class="uk-text-center uk-position-bottom pay-cart-buttons" uk-grid>
-                <button class="uk-button  uk-width-1-2 uk-button-primary" @click="closeCart()">Повыбираю еще</button>
-                <button class="uk-button  uk-width-1-2 uk-button-secondary" @click="pay()">Оплатить {{cart_sum}} руб.</button>
+            <div v-if="langs && phone.sum < cart_sum"  class="uk-text-center uk-position-bottom pay-cart-buttons" uk-grid>
+                <button class="uk-button  uk-width-1-2 uk-button-primary" @click="closeCart()">{{getMenuString('BACK_TO_MENU')}}</button>
+                <button class="uk-button  uk-width-1-2 uk-button-secondary" @click="pay()">{{getMenuString('PAY')}} {{cart_sum}} {{getMenuString('RUB')}}</button>
+            </div>
+            <div v-if="langs && phone.sum >= cart_sum"  class="uk-text-center uk-position-bottom pay-cart-buttons" uk-grid>
+                <button class="uk-button  uk-width-1-3 uk-button-primary" @click="closeCart()">{{getMenuString('BACK_TO_MENU')}}</button>
+                <button class="uk-button  uk-width-1-3 uk-button-secondary-bonus" @click="pay('bonus')">Оплатить бонусами</button>
+                <button class="uk-button  uk-width-1-3 uk-button-secondary" @click="pay()">{{getMenuString('PAY')}} {{cart_sum}} {{getMenuString('RUB')}}</button>
             </div>
 
         </div>
@@ -298,16 +455,16 @@
             <div class="uk-grid-collapse uk-child-width-1-2@s uk-flex-middle" uk-grid>
                 <div class="uk-background-cover" style="background-image: url('img/service/pay.png');" uk-height-viewport></div>
                 <div v-if="payed==0" class="uk-padding-large uk-text-center">
-                    <h1>Организуем процедуру оплаты</h1>
+                    <h1><span v-if="langs">{{getMenuString('PAYING')}}</span></h1>
                     <p id="loading"><span  id="spinner" uk-spinner="ratio: 4.5"></span></p>
                     <p>{{payHelper}}</p>
                 </div>
                 <div v-if="payed==1" class="uk-padding-large uk-text-center">
 
-                    <h1>Заказ номер:</h1>
+                    <h1><span v-if="langs">{{getMenuString('ORDER_NUMBER')}}</span>:</h1>
                     <p class="orderNumber">{{msgIdBig}}</p>
                     <p id="loading"><img data-src='img/service/ok.png' width="100%" height="100%" alt="" uk-img></p>
-                    <p>Ожидайте выдачи заказа</p>
+                    <p><span v-if="langs">{{payHelper = getMenuString('WAIT_FOR_ORDER')}}</span></p>
                 </div>
             </div>
         </div>
@@ -362,6 +519,57 @@
                     <button class="uk-button uk-button-coupok uk-button-large uk-button-border-top uk-button-border-right uk-button-border-top" @click="checkAdminPin()">OK</button>
                     <button class="uk-button uk-button-cupnum uk-button-large uk-button-border-right uk-button-border-left uk-button-border-top" @click="pincode.push('0')">0</button>
                     <button class="uk-button uk-button-delete uk-button-large uk-button-border-left uk-button-border-top"  @click="pincode.pop()"><img src="img/service/backspace.png" width="50px" height="50px" style="margin: 0px" alt="" uk-img></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ВВОД ПИНКОДА -->
+
+
+    <div id="modal-pin-royalty" class="uk-flex-top" uk-modal="stack: true" v-on:hidden="phone.pin = ''">
+
+        <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical uk-text-center">
+            <button class="uk-modal-close-default" type="button" uk-close></button>
+            <div class="uk-modal-header uk-text-center">
+                <h2  class="uk-modal-title">Вам на телефон отправлено SMS с кодом</h2>
+            </div>
+            <form class="uk-search uk-search-large uk-width-1-1 uk-text-center">
+
+                <input class="uk-search-input uk-text-center" type="search" placeholder="Введите пинкод" :value="phone.pinUser" maxlength="6" >
+            </form>
+
+
+            <div>
+                <div class="uk-button-group">
+                    <button class="uk-button uk-button-cupnum  uk-button-large uk-button-border-right" @click="phone.pinUser += ('1')">1</button>
+                    <button class="uk-button uk-button-cupnum uk-button-large uk-button-border-right uk-button-border-left" @click="phone.pinUser += ('2')">2</button>
+                    <button class="uk-button uk-button-cupnum uk-button-large uk-button-border-left" @click="phone.pinUser += ('3')">3</button>
+                </div>
+            </div>
+
+            <div >
+                <div class="uk-button-group">
+                    <button class="uk-button uk-button-cupnum uk-button-large uk-button-border-right uk-button-border-top" @click="phone.pinUser += ('4')">4</button>
+                    <button class="uk-button uk-button-cupnum uk-button-large uk-button-border-right uk-button-border-left uk-button-border-top" @click="phone.pinUser += ('5')">5</button>
+                    <button class="uk-button uk-button-cupnum uk-button-large uk-button-border-left uk-button-border-top" @click="phone.pinUser += ('6')">6</button>
+                </div>
+            </div>
+
+            <div>
+                <div class="uk-button-group">
+                    <button class="uk-button uk-button-cupnum uk-button-large uk-button-border-right uk-button-border-top" @click="phone.pinUser += ('7')">7</button>
+                    <button class="uk-button uk-button-cupnum uk-button-large uk-button-border-right uk-button-border-left uk-button-border-top" @click="phone.pinUser += ('8')">8</button>
+                    <button class="uk-button uk-button-cupnum uk-button-large uk-button-border-left uk-button-border-top" @click="phone.pinUser += ('9')">9</button>
+                </div>
+            </div>
+
+            <div>
+                <div class="uk-button-group">
+                    <button class="uk-button uk-button-coupok uk-button-large uk-button-border-top uk-button-border-right uk-button-border-top" @click="checkBonusPin()">OK</button>
+                    <button class="uk-button uk-button-cupnum uk-button-large uk-button-border-right uk-button-border-left uk-button-border-top" @click="phone.pinUser += ('0')">0</button>
+                    <button class="uk-button uk-button-delete uk-button-large uk-button-border-left uk-button-border-top"  @click="phone.pinUser = phone.pinUser.slice(0, -1)"><img src="img/service/backspace.png" width="50px" height="50px" style="margin: 0px" alt="" uk-img></button>
                 </div>
             </div>
         </div>

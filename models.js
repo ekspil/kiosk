@@ -90,6 +90,22 @@ const Product = sequelize.define('products', {
     price5: {
         type: Sequelize.DataTypes.INTEGER
         // allowNull defaults to true
+    },
+    en: {
+        type: Sequelize.DataTypes.STRING,
+
+    },
+    jp: {
+        type: Sequelize.DataTypes.STRING,
+
+    },
+    cn: {
+        type: Sequelize.DataTypes.STRING,
+
+    },
+    ko: {
+        type: Sequelize.DataTypes.STRING,
+
     }
 }, {
     // options
@@ -108,6 +124,26 @@ const Set = sequelize.define('sets', {
         allowNull: false
     },
     products: {
+        type: Sequelize.DataTypes.ARRAY(Sequelize.DataTypes.INTEGER),
+        allowNull: false
+    }
+}, {
+    // options
+})
+
+const Helper = sequelize.define('helpers', {
+    // attributes
+    id: {
+        type: Sequelize.DataTypes.INTEGER,
+        allowNull: false,
+        primaryKey: true,
+        autoIncrement: true
+    },
+    name: {
+        type: Sequelize.DataTypes.STRING,
+        allowNull: false
+    },
+    set: {
         type: Sequelize.DataTypes.ARRAY(Sequelize.DataTypes.INTEGER),
         allowNull: false
     }
@@ -136,6 +172,22 @@ const Group = sequelize.define('groups', {
     },
     blocked: {
         type: Sequelize.DataTypes.BOOLEAN
+    },
+    en: {
+        type: Sequelize.DataTypes.STRING,
+
+    },
+    jp: {
+        type: Sequelize.DataTypes.STRING,
+
+    },
+    cn: {
+        type: Sequelize.DataTypes.STRING,
+
+    },
+    ko: {
+        type: Sequelize.DataTypes.STRING,
+
     }
 }, {
     // options
@@ -154,6 +206,9 @@ const Order = sequelize.define('orders', {
         type: Sequelize.DataTypes.INTEGER
     },
     sum: {
+        type: Sequelize.DataTypes.STRING,
+    },
+    discountCard: {
         type: Sequelize.DataTypes.STRING,
     },
     status: {
@@ -262,6 +317,34 @@ const Img = sequelize.define('imgs', {
 }, {
     // options
 });
+
+const MainScreen = sequelize.define('main_screen', {
+    // attributes
+    id: {
+        type: Sequelize.DataTypes.INTEGER,
+        allowNull: false,
+        primaryKey: true,
+        autoIncrement: true
+    },
+    img: {
+        type: Sequelize.DataTypes.STRING,
+        allowNull: false
+
+    },
+    name: {
+        type: Sequelize.DataTypes.STRING,
+        allowNull: false
+    },
+    blocked: {
+        type: Sequelize.DataTypes.BOOLEAN
+    },
+    restorans: {
+        type: Sequelize.DataTypes.STRING
+    },
+
+}, {
+    // options
+});
 const Kiosk = sequelize.define('kiosks', {
     // attributes
     id: {
@@ -312,11 +395,23 @@ const LangItem = sequelize.define('lang_items', {
         type: Sequelize.DataTypes.STRING,
 
     },
-    printName: {
+    ru: {
         type: Sequelize.DataTypes.STRING,
 
     },
-    img: {
+    en: {
+        type: Sequelize.DataTypes.STRING,
+
+    },
+    jp: {
+        type: Sequelize.DataTypes.STRING,
+
+    },
+    cn: {
+        type: Sequelize.DataTypes.STRING,
+
+    },
+    ko: {
         type: Sequelize.DataTypes.STRING,
 
     },
@@ -329,11 +424,9 @@ Product.hasMany(Set)
 Group.hasMany(Product)
 Order.hasMany(OrderPosition)
 Lang.hasMany(LangItem)
-Product.hasMany(LangItem, {
-    foreignKey: "product_id",
-    as: "langItems"
-})
-//sequelize.sync({ force: true })
+
+sequelize.sync()
+//{ force: true }
 
 module.exports = {
     User,
@@ -344,5 +437,7 @@ module.exports = {
     Order,
     OrderPosition,
     Lang,
-    LangItem
+    LangItem,
+    Helper,
+    MainScreen
 }

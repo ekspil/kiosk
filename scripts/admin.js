@@ -4,8 +4,24 @@ let app = new Vue({
     },
     data: {
         message: 'Привет!',
+        mainScreens: false,
+        helpers: [],
+        menu: 'menu',
+        temp: {
+            select: ""
+        },
+        langs: {
+            pay: {
+                ru: "",
+                en: "",
+                jp: "",
+                cn: "",
+                ko: "",
+            }
+        },
 
         newSetCount: null,
+        newHelper: {name: "", set: []},
         newPosition: {
             id: null,
             groupId: 1,
@@ -21,6 +37,10 @@ let app = new Vue({
             coupon: null,
             helper: "",
             img: "",
+            en: "",
+            jp: "",
+            cn: "",
+            ko: "",
             name: "",
             type: 1,
             sets: []
@@ -30,8 +50,19 @@ let app = new Vue({
             id: null,
             img: "",
             name: "",
+            en: "",
+            jp: "",
+            cn: "",
+            ko: "",
             blocked: false,
             position: "99"
+        },
+        newMainScreen: {
+            id: null,
+            img: "",
+            name: "",
+            blocked: false,
+            restorans: ""
         },
         imgs:[],
         list: [
@@ -145,6 +176,26 @@ let app = new Vue({
         }
     },
     methods:{
+        adminSortPos: function (pos) {
+            let groups = this.groups.filter(gr => gr.selected === true)
+            if (groups.length < 1) {
+                return true
+            }
+            let [group] = this.groups.filter(gr => gr.id == pos.groupId && gr.selected )
+            if(group){
+                return true
+            }
+
+            return false
+
+
+        },
+        saveLangItem: async function (langItem, property) {
+
+            await saveLangItem(langItem, property)
+            return true
+
+        },
         thisGroup: function (pos) {
             [group] = this.groups.filter(gr => gr.id == pos.groupId)
             if(!group){
@@ -163,17 +214,62 @@ let app = new Vue({
 
             UIkit.modal('#modal-addGroup').show();
         },
+        addMainScreen: function (pos) {
+            if(pos){
+                this.newMainScreen = pos
+            }else{
+                this.newMainScreen.id = null
+            }
+
+            UIkit.modal('#modal-addMainScreen').show();
+        },
+        addHelper: function (pos) {
+            if(pos){
+                this.newHelper = pos
+            }else{
+                this.newHelper = {name: "", set: []}
+                this.newGroup.id = null
+            }
+
+            UIkit.modal('#modal-addHelper').show();
+        },
         addGroupSend: function (newGroup) {
             changeGroup(newGroup)
             this.newGroup = {
                 id: null,
-                    img: "",
-                    name: "",
-                    blocked: false,
-                    position: "99"
+                img: "",
+                name: "",
+                en: "",
+                jp: "",
+                cn: "",
+                ko: "",
+                blocked: false,
+                position: "99"
             }
 
             //UIkit.modal('#modal-addGroup').show();
+        },
+        addMainScreenSend: function (newMainScreen) {
+            changeMainScreen(newMainScreen)
+            this.newMainScreen = {
+                id: null,
+                img: "",
+                name: "",
+                blocked: false,
+                restorans: ""
+            }
+
+            //UIkit.modal('#modal-addGroup').show();
+        },
+        addHelperSend: function (helper) {
+            changeHelper(helper)
+            this.newHelper = {
+                id: null,
+                name: "",
+                set: []
+            }
+
+            UIkit.modal('#modal-addHelper').hide();
         },
         addPosition: function (pos){
 
@@ -218,6 +314,10 @@ let app = new Vue({
                     helper: "",
                     img: "",
                     name: "",
+                    en: "",
+                    jp: "",
+                    cn: "",
+                    ko: "",
                     type: 1,
                     sets: []
 
@@ -228,9 +328,17 @@ let app = new Vue({
 
             UIkit.modal('#modal-addImg').show();
         },
+        notif: function (value) {
+
+            console.log(value)
+        },
         findPositionById: function (id) {
             const [position] = this.list.filter(item => item.id == id)
             return position.name
+        },
+        findFullPositionById: function (id) {
+            const [position] = this.list.filter(item => item.id == id)
+            return position
         }
     }
 })

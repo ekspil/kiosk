@@ -1,6 +1,6 @@
 class ProductDTO {
 
-    constructor({id, type, station, blocked, hiden, name, img, price, price2, price3, price4, price5, helper, coupon, groupId, position, products, codeOneC}) {
+    constructor({id, type, station, blocked, hiden, name, img, price, price2, price3, price4, price5, helper, coupon, groupId, position, products, codeOneC, en, jp, cn, ko}) {
         this.id = id
         this.type = type
         this.station = station
@@ -19,6 +19,10 @@ class ProductDTO {
         this.position = position
         this.set = products
         this.codeOneC = codeOneC
+        this.en = en
+        this.jp = jp
+        this.cn = cn
+        this.ko = ko
     }
 }
 

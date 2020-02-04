@@ -3,11 +3,39 @@ var app = express();
 const multer  = require("multer");
 var server = require('http').Server(app);
 const service = require('./services.js')
-
+const basicAuth = require('basic-auth');
 
 
 app.use(express.static(__dirname+'/'));
+
+
 app.use(multer({dest:"img/prod"}).single("filedata"));
+
+
+const auth = function (req, res, next) {
+    function unauthorized(res) {
+        res.set('WWW-Authenticate', 'Basic realm=Authorization Required');
+        return res.sendStatus(401);
+    };
+
+    let user = basicAuth(req)
+
+    if (!user || !user.name || !user.pass) {
+        return unauthorized(res)
+    }
+
+    if (user.name === 'admin' && user.pass === 'locffadm') {
+        return next()
+    } else {
+        return unauthorized(res)
+    }
+}
+
+
+app.get('/manager.html',auth , function(req,res){
+    res.sendFile(__dirname+'/manager-secret0101.html');
+});
+
 
 app.post("/upload/img/prod", async function (req, res, next) {
     let filedata = req.file;
@@ -24,7 +52,7 @@ app.post("/upload/img/prod", async function (req, res, next) {
     if(!filedata)
         res.send("Ошибка при загрузке файла");
     else
-        res.redirect("../../admin.html")
+        res.redirect("../../manager.html")
 });
 
 
@@ -55,6 +83,12 @@ io.on('connection', client => {
         returnFn(dataR)
     });
 
+    client.on('changeLangItem', async function(data, returnFn){
+
+        let dataR = await service.changeLangItem(data)
+        returnFn(dataR)
+    });
+
 
     client.on('changeGroup', async function(data, returnFn){
 
@@ -62,9 +96,43 @@ io.on('connection', client => {
         returnFn(dataR)
     });
 
+
+    client.on('changeMainScreen', async function(data, returnFn){
+
+        let dataR = await service.changeMainScreen(data)
+        returnFn(dataR)
+    });
+
+    client.on('changeHelper', async function(data, returnFn){
+
+        let dataR = await service.changeHelper(data)
+        returnFn(dataR)
+    });
+
     client.on('findOrder', async function(data, returnFn){
 
         let dataR = await service.findOrder(data)
+        returnFn(dataR)
+    });
+
+    client.on('checkBonus', async function(data, returnFn){
+
+        let dataR = await service.checkBonus(data)
+        returnFn(dataR)
+    });
+    client.on('getPin', async function(data, returnFn){
+
+        let dataR = await service.getPin(data)
+        returnFn(dataR)
+    });
+    client.on('minusBonus', async function(data, returnFn){
+
+        let dataR = await service.minusBonus(data)
+        returnFn(dataR)
+    });
+    client.on('plusBonus', async function(data, returnFn){
+
+        let dataR = await service.plusBonus(data)
         returnFn(dataR)
     });
 

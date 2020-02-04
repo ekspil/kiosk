@@ -1,5 +1,13 @@
-body {
-    margin: 0px;
+html, body {
+    height: 100%; /* Высота родителя */
+    margin: 0; /* Убираем отступы у страницы */
+}
+
+.uk-card-badge {
+    position: absolute;
+    top: 3px;
+    z-index: 1;
+    right: unset;
 }
 
 h3 {
@@ -131,10 +139,6 @@ svg{
     background-color: #499300;
     color: white;
 }
-.uk-button-secondary-bonus{
-    background-color: #739300;
-    color: white;
-}
 .uk-button-modal-default{
     margin-right: 10%;
     width: 40%;
@@ -181,17 +185,9 @@ svg{
 }
 .start-modal{
     height: 100%;
-    background-color: white;
-}
-.start-modal-b{
-    height: 100%;
-    background-color: #2d292a;
 }
 .pay-buttons{
     height: 25%;
-}
-.select-order-h1{
-    color: #b5b4b2;
 }
 .pay-cart-buttons{
     height: 7%;
@@ -215,30 +211,17 @@ svg{
     width: 100px;
     background-color: #babec2;
 }
-.uk-button-paneldel{
-    width: 92px;
-    background-color: #babec2;
-}
 .uk-button-coupok{
     width: 100px;
     background-color: #ff8000;
 }
-.uk-button-panelok{
-    width: 92px;
-    background-color: #ff8000;
-}
 .uk-button-cupnum{
-     width: 100px;
-     height: 70px;
-     font-size: 22px;
-     background-color: white;
- }
-.uk-button-panel{
-    width: 92px;
+    width: 100px;
     height: 70px;
     font-size: 22px;
     background-color: white;
 }
+
 
 ::-webkit-scrollbar-button {
     background-repeat:no-repeat;

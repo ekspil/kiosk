@@ -1,5 +1,7 @@
 const ioserver = document.location.host.split(":")[0]
+    //document.location.host.split(":")[0]
 let socketL = io.connect(ioserver+':3333');
+    //io.connect(ioserver+':3333');
 let mainGroup = 1
 let socketC = io.connect(centralServer+':3333');
 
@@ -37,6 +39,18 @@ socketC.emit('getBaseData', {rest: 1}, (data) => {
     app.list = data.list
     app.groups = data.groups
     app.imgs = data.imgs
+    app.mainScreens = data.mainScreens
+    app.helpers = data.helpers
+    data.langs = data.langs.map(lang => {
+        lang.button = "Сохранить"
+        return lang
+    })
+    let langs = {}
+    for(let item of data.langs){
+        langs[item.name]=item
+    }
+    app.langs = langs
+
 
 
     function compare(a, b) {
@@ -78,8 +92,123 @@ socketL.emit('getBaseData', {rest: 1}, (data) => {
 });
 
 
+function checkBonus(number){
+    console.log("Check")
+    socketL.emit('checkBonus', number, (data) => {
+        console.log(data)
+        if(data.error == 1){
+
+            UIkit.notification( {message: "<h3 class='uk-card-title uk-text-center'>Ошибка! Возможно номер не зарегистрирован. Пройдите на кассу для регистрации.</h3>", pos: 'top-center', status:'warning', timeout: 2000})
+            app.phone = {
+                enter: false,
+                number: "",
+                sum: "",
+                pin: "",
+                pinUser: "",
+                ok: false,
+                pinErrors: 0
+            }
+        }else{
+            app.phone.sum = data.sum
+        }
+
+
+    });
+
+}
+
+function minusBonus(number, sum, pin){
+    const sendData = {
+        number,
+        sum,
+        pin
+    }
+    socketL.emit('minusBonus', sendData, (data) => {
+        if(data.error == false){
+            app.phone.ok = true
+            let slip = []
+            setTimeout(()=>{this.payHelper = "Печатаем чек..."}, 100)
+            let newId = app.lastId + 1
+            let strId = ""
+            if (String(newId).length == 1){
+                strId = "00" + newId
+            }
+            if (String(newId).length == 2){
+                strId = "0" + newId
+            }
+            if (String(newId).length >= 3){
+                strId = String(newId).slice(-3)
+            }
+            strId = app.litera+"-"+strId
+            app.printSlip(slip, strId)
+        }else{
+            app.payHelper = "Ошибка списания бонусов"
+            setTimeout(() =>{UIkit.modal('#modal-pay').hide()}, 2000)
+        }
+
+
+    });
+
+}
+
+function getPin(number, sum){
+    const sendData = {
+        number,
+        sum
+    }
+    socketL.emit('getPin', sendData, (data) => {
+        app.phone.pin = data.pin
+        app.pay("enterPin")
+
+    });
+
+}
+
+function plusBonus(number, sum){
+    const sendData = {
+        number,
+        sum
+    }
+    socketL.emit('plusBonus', sendData, (data) => {
+
+            let slip = []
+            setTimeout(()=>{this.payHelper = "Печатаем чек..."}, 100)
+            let newId = app.lastId + 1
+            let strId = ""
+            if (String(newId).length == 1){
+                strId = "00" + newId
+            }
+            if (String(newId).length == 2){
+                strId = "0" + newId
+            }
+            if (String(newId).length >= 3){
+                strId = String(newId).slice(-3)
+            }
+            strId = app.litera+"-"+strId
+            app.printCheck(slip, strId, true)
+
+
+    });
+
+}
+
 function changeGroup(newGroup){
     socketL.emit('changeGroup', newGroup, (data) => {
+        console.log(data)
+
+    });
+
+}
+
+function changeMainScreen(newMainScreen){
+    socketL.emit('changeMainScreen', newMainScreen, (data) => {
+        console.log(data)
+
+    });
+
+}
+function changeHelper(helper){
+    socketL.emit('changeHelper', helper, (data) => {
         console.log(data)
 
     });
@@ -95,6 +224,24 @@ function deleteOrder(ordernum){
 function changePosition(newPosition){
     socketL.emit('changePosition', newPosition, (data) => {
         console.log(data)
+
+    });
+
+}
+async function saveLangItem(lamgItem, property){
+    app.langs[property].button = "Ждите..."
+    socketL.emit('changeLangItem', lamgItem, (data) => {
+        if(data == true) {
+            app.langs[property].button = "Готово!"
+
+            setTimeout(()=>{app.langs[property].button = "Сохранить"}, 1000)
+        }
+        else{
+            app.langs[property].button = "Ошибка!"
+
+            setTimeout(()=>{app.langs[property].button = "Сохранить"}, 1000)
+        }
+        return data
 
     });
 

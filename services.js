@@ -1,17 +1,103 @@
 const model = require('./models.js')
+const axios = require('axios')
 const ImgDTO = require("./dto/imgDTO")
 const SetsDTO = require("./dto/setsDTO")
 const ProductDTO = require("./dto/productDTO")
 const OrderDTO = require("./dto/orderDTO")
+const deliveryApikey = "MDU3NThhMTYxMGE4ZDYyM2M3OTk0NDc1ODg1ZmVlYzU4N2FmMmJjMg"
+
 const {gt, lte, ne, in: opIn} = require('sequelize').Op
 const hello = async function(){
     console.log('Hello!')
 }
+const migrate = require('./migrate/index.js')
+
+const fillTableMenu = async function(array){
+    for (let item of array){
+        const where = {
+            name: item.name
+        }
+        const check = await model.LangItem.findOne({where})
+
+        if(check) continue
+        await model.LangItem.create(item)
+    }
+    console.log("Значения меню проверены")
+}
+setTimeout(fillTableMenu, 5000, migrate.menu)
+
+const checkBonus = async function(phone) {
+    try {
+        const response = await axios.get('https://delivery.rb24.ru/bonus_api/check', {
+            params: {
+                phone,
+                apikey: deliveryApikey
+            }
+        })
+        return response.data
+    } catch (e) {
+        throw new Error(e)
+    }
+
+}
+const plusBonus = async function(data) {
+    const {sum, number} = data
+    try {
+        const response = await axios.get('https://delivery.rb24.ru/bonus_api/plus', {
+            params: {
+                summa: sum,
+                phone: number,
+                apikey: deliveryApikey
+            }
+        })
+        return response.data
+    } catch (e) {
+        throw new Error(e)
+    }
+
+}
+const minusBonus = async function(data) {
+    const {sum, number, pin} = data
+    try {
+        const response = await axios.get('https://delivery.rb24.ru/bonus_api/minus', {
+            params: {
+                pincode: pin,
+                summa: sum,
+                phone: number,
+                apikey: deliveryApikey
+            }
+        })
+        return response.data
+    } catch (e) {
+        throw new Error(e)
+    }
+
+}
+const getPin = async function(data) {
+    const {sum, number} = data
+    try {
+        const response = await axios.get('https://delivery.rb24.ru/bonus_api/sendPin', {
+            params: {
+                summa: sum,
+                phone: number,
+                apikey: deliveryApikey
+            }
+        })
+        return response.data
+    } catch (e) {
+        throw new Error(e)
+    }
+
+}
+
 const getBaseData = async function(inData){
 
     let list = await model.Product.findAll()
     const groups = await model.Group.findAll()
     const imgs = await model.Img.findAll()
+    const mainScreens = await model.MainScreen.findAll()
+    const helpers = await model.Helper.findAll()
+    const langs = await model.LangItem.findAll()
     const lastId = await model.Order.max("id")
     for(let i in list){
         let sets = await list[i].getSets()
@@ -23,7 +109,10 @@ const getBaseData = async function(inData){
         list,
         groups,
         imgs,
-        lastId
+        lastId,
+        langs,
+        helpers,
+        mainScreens
     }
 
 
@@ -50,6 +139,10 @@ const changePosition = async function(data){
             prod.groupId = data.groupId
             prod.position = data.position
             prod.codeOneC = data.codeOneC
+            prod.en = data.en
+            prod.cn = data.cn
+            prod.jp = data.jp
+            prod.ko = data.ko
         await prod.save()
 
 
@@ -86,7 +179,11 @@ const changePosition = async function(data){
            coupon: data.coupon,
            groupId: data.groupId,
            position: data.position,
-           codeOneC: data.codeOneC
+           codeOneC: data.codeOneC,
+           en: data.en,
+           jp: data.jp,
+           cn: data.cn,
+           ko: data.ko
           }
 
 
@@ -118,6 +215,10 @@ const changeGroup = async function(data){
         group.img = data.img
         group.blocked = data.blocked
         group.position = data.position
+        group.en = data.en
+        group.cn = data.cn
+        group.jp = data.jp
+        group.ko = data.ko
         return await group.save()
 
 
@@ -126,11 +227,68 @@ const changeGroup = async function(data){
             name: data.name,
             img: data.img,
             blocked: data.blocked,
-            position: data.position
+            position: data.position,
+            en: data.en,
+            jp: data.jp,
+            cn: data.cn,
+            ko: data.ko
           }
 
 
         return await model.Group.create(group)
+
+
+    }
+
+}
+
+const changeMainScreen = async function(data){
+    if(data.id){
+        const where = {
+            id: data.id
+        }
+        const mainScreen = await model.MainScreen.findOne({where})
+        mainScreen.name = data.name
+        mainScreen.img = data.img
+        mainScreen.blocked = data.blocked
+        mainScreen.restorans = data.restorans
+        return await mainScreen.save()
+
+
+    }else{
+        const mainScreen = {
+            name: data.name,
+            img: data.img,
+            blocked: data.blocked,
+            restorans: data.restorans,
+          }
+
+
+        return await model.MainScreen.create(mainScreen)
+
+
+    }
+
+}
+const changeHelper = async function(data){
+    if(data.id){
+        const where = {
+            id: data.id
+        }
+        const helper = await model.Helper.findOne({where})
+        helper.name = data.name
+        helper.set = data.set
+        return await helper.save()
+
+
+    }else{
+        const helper = {
+            name: data.name,
+            set: data.set
+          }
+
+
+        return await model.Helper.create(helper)
 
 
     }
@@ -150,13 +308,35 @@ const addImg = async function(data){
         return new ImgDTO(answer)
 
 }
+const changeLangItem = async function(data){
+        const {id} = data
+        const where = {
+            id
+        }
+        const item = await model.LangItem.findOne({where})
+        item.ru = data.ru
+        item.en = data.en
+        item.jp = data.jp
+        item.cn = data.cn
+        item.ko = data.ko
+        await item.save()
+        return true
+
+}
 
 const makeOrder = async function(data){
+    let moneyOrBonus = 2
 
-    let {cart, fiscalNum, orderType, RRNCode, AuthorizationCode} = data
+    let {cart, fiscalNum, orderType, discountCard, bonus, RRNCode, AuthorizationCode} = data
+    if(bonus){
+        moneyOrBonus = 3
+    }
     let order = {}
     order.orderType = orderType
-    order.payType = 2
+    order.discountCard = discountCard || "" +
+        "" +
+        ""
+    order.payType = moneyOrBonus
     order.sum = cart.reduce((sum, current) => {
         return sum + current.count * current.price
     }, 0);
@@ -317,5 +497,12 @@ module.exports={
     makeOrder,
     findOrder,
     deleteOrder,
-    thisDayOrders
+    thisDayOrders,
+    changeLangItem,
+    changeHelper,
+    checkBonus,
+    getPin,
+    minusBonus,
+    plusBonus,
+    changeMainScreen
 }

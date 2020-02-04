@@ -9,7 +9,20 @@ var app = new Vue({
 
     },
     data: {
+        lang: 'ru',
+        helperNum: '1',
+        phone: {
+            enter: false,
+            number: "",
+            sum: "",
+            pin: "",
+            pinUser: "",
+            ok: false,
+            pinErrors: 0
+        },
+        langs: false,
         operation: 0,
+        mainScreens: false,
         deletedCheck: null,
         delFiscalNum: [],
         lastPayData: {},
@@ -37,6 +50,7 @@ var app = new Vue({
             active: "uk-button uk-button-active uk-button-menu uk-width-1-1 uk-inline",
         },
         groups: [],
+        helpers: null,
         cart: [],
         thisSet: null,
         thisCoupon: [],
@@ -59,6 +73,18 @@ var app = new Vue({
                 return sum + arr
 
             }, "")
+        },
+        getHelpersById: function () {
+            this.timer=this.defaultTimer;
+            const [helper] = this.helpers.filter(item => item.id == this.helperNum)
+            if(!helper) return
+
+            const helpersArray =  helper.set.map(help => {
+                const [pos] = this.list.filter(p => p.id == help)
+                return pos
+            })
+
+            return helpersArray
         },
         pincodeString: function () {
 
@@ -111,6 +137,27 @@ var app = new Vue({
         }
     },
     methods: {
+        getPosLangName: function(pos){
+            if(this.lang == "ru") {
+                return pos.name
+            }
+            else{
+                return pos[this.lang]
+            }
+        },
+        getGrLangName: function(gr){
+            if(this.lang == "ru") {
+                return gr.name
+            }
+            else{
+                return gr[this.lang]
+            }
+        },
+        getMenuString: function(string){
+            const button = this.langs[string]
+
+            return button[this.lang]
+        },
         mainGroup: function(){
             for(let i in this.groups){
                 if(!this.groups[i].blocked && this.groupEmpty(this.groups[i])){
@@ -134,7 +181,9 @@ var app = new Vue({
             }
         },
         addToCart: function(newItem){
+
             this.timer=this.defaultTimer;
+            this.helperNum = newItem.helper
             let tempItem = {};
             for (var key in newItem) {
                 tempItem[key] = newItem[key];
@@ -154,7 +203,7 @@ var app = new Vue({
                     tempItem.count = 1
                     this.cart.push(tempItem)
                     if(tempItem.helper){
-                        UIkit.notification( {message: "<h3 class='uk-card-title uk-text-center'>"+tempItem.helper+"</h3>", pos: 'top-center', status:'warning', timeout: 2000})
+                        this.modalShow("#modal-helper")
                     }
 
                 }else{
@@ -312,9 +361,19 @@ var app = new Vue({
             if(atr){
                 return true
             }
+            this.phone = {
+                    enter: false,
+                    number: "",
+                    sum: "",
+                    pin: "",
+                    ok: false,
+                    pinUser: "",
+                    pinErrors: 0
+            }
             this.mainGroup()
             this.clearTemp();
             this.operation = 0
+            this.lang = "ru"
             this.payed = 0;
             this.groupId = mainGroup
             this.keyLock = false;
@@ -363,10 +422,20 @@ var app = new Vue({
             this.timer=this.defaultTimer;
             UIkit.modal('#modal-cart').hide();
         },
-        pay: function () {
+        pay: function (type) {
             if(this.keyLock){
                 return false
             }
+            if(type == "bonus"){
+                getPin(this.phone.number, this.cart_sum)
+                return
+            }
+
+            if(type == "enterPin"){
+                UIkit.modal('#modal-pin-royalty').show();
+                return
+            }
+
 
             this.timer=this.defaultTimer*5;
             PaymentByPaymentCard(pinpadDevice, this.cart_sum)
@@ -404,9 +473,13 @@ var app = new Vue({
             this.lastModal = ""
             this.start()
         },
-        printCheck: function (slip, strId){
+        printCheck: function (slip, strId, isFiscal){
             let my_aray_letters = returnArrayLetters(strId)
-            RegisterCheck(fiscalDevice, 0, false, my_aray_letters, this.cart, slip)
+            RegisterCheck(fiscalDevice, 0, false, my_aray_letters, this.cart, slip, isFiscal)
+        },
+        printSlip: function (slip, strId){
+            let my_aray_letters = returnArrayLetters(strId)
+            PrintSlip(fiscalDevice, my_aray_letters, this.cart)
         },
         closeSh: function () {
             CloseShift(0)
@@ -428,7 +501,7 @@ var app = new Vue({
             if(Rezult.Command == "PayByPaymentCard" && Rezult.Status == 0 && this.operation == 0){
                 this.lastPayData = Rezult
                 let slip = Rezult.Slip.split("\n")
-                setTimeout(()=>{this.payHelper = "Печатаем чек..."}, 100)
+                setTimeout(()=>{this.payHelper = "Печатаем чек..."}, 700)
                 let newId = this.lastId + 1
                 let strId = ""
                 if (String(newId).length == 1){
@@ -441,7 +514,15 @@ var app = new Vue({
                     strId = String(newId).slice(-3)
                 }
                 strId = this.litera+"-"+strId
-                this.printCheck(slip, strId)
+                if(this.phone.number && this.phone.sum !== "" ){
+                    const sumBP = String(this.cart_sum).slice(0, -2) * 10
+                    if(sumBP > 0){
+                        this.payHelper = "Начисляем бонусы..."
+                        plusBonus(this.phone.number, sumBP)
+                    }
+
+                }
+                this.printCheck(slip, strId, true)
 
             }
             if(Rezult.Command == "RegisterCheck" && Rezult.Status == 0 && this.operation == 0){
@@ -492,7 +573,8 @@ var app = new Vue({
                 fiscalNum: Rezult.CheckNumber,
                 error: Rezult.Error,
                 RRNCode: this.lastPayData.RRNCode,
-                AuthorizationCode: this.lastPayData.AuthorizationCode
+                AuthorizationCode: this.lastPayData.AuthorizationCode,
+                bonus: this.phone.ok
             }
             makeOrder(dataCart)
 
@@ -573,6 +655,41 @@ var app = new Vue({
         keyBoardFiscal: function () {
             this.timer=this.defaultTimer;
             UIkit.modal('#modal-check-del').show();
+        },
+        modalShow: function (modal) {
+            this.timer=this.defaultTimer;
+            UIkit.modal(modal).show();
+        },
+        modalHide: function (modal) {
+            this.timer=this.defaultTimer;
+            UIkit.modal(modal).hide();
+        },
+        checkBonus: async function (number) {
+            checkBonus(number)
+        },
+        minusBonus: async function (number, sum, pin) {
+            minusBonus(number, sum, pin)
+        },
+        getPin: async function (number, sum) {
+            getPin(number, sum)
+        },
+        plusBonus: async function (number, sum) {
+            plusBonus(number, sum)
+        },
+        checkBonusPin: async function () {
+            if(this.phone.pin == this.phone.pinUser){
+                minusBonus(this.phone.number, this.cart_sum, this.phone.pinUser)
+                this.payHelper = "Ожидание транзакции на сервере бонусов..."
+                UIkit.modal('#modal-pay').show();
+
+            }else if(this.phone.pinErrors > 2){
+                this.start()
+            }
+            else{
+                UIkit.notification( {message: "<h3 class='uk-card-title uk-text-center'>Неверный PIN!</h3>", pos: 'top-center', status:'warning', timeout: 2000})
+                this.phone.pinErrors++
+
+            }
         },
         checkLength: function (item) {
             if(item.length > 12){
