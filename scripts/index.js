@@ -137,6 +137,14 @@ var app = new Vue({
         }
     },
     methods: {
+        getShotName: function(id){
+            if (this.getPosLangName(this.getItemById(id))){
+                return (this.getPosLangName(this.getItemById(id))).slice(0, 12)+this.checkLength(this.getPosLangName(this.getItemById(id)))
+            }else {
+                return "..."
+            }
+
+        },
         getPosLangName: function(pos){
             if(this.lang == "ru") {
                 return pos.name
