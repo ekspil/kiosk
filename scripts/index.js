@@ -188,10 +188,13 @@ var app = new Vue({
                 return false
             }
         },
-        addToCart: function(newItem){
+        addToCart: function(newItem, block){
 
             this.timer=this.defaultTimer;
-            this.helperNum = newItem.helper
+            if(!block){
+                this.helperNum = newItem.helper
+            }
+
             let tempItem = {};
             for (var key in newItem) {
                 tempItem[key] = newItem[key];
