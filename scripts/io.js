@@ -228,6 +228,13 @@ function changePosition(newPosition){
     });
 
 }
+function delPosition(newPosition){
+    socketL.emit('delPosition', newPosition, (data) => {
+        console.log(data)
+
+    });
+
+}
 async function saveLangItem(lamgItem, property){
     app.langs[property].button = "Ждите..."
     socketL.emit('changeLangItem', lamgItem, (data) => {
