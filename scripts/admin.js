@@ -287,7 +287,31 @@ let app = new Vue({
                 this.newPosition = pos
                 if(!this.newPosition.sets){this.newPosition.sets=[]}
             }else{
-                this.newPosition.id = null
+                this.newPosition = {
+                    id: null,
+                    groupId: 1,
+                    station: 1,
+                    position: 99,
+                    setBool: false,
+                    hiden: false,
+                    blocked: false,
+                    price: null,
+                    price2: null,
+                    price3: null,
+                    price4: null,
+                    price5: null,
+                    coupon: null,
+                    helper: "",
+                    img: "",
+                    name: "",
+                    en: "",
+                    jp: "",
+                    cn: "",
+                    ko: "",
+                    type: 1,
+                    sets: []
+
+                }
             }
 
             UIkit.modal('#modal-addPos').show();
@@ -297,6 +321,38 @@ let app = new Vue({
                 newPosition.type = 2
             }
             changePosition(newPosition)
+            this.newPosition = {
+                    id: null,
+                    groupId: 1,
+                    station: 1,
+                    position: 99,
+                    setBool: false,
+                    hiden: false,
+                    blocked: false,
+                    price: null,
+                    price2: null,
+                    price3: null,
+                    price4: null,
+                    price5: null,
+                    coupon: null,
+                    helper: "",
+                    img: "",
+                    name: "",
+                    en: "",
+                    jp: "",
+                    cn: "",
+                    ko: "",
+                    type: 1,
+                    sets: []
+
+            }
+
+        },
+        delPositionSend: function (newPosition) {
+            if(newPosition.sets && newPosition.sets.length > 0){
+                newPosition.type = 2
+            }
+            delPosition(newPosition)
             this.newPosition = {
                     id: null,
                     groupId: 1,
@@ -334,6 +390,7 @@ let app = new Vue({
         },
         findPositionById: function (id) {
             const [position] = this.list.filter(item => item.id == id)
+            if(!position) return ""
             return position.name
         },
         findFullPositionById: function (id) {

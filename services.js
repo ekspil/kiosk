@@ -457,6 +457,22 @@ const deleteOrder = async function(list){
 
 }
 
+const delPosition = async function(pos){
+    let {id} = pos
+    let where = {
+        id
+    }
+
+    const position = await model.Product.findOne({where})
+
+    if(!position){
+        return false
+    }
+
+    return  await position.destroy()
+
+}
+
 const thisDayOrders = async function(day){
 if(!day){
     let date = new Date
@@ -504,5 +520,6 @@ module.exports={
     getPin,
     minusBonus,
     plusBonus,
-    changeMainScreen
+    changeMainScreen,
+    delPosition
 }

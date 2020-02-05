@@ -83,6 +83,12 @@ io.on('connection', client => {
         returnFn(dataR)
     });
 
+    client.on('delPosition', async function(data, returnFn){
+
+        let dataR = await service.delPosition(data)
+        returnFn(dataR)
+    });
+
     client.on('changeLangItem', async function(data, returnFn){
 
         let dataR = await service.changeLangItem(data)
