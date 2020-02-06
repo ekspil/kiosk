@@ -185,7 +185,6 @@ function plusBonus(number, sum){
                 strId = String(newId).slice(-3)
             }
             strId = app.litera+"-"+strId
-            app.printCheck(slip, strId, true)
 
 
     });
