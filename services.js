@@ -6,6 +6,8 @@ const ProductDTO = require("./dto/productDTO")
 const OrderDTO = require("./dto/orderDTO")
 const deliveryApikey = "MDU3NThhMTYxMGE4ZDYyM2M3OTk0NDc1ODg1ZmVlYzU4N2FmMmJjMg"
 
+const conf = require('./conf/back');
+
 const {gt, lte, ne, in: opIn} = require('sequelize').Op
 const hello = async function(){
     console.log('Hello!')
@@ -47,6 +49,7 @@ const plusBonus = async function(data) {
             params: {
                 summa: sum,
                 phone: number,
+                workshop_id: conf.deliveryWorkshop_id || 99,
                 apikey: deliveryApikey
             }
         })
@@ -64,6 +67,7 @@ const minusBonus = async function(data) {
                 pincode: pin,
                 summa: sum,
                 phone: number,
+                workshop_id: conf.deliveryWorkshop_id || 99,
                 apikey: deliveryApikey
             }
         })
