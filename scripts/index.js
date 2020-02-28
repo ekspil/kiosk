@@ -381,6 +381,7 @@ var app = new Vue({
                     pinUser: "",
                     pinErrors: 0
             }
+            this.lastPayData = {}
             this.mainGroup()
             this.clearTemp();
             this.operation = 0
