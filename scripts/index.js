@@ -74,22 +74,6 @@ var app = new Vue({
 
             }, "")
         },
-        checkAbillity: function (inputSet){
-            console.log(inputSet)
-          for(let set of inputSet){
-            let count = 0
-            for(let item of set.set){
-              if(!this.getItemById(item).hiden){
-                count = count + 1
-              }
-
-            }
-            if (count === 0){
-              return false
-            }
-          }
-          return true
-        },
         getHelpersById: function () {
             this.timer=this.defaultTimer;
             const [helper] = this.helpers.filter(item => item.id == this.helperNum)
@@ -160,6 +144,23 @@ var app = new Vue({
                 return "..."
             }
 
+        },
+        
+        checkAbillity: function (inputSet){
+            console.log(inputSet)
+          for(let set of inputSet){
+            let count = 0
+            for(let item of set.set){
+              if(!this.getItemById(item).hiden){
+                count = count + 1
+              }
+
+            }
+            if (count === 0){
+              return false
+            }
+          }
+          return true
         },
         getPosLangName: function(pos){
             if(this.lang == "ru") {
