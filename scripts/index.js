@@ -74,8 +74,8 @@ var app = new Vue({
 
             }, "")
         },
-        checkAbillity: function(list){
-          for(let set of list){
+        checkAbillity: function(inputSet){
+          for(let set of inputSet){
             let count = 0
             for(let item of set.set){
               if(!this.getItemById(item).hiden){
