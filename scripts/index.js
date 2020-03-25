@@ -145,6 +145,23 @@ var app = new Vue({
             }
 
         },
+        
+        checkAbillity: function (inputSet){
+            console.log(inputSet)
+          for(let set of inputSet){
+            let count = 0
+            for(let item of set.set){
+              if(!this.getItemById(item).hiden){
+                count = count + 1
+              }
+
+            }
+            if (count === 0){
+              return false
+            }
+          }
+          return true
+        },
         getPosLangName: function(pos){
             if(this.lang == "ru") {
                 return pos.name
@@ -202,8 +219,12 @@ var app = new Vue({
 
             if(newItem.set && newItem.set.length > 0){
 
-                this.thisSet = tempItem;
-                UIkit.modal('#modal-set').show();
+                if(this.checkAbillity(newItem.set)){
+                  this.thisSet = tempItem;
+                  UIkit.modal('#modal-set').show();
+                }else{
+                  UIkit.notification( {message: "<h3 class='uk-card-title uk-text-center'>Извините, сет временно недоступен...</h3>", pos: 'top-center', status:'warning', timeout: 2000})
+                }
             }else if(newItem.help){
 
             }else{
