@@ -147,7 +147,6 @@ var app = new Vue({
         },
         
         checkAbillity: function (inputSet){
-            console.log(inputSet)
           for(let set of inputSet){
             let count = 0
             for(let item of set.set){
