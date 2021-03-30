@@ -127,7 +127,7 @@ function minusBonus(number, sum, pin){
         if(data.error == false){
             app.phone.ok = true
             let slip = []
-            setTimeout(()=>{this.payHelper = "Печатаем чек..."}, 100)
+            setTimeout(()=>{app.payHelper = "Печатаем чек..."}, 100)
             let newId = app.lastId + 1
             let strId = ""
             if (String(newId).length == 1){

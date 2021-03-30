@@ -50,6 +50,10 @@ const Product = sequelize.define('products', {
         type: Sequelize.DataTypes.INTEGER,
         allowNull: true
     },
+    corner: {
+        type: Sequelize.DataTypes.STRING,
+        allowNull: true
+    },
     blocked: {
         type: Sequelize.DataTypes.BOOLEAN
     },
@@ -284,6 +288,10 @@ const OrderPosition = sequelize.define('order_positions', {
         type: Sequelize.DataTypes.STRING,
 
     },
+    corner: {
+        type: Sequelize.DataTypes.STRING,
+
+    },
     price: {
         type: Sequelize.DataTypes.INTEGER
     }
@@ -425,7 +433,7 @@ Group.hasMany(Product)
 Order.hasMany(OrderPosition)
 Lang.hasMany(LangItem)
 
-sequelize.sync()
+sequelize.sync({alter: true})
 //{ force: true }
 
 module.exports = {

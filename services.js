@@ -140,6 +140,7 @@ const changePosition = async function(data){
             prod.price5 = data.price5
             prod.helper = data.helper
             prod.coupon = data.coupon
+            prod.corner = data.corner
             prod.groupId = data.groupId
             prod.position = data.position
             prod.codeOneC = data.codeOneC
@@ -181,6 +182,7 @@ const changePosition = async function(data){
            price5: data.price5,
            helper: data.helper,
            coupon: data.coupon,
+           corner: data.corner,
            groupId: data.groupId,
            position: data.position,
            codeOneC: data.codeOneC,
