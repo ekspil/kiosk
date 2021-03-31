@@ -897,6 +897,58 @@ async function sendNewCheck(server, id, checkType){
 
 
 async function SendET(server, cart, message, msgId, orderType){
+    if(app.getAllUrlParams().terminal){
+
+        const order = {
+            id: msgId,
+            die: 0,
+            alarm: 0,
+            action: "PAYED",
+            payed: 1,
+            ready: 0,
+            takeOut: 0,
+            type: "IN",
+            source: "KIOSK",
+            flag: "",
+            amount: "",
+            guestName: "",
+            extId: "",
+            text: "",
+            pin: "",
+            positions: []
+        }
+
+
+        if(orderType == 1) order.type = "IN"
+        if(orderType == 2) order.type = "OUT"
+
+        for (let item of cart) {
+
+                const poss = {
+                    id: item.id,
+                    name: item.name,
+                    price: item.price,
+                    count: item.count,
+                    code: item.codeOneC,
+                    station: item.station,
+                    corner: item.corner,
+                    mods: []
+
+                }
+                order.positions.push(poss)
+
+        }
+
+        try {
+            const { data } = await axios.post(server+'/api/terminal/order/change', order)
+            return data
+        } catch (e) {
+            throw new Error(e)
+        }
+
+
+        return
+    }
 
     if(message){
         await sendNew(server, msgId, orderType, 0, message, "")
