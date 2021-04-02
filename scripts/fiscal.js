@@ -606,6 +606,20 @@ function returnArrayLetters(my_string){
         ' $$ $$ ',
         ' $$  $$',
     ];
+    let letterD = [
+        ' $$$$$ ',
+        ' $$  $$',
+        ' $$  $$',
+        ' $$  $$',
+        ' $$$$$ ',
+    ];
+    let letterS = [
+        '  $$$$ ',
+        ' $$    ',
+        '  $$$  ',
+        '    $$ ',
+        ' $$$$  ',
+    ];
     let letterG = [
         '  $$$$ ',
         ' $$    ',
@@ -708,6 +722,8 @@ function returnArrayLetters(my_string){
         if (char == 'k') { this_array = letterK; }
         if (char == 'f') { this_array = letterF; }
         if (char == 'g') { this_array = letterG; }
+        if (char == 's') { this_array = letterS; }
+        if (char == 'd') { this_array = letterD; }
         if (char == '1') { this_array = letter1; }
         if (char == '2') { this_array = letter2; }
         if (char == '3') { this_array = letter3; }
