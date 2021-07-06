@@ -67,6 +67,9 @@ const Product = sequelize.define('products', {
     codeOneC: {
         type: Sequelize.DataTypes.STRING
     },
+    extGroup: {
+        type: Sequelize.DataTypes.STRING
+    },
     img: {
         type: Sequelize.DataTypes.STRING,
 
@@ -278,6 +281,9 @@ const OrderPosition = sequelize.define('order_positions', {
         allowNull: false
     },
     codeOneC: {
+        type: Sequelize.DataTypes.STRING
+    },
+    extGroup: {
         type: Sequelize.DataTypes.STRING
     },
     img: {

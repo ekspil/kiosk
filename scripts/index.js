@@ -4,8 +4,50 @@ var app = new Vue({
     el: '#app',
     mounted: function () {
         const timer = setInterval(this.checkTimer, 1000)
-        this.start()
-        this.lockKiosk()
+        //this.start()
+        //this.lockKiosk()
+        setInterval(function(){
+            let element = document.querySelector('#scrollId')
+            if(!element) return
+            if(element.scrollTop > 150){
+                app.topSlider = true
+            }
+            else {
+                app.topSlider = false
+            }
+            if((element.scrollHeight - element.scrollTop - element.offsetHeight) > 150){
+                app.bottomSlider = true
+            }else {
+                app.bottomSlider = false
+            }
+
+            //     .addEventListener('scroll', function(){
+            //     console.log('Позиция скрола у элемента: '+ this.scrollTop + " " + this.scrollHeight + " offsetTop:" + this.offsetTop + " " + " offsetHeight:" + this.offsetHeight + " "+ " " + " clientHeight:" + this.clientHeight + " " )
+            //     console.log(this.__proto__)
+            // });
+
+        }, 1000)
+        setInterval(function(){
+            let element = document.querySelector('#list')
+            if(!element) return
+            if(element.scrollTop > 150){
+                app.topSlider = true
+            }
+            else {
+                app.topSlider = false
+            }
+            if((element.scrollHeight - element.scrollTop - element.offsetHeight) > 150){
+                app.bottomSlider = true
+            }else {
+                app.bottomSlider = false
+            }
+
+            //     .addEventListener('scroll', function(){
+            //     console.log('Позиция скрола у элемента: '+ this.scrollTop + " " + this.scrollHeight + " offsetTop:" + this.offsetTop + " " + " offsetHeight:" + this.offsetHeight + " "+ " " + " clientHeight:" + this.clientHeight + " " )
+            //     console.log(this.__proto__)
+            // });
+
+        }, 1000)
 
     },
     data: {
@@ -21,6 +63,8 @@ var app = new Vue({
             pinErrors: 0
         },
         langs: false,
+        bottomSlider: false,
+        topSlider: false,
         operation: 0,
         mainScreens: false,
         deletedCheck: null,
@@ -48,6 +92,10 @@ var app = new Vue({
         menuClasses: {
             normal: "uk-button uk-button-menu uk-width-1-1 uk-inline",
             active: "uk-button uk-button-active uk-button-menu uk-width-1-1 uk-inline",
+        },
+        menuClassesTerminal: {
+            normal: " uk-button-menu-terminal uk-width-1-4 uk-inline",
+            active: " uk-button-menu-terminal uk-width-1-4 uk-inline",
         },
         groups: [],
         helpers: null,
@@ -263,6 +311,18 @@ var app = new Vue({
             }
             return this.menuClasses.normal
         },
+        menuClassTerminal: function(group){
+            if(group.id === this.groupId){
+                return this.menuClassesTerminal.active
+            }
+            return this.menuClassesTerminal.normal
+        },
+        menuTerminalClicked: function(group){
+            if(group.id === this.groupId){
+                return true
+            }
+            return false
+        },
         plusCart: function(item){
             this.timer=this.defaultTimer;
             const arr = this.cart.map(itemCart => {
@@ -379,6 +439,7 @@ var app = new Vue({
                 station: selection_list.station,
                 position: selection_list.position,
                 codeOneC: selection_list.codeOneC,
+                extGroup: selection_list.extGroup,
                 hiden: selection_list.hiden,
                 blocked: selection_list.blocked,
                 helper: selection_list.helper,

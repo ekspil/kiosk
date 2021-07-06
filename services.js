@@ -144,6 +144,7 @@ const changePosition = async function(data){
             prod.groupId = data.groupId
             prod.position = data.position
             prod.codeOneC = data.codeOneC
+            prod.extGroup = data.extGroup
             prod.en = data.en
             prod.cn = data.cn
             prod.jp = data.jp
@@ -186,6 +187,7 @@ const changePosition = async function(data){
            groupId: data.groupId,
            position: data.position,
            codeOneC: data.codeOneC,
+            extGroup: data.extGroup,
            en: data.en,
            jp: data.jp,
            cn: data.cn,
