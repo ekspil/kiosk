@@ -197,6 +197,7 @@ svg{
     padding-left: 3%;
     padding-right: 3%;
     text-transform: uppercase;
+    z-index: 6;
 }
 .uk-card-title-2 {
 
@@ -223,6 +224,9 @@ svg{
     background-color: #2d292a;
 }
 .pay-buttons{
+    height: 25%;
+}
+.pay-buttons-terminal{
     height: 100%;
 }
 .select-order-h1{
@@ -434,9 +438,27 @@ svg{
     z-index: 5;
     animation: anim-down  1s infinite ease-in-out;
 }
+.top-chevron {
+    color: #f0e657;
+    position: absolute;
+    top: 270px;
+    left: 44.5%;
+    z-index: 5;
+    transform: rotate(90deg);
+    animation: anim-down-rotate  1s infinite ease-in-out;
+}
 
+@keyframes anim-down-rotate{
+    0% {transform: translateY(0) rotate(90deg)}
+    50%{transform: translateY(-10px) rotate(90deg)}
+    100%{transform: translateY(0) rotate(90deg)}}
 
 @keyframes anim-down{
     0% {transform: translateY(0)}
     50%{transform: translateY(-30px)}
     100%{transform: translateY(0)}}
+
+.dropdown-menu {
+    border-radius: 10px;
+    background-color: rgba(125, 125, 125, 0.7);
+}

@@ -26,6 +26,17 @@
 
 <div id="app" class="uk-position-fixed" >
     <div class="bottom-chevron" uk-icon="icon: chevron-down; ratio: 6" v-if="bottomSlider"></div>
+    <div class="top-chevron" uk-icon="icon: chevron-double-right; ratio: 6" v-if="true" @click=""  >
+
+    </div>
+    <div uk-dropdown="mode: click; pos: bottom-justify" class="dropdown-menu">
+        <ul>
+            <li>ВОК</li>
+            <li>ДУГЛАС</li>
+            <li>ДЬЮТИ</li>
+            <li>ФОБО</li>
+        </ul>
+    </div>
 
 
  <div id="header-terminal" class="uk-overflow-hidden">
@@ -165,7 +176,7 @@
 
 
 
-     <div v-if="langs"  class="uk-text-center uk-position-bottom pay-buttons" uk-grid>
+     <div v-if="langs"  class="uk-text-center uk-position-bottom pay-buttons-terminal" uk-grid>
          <button class="uk-button  uk-width-1-2 left-color" @click="start()" ><span v-if="langs">{{getMenuString('CANCEL')}}</span></button>
          <button class="uk-button  uk-width-1-2 right-color" @click="toCart()"><span v-if="Number(cart_sum)" uk-icon="icon: cart; ratio: 1" >  </span><span v-if="langs">{{Number(cart_sum)?  cart.reduce((acc, item) => {return acc = acc + item.count}, 0) + " | " + cart_sum + " " + getMenuString('RUB') : getMenuString('GO_TO_CART')}}</span></button>
      </div>
