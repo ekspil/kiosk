@@ -26,15 +26,12 @@
 
 <div id="app" class="uk-position-fixed" >
     <div class="bottom-chevron" uk-icon="icon: chevron-down; ratio: 6" v-if="bottomSlider"></div>
-    <div class="top-chevron" uk-icon="icon: chevron-double-right; ratio: 6" v-if="false" @click=""  >
+    <div class="top-chevron" uk-icon="icon: chevron-double-right; ratio: 6" v-if="true" @click=""  >
 
     </div>
-    <div uk-dropdown="mode: click; pos: bottom-justify" class="dropdown-menu">
-        <ul>
-            <li>ВОК</li>
-            <li>ДУГЛАС</li>
-            <li>ДЬЮТИ</li>
-            <li>ФОБО</li>
+    <div v-if="list" uk-dropdown="mode: click; pos: bottom-justify; animation: uk-animation-slide-top; duration: 200" class="dropdown-menu">
+        <ul class="uk-nav uk-dropdown-nav">
+            <li v-for="item of extGroups"  ><a class="nav-font" href="#" @click="selectExtGroup(item)" >{{item}}</a></li>
         </ul>
     </div>
 
@@ -120,7 +117,7 @@
 
      </div>
 
-     <div  v-if="groupId === 0 && list" id="scrollId" class="uk-panel-scrollable uk-width-expand  uk-grid-collapse uk-flex-center uk-child-width-1-1 uk-text-center" uk-grid>
+     <div  v-if="!groupId && !extGroupId && list" id="scrollId" class="uk-panel-scrollable uk-width-expand  uk-grid-collapse uk-flex-center uk-child-width-1-1 uk-text-center" uk-grid>
          <div  v-for="gr in groups" v-if="list.filter(pos=>{if(pos.groupId === gr.id && !pos.coupon && !pos.hiden && !pos.blocked) return true}).length > 0" :key="gr.id">
              <div >
                  <img class="uk-border-rounded" :data-src="'img/trmnl/headers/'+ gr.position + '.jpg'"  alt="" uk-img>
@@ -153,10 +150,10 @@
 
      </div>
 
-     <div v-if="groupId != 0" id="list"   class="uk-panel-scrollable uk-width-expand  uk-grid-collapse uk-flex-center uk-child-width-1-3 uk-text-center " uk-grid>
+     <div v-if="groupId || extGroupId" id="list"   class="uk-panel-scrollable uk-width-expand  uk-grid-collapse uk-flex-center uk-child-width-1-3 uk-text-center " uk-grid>
 
 
-<a v-for="pos in list" v-if="pos.groupId === groupId && !pos.coupon && !pos.hiden && !pos.blocked" href="#"  @click="addToCart(pos)" class=" uk-height-max-large  uk-padding-small"><div class="uk-card uk-card-small uk-animation-scale-up  ">
+<a v-for="pos in list" v-if="positionSort(pos)" href="#"  @click="addToCart(pos)" class=" uk-height-max-large  uk-padding-small"><div class="uk-card uk-card-small uk-animation-scale-up  ">
              <div class="uk-card-media-top"><img :data-src="pos.img || 'img/prod/default.jpg'" width="100%" height="100%" alt="" uk-img></div>
 
                  <div style="color: black;" class="terminal-price uk-grid-collapse" uk-grid><span class="uk-width-2-3" >{{getPosLangName(pos)}}</span></span> <span  class="uk-width-1-3"  ><b>333</b> р</span></div>

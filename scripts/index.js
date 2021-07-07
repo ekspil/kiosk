@@ -104,9 +104,20 @@ var app = new Vue({
         thisCoupon: [],
         selection: [],
         thisCouponHolder: "0000",
-        list: []
+        list: [],
+        extGroupId: ""
     },
     computed:  {
+
+        extGroups: function(){
+            return this.list.reduce((sum, item) => {
+                if(!item.extGroup) return sum
+                let finded = sum.find(it => it.toUpperCase() === item.extGroup.toUpperCase())
+                if (finded) return sum
+                sum.push(item.extGroup.toUpperCase())
+                return sum
+            }, [])
+        },
         cart_sum: function(){
 
            return this.cart.reduce((sum, current) => {
@@ -185,6 +196,23 @@ var app = new Vue({
         }
     },
     methods: {
+            selectExtGroup(item){
+                this.extGroupId = item
+                this.groupId = 0
+            },
+        positionSort: function(pos){
+            if(this.extGroupId){
+                if(!pos.extGroup) return false
+                if(pos.extGroup.toUpperCase() === this.extGroupId.toUpperCase() && !pos.coupon && !pos.hiden && !pos.blocked) return true
+                return false
+            }
+            else {
+                if(pos.groupId === this.groupId && !pos.coupon && !pos.hiden && !pos.blocked) return true
+                return false
+            }
+
+
+        },
         getShotName: function(id){
             if (this.getPosLangName(this.getItemById(id))){
                 return (this.getPosLangName(this.getItemById(id))).slice(0, 12)+this.checkLength(this.getPosLangName(this.getItemById(id)))
@@ -304,6 +332,11 @@ var app = new Vue({
         menuClick: function(menuItem){
             this.timer=this.defaultTimer;
             this.groupId = menuItem.id
+            this.extGroupId = ""
+        },
+        extGroupClick: function(menuItem){
+            this.timer=this.defaultTimer;
+            this.extGroupId = menuItem.extGroup
         },
         menuClass: function(group){
             if(group.id === this.groupId){

@@ -433,7 +433,7 @@ svg{
 
     color: #f0e657;
     position: absolute;
-    top: 93%;
+    top: 92%;
     left: 43%;
     z-index: 5;
     animation: anim-down  1s infinite ease-in-out;
@@ -461,4 +461,17 @@ svg{
 .dropdown-menu {
     border-radius: 10px;
     background-color: rgba(125, 125, 125, 0.7);
+}
+
+.nav-font {
+    font-family: "Oswald", sans-serif;
+    font-weight: bold;
+    font-size: 20px;
+    color: #f4e858;
+    padding: 7px;
+}
+
+.uk-dropdown-nav > li > a {
+
+    color: #f4e858;
 }
