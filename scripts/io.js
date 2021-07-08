@@ -79,7 +79,6 @@ socketC.emit('getBaseData', {rest: 1}, (data) => {
         }
 
     }
-    console.log(app)
     if(app.getAllUrlParams().terminal){
         app.groupId = 0
     }
