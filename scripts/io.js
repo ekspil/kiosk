@@ -54,8 +54,8 @@ socketC.emit('getBaseData', {rest: 1}, (data) => {
 
 
     function compare(a, b) {
-        let compA = a.groupId + a.name
-        let compB = b.groupId + b.name
+        let compA = a.groupId + "-" + a.position + "-" + a.name
+        let compB = b.groupId + "-" + b.position + "-" + b.name
         if (compA > compB) return 1; // если первое значение больше второго
         if (compA == compB) return 0; // если равны
         if (compA < compB) return -1; // если первое значение меньше второго
@@ -79,6 +79,7 @@ socketC.emit('getBaseData', {rest: 1}, (data) => {
         }
 
     }
+    console.log(app)
     if(app.getAllUrlParams().terminal){
         app.groupId = 0
     }
