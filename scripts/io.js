@@ -284,9 +284,19 @@ function makeOrder(dataCart){
         SendET(serverEO, app.cart, message, msgId, app.orderType)
         app.lastId = data.id
 
-        setTimeout(()=>{app.payHelper = "Готово! Ваш заказ "+msgId}, 2000)
-        setTimeout(()=>{app.payed = 1}, 2500)
-        setTimeout(app.start, 15000)
+        if(app.getAllUrlParams().terminal){
+            setTimeout(()=>{app.payHelper = "Готово! Ваш заказ "+msgId}, 2000)
+            app.payed = 1
+            setTimeout(app.start, 15000)
+        }
+        else{
+
+            setTimeout(()=>{app.payHelper = "Готово! Ваш заказ "+msgId}, 2000)
+            setTimeout(()=>{app.payed = 1}, 2500)
+            setTimeout(app.start, 15000)
+
+        }
+
 
     });
 
