@@ -44,14 +44,14 @@
      <div  class="uk-width-1-1 uk-grid uk-grid-collapse buttons-bg">
          <div class=" uk-width-1-2">
              <a v-if="false" @click="coupon()" class=" uk-button uk-button-menu uk-button-coupon uk-width-1-6 uk-inline" href="#"><h3 class="uk-position-center-left mainmenu"><span v-if="langs">{{getMenuString('KUPON')}}</span> </h3><span class="uk-position-center-right uk-padding-small" uk-icon="heart"></span></a>
-             <a v-for="groupItem in groups.filter((item, index)=>index <= 3)" v-if="groupEmpty(groupItem)" @click="menuClick(groupItem)" :class="menuClassTerminal(groupItem)" href="#"><h3 class="uk-position-center mainmenu"><img v-if="!menuTerminalClicked(groupItem)" :data-src="'img/trmnl/btns/'+ String(Number(groupItem.position)+9) + '.png'"  alt="" uk-img><img v-if="menuTerminalClicked(groupItem)" :data-src="'img/trmnl/btns/'+ groupItem.position + '.png'"  alt="" uk-img></h3></a>
+             <a v-for="groupItem in groups.filter((item, index)=>Number(item.position) <= 4)" v-if="groupEmpty(groupItem)" @click="menuClick(groupItem)" :class="menuClassTerminal(groupItem)" href="#"><h3 class="uk-position-center mainmenu"><img v-if="!menuTerminalClicked(groupItem)" :data-src="'img/trmnl/btns/'+ String(Number(groupItem.position)+9) + '.png'"  alt="" uk-img><img v-if="menuTerminalClicked(groupItem)" :data-src="'img/trmnl/btns/'+ groupItem.position + '.png'"  alt="" uk-img></h3></a>
 
 
 
 
          </div>
          <div class=" uk-width-1-2 uk-grid  uk-grid-collapse">
-             <a v-for="groupItem in groups.filter((item, index)=>index > 3)" v-if="groupEmpty(groupItem)" @click="menuClick(groupItem)" :class="menuClassTerminal(groupItem) + ''" href="#"><h3 class="uk-position-center mainmenu"><img  v-if="!menuTerminalClicked(groupItem)" :data-src="'img/trmnl/btns/'+ String(Number(groupItem.position)+9) + '.png'"  alt="" uk-img><img  v-if="menuTerminalClicked(groupItem)" :data-src="'img/trmnl/btns/'+ groupItem.position + '.png'"  alt="" uk-img></h3></a>
+             <a v-for="groupItem in groups.filter((item, index)=>Number(item.position) > 4)" v-if="groupEmpty(groupItem)" @click="menuClick(groupItem)" :class="menuClassTerminal(groupItem) + ''" href="#"><h3 class="uk-position-center mainmenu"><img  v-if="!menuTerminalClicked(groupItem)" :data-src="'img/trmnl/btns/'+ String(Number(groupItem.position)+9) + '.png'"  alt="" uk-img><img  v-if="menuTerminalClicked(groupItem)" :data-src="'img/trmnl/btns/'+ groupItem.position + '.png'"  alt="" uk-img></h3></a>
 
 
 
