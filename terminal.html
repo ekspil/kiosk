@@ -480,10 +480,10 @@
 
     <div id="modal-pay" class="uk-modal-full" uk-modal="bg-close: false" @beforeshow="lockKeys()" @hidden="unlockKeys()">
         <div class="uk-modal-dialog uk-text-center">
-            <div v-if="payed==1" class="uk-grid-collapse uk-child-width-1-1@s uk-flex-middle" uk-grid>
+            <div v-if="payed==0" class="uk-grid-collapse uk-child-width-1-1@s uk-flex-middle" uk-grid>
                 <div class="uk-background-cover" style="background-image: url('img/trmnl/pay.jpg');" uk-height-viewport></div>
             </div>
-            <div v-if="payed==0" class="uk-grid-collapse uk-child-width-1-1@s uk-flex-middle" uk-grid>
+            <div v-if="payed==1" class="uk-grid-collapse uk-child-width-1-1@s uk-flex-middle" uk-grid>
                 <div class="uk-background-cover yellow" style="background-image: url('img/trmnl/bgclear.jpg');" uk-height-viewport>
                     <div class="uk-position-center">
 
