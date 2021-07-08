@@ -131,7 +131,7 @@
                          <ul class="uk-slider-items uk-child-width-1-3 ">
                              <li v-for="item in list.filter(pos=>{if(pos.groupId === gr.id && !pos.coupon && !pos.hiden && !pos.blocked) return true})" class="uk-animation-shake uk-padding-small uk-text-center" @click="addToCart(item)">
                                  <div><img class="uk-border-rounded" :src="item.img || 'img/prod/default.jpg'" alt="" ></div>
-                                 <div style="color: black;" class="terminal-price uk-grid-collapse" uk-grid><span class="uk-width-2-3" >{{getPosLangName(item)}}</span></span> <span  class="uk-width-1-3"  ><b>333</b> р</span></div>
+                                 <div style="color: black;" class="terminal-price uk-grid-collapse" uk-grid><span class="uk-width-2-3" >{{getPosLangName(item)}}</span></span> <span  class="uk-width-1-3"  ><b>{{pos.price}}</b> р</span></div>
                              </li>
 
                          </ul>
