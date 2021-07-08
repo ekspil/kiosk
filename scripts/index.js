@@ -578,6 +578,42 @@ var app = new Vue({
 
 
         },
+        startTerminal: function (atr) {
+            if(atr){
+                return true
+            }
+            this.phone = {
+                    enter: false,
+                    number: "",
+                    sum: "",
+                    pin: "",
+                    ok: false,
+                    pinUser: "",
+                    pinErrors: 0
+            }
+            this.lastPayData = {}
+            this.mainGroup()
+            this.clearTemp();
+            this.operation = 0
+            this.lang = "ru"
+            this.payed = 0;
+            this.groupId = 0
+            this.extGroupId = ""
+            this.keyLock = false;
+            this.thisCoupon = [];
+            this.thisCouponHolder="0000";
+            this.cart=[];
+            this.payHelper = "Следуйте указаниям на пинпаде...";
+            this.pincode=[];
+            if(this.lastModal){
+                UIkit.modal(this.lastModal).show();
+            }
+            else{
+                UIkit.modal('#modal-start').show();
+            }
+
+
+        },
         outOrder: function () {
             this.timer=this.defaultTimer;
             UIkit.modal('#modal-start').hide();
@@ -590,7 +626,13 @@ var app = new Vue({
         },
         checkTimer: function () {
             if(this.timer == 0){
-                this.start()
+                if(app.getAllUrlParams().terminal){
+
+                    this.startTerminal()
+                }else {
+
+                    this.start()
+                }
             }else{
                 this.timer--
             }

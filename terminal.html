@@ -174,7 +174,7 @@
 
 
      <div v-if="langs"  class="uk-text-center uk-position-bottom pay-buttons-terminal" uk-grid>
-         <button class="uk-button  uk-width-1-2 left-color" @click="start()" ><span v-if="langs">{{getMenuString('CANCEL')}}</span></button>
+         <button class="uk-button  uk-width-1-2 left-color" @click="startTerminal()" ><span v-if="langs">{{getMenuString('CANCEL')}}</span></button>
          <button class="uk-button  uk-width-1-2 right-color" @click="toCart()"><span v-if="Number(cart_sum)" uk-icon="icon: cart; ratio: 1" >  </span><span v-if="langs">{{Number(cart_sum)?  cart.reduce((acc, item) => {return acc = acc + item.count}, 0) + " | " + cart_sum + " " + getMenuString('RUB') : getMenuString('GO_TO_CART')}}</span></button>
      </div>
 
