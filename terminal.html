@@ -156,7 +156,7 @@
 <a v-for="pos in list" v-if="positionSort(pos)" href="#"  @click="addToCart(pos)" class=" uk-height-max-large  uk-padding-small"><div class="uk-card uk-card-small uk-animation-scale-up  ">
              <div class="uk-card-media-top"><img :data-src="pos.img || 'img/prod/default.jpg'" width="100%" height="100%" alt="" uk-img></div>
 
-                 <div style="color: black;" class="terminal-price uk-grid-collapse" uk-grid><span class="uk-width-2-3" >{{getPosLangName(pos)}}</span></span> <span  class="uk-width-1-3"  ><b>333</b> р</span></div>
+                 <div style="color: black;" class="terminal-price uk-grid-collapse" uk-grid><span class="uk-width-2-3" >{{getPosLangName(pos)}}</span></span> <span  class="uk-width-1-3"  ><b>{{pos.price}}</b> р</span></div>
 
 
          </div></a>
