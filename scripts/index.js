@@ -4,8 +4,14 @@ var app = new Vue({
     el: '#app',
     mounted: function () {
         const timer = setInterval(this.checkTimer, 1000)
-        //this.start()
-        //this.lockKiosk()
+
+        if(this.getAllUrlParams().terminal){
+            this.startTerminal()
+        }else {
+
+            this.start()
+        }
+        this.lockKiosk()
         setInterval(function(){
             let element = document.querySelector('#scrollId')
             if(!element) return
@@ -700,7 +706,13 @@ var app = new Vue({
         unlockKiosk: function () {
             this.timer=0;
             this.lastModal = ""
-            this.start()
+
+            if(this.getAllUrlParams().terminal){
+                this.startTerminal()
+            }else {
+
+                this.start()
+            }
         },
         printCheck: function (slip, strId, isFiscal){
             let my_aray_letters = returnArrayLetters(strId)
