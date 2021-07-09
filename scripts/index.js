@@ -336,9 +336,17 @@ var app = new Vue({
             return true
         },
         menuClick: function(menuItem){
+
             this.timer=this.defaultTimer;
-            this.groupId = menuItem.id
-            this.extGroupId = ""
+            if(this.getAllUrlParams().terminal && (this.groupId == menuItem.id)){
+                this.groupId = 0
+                this.extGroupId = ""
+            }
+            else{
+                this.groupId = menuItem.id
+                this.extGroupId = ""
+            }
+
         },
         extGroupClick: function(menuItem){
             this.timer=this.defaultTimer;
