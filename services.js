@@ -285,7 +285,8 @@ const changeHelper = async function(data){
         }
         const helper = await model.Helper.findOne({where})
         helper.name = data.name
-        helper.set = data.set
+        helper.dataValues.set = data.set
+        helper._changed.set = true
         return await helper.save()
 
 
