@@ -211,7 +211,6 @@ function changeMainScreen(newMainScreen){
 
 }
 function changeHelper(helper){
-    console.log(helper)
     socketL.emit('changeHelper', helper, (data) => {
         console.log(data)
 
