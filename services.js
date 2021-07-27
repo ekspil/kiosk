@@ -223,6 +223,7 @@ const changeGroup = async function(data){
         group.img = data.img
         group.blocked = data.blocked
         group.position = data.position
+        group.corner = data.corner
         group.en = data.en
         group.cn = data.cn
         group.jp = data.jp
@@ -236,6 +237,7 @@ const changeGroup = async function(data){
             img: data.img,
             blocked: data.blocked,
             position: data.position,
+            corner: data.corner,
             en: data.en,
             jp: data.jp,
             cn: data.cn,

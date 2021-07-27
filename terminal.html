@@ -44,14 +44,14 @@
      <div  class="uk-width-1-1 uk-grid uk-grid-collapse buttons-bg">
          <div class=" uk-width-1-2">
              <a v-if="false" @click="coupon()" class=" uk-button uk-button-menu uk-button-coupon uk-width-1-6 uk-inline" href="#"><h3 class="uk-position-center-left mainmenu"><span v-if="langs">{{getMenuString('KUPON')}}</span> </h3><span class="uk-position-center-right uk-padding-small" uk-icon="heart"></span></a>
-             <a v-for="groupItem in groups.filter((item, index)=>Number(item.position) <= 4)" v-if="groupEmpty(groupItem)" @click="menuClick(groupItem)" :class="menuClassTerminal(groupItem)" href="#"><h3 class="uk-position-center mainmenu"><img v-if="!menuTerminalClicked(groupItem)" :data-src="'img/trmnl/btns/'+ String(Number(groupItem.position)+9) + '.png'"  alt="" uk-img><img v-if="menuTerminalClicked(groupItem)" :data-src="'img/trmnl/btns/'+ groupItem.position + '.png'"  alt="" uk-img></h3></a>
+             <a v-for="groupItem in groups.filter((item, index)=>Number(item.position) <= 4)" v-if="groupEmpty(groupItem)" @click="menuClick(groupItem)" :class="menuClassTerminal(groupItem)" href="#"><h3 class="uk-position-center mainmenu"><img v-if="!menuTerminalClicked(groupItem)" :data-src="'img/trmnl/btns/'+ groupItem.corner + '.png'"  alt="" uk-img><img v-if="menuTerminalClicked(groupItem)" :data-src="'img/trmnl/btns/'+ groupItem.corner + '_selected.png'"  alt="" uk-img></h3></a>
 
 
 
 
          </div>
          <div class=" uk-width-1-2 uk-grid  uk-grid-collapse">
-             <a v-for="groupItem in groups.filter((item, index)=>Number(item.position) > 4)" v-if="groupEmpty(groupItem)" @click="menuClick(groupItem)" :class="menuClassTerminal(groupItem) + ''" href="#"><h3 class="uk-position-center mainmenu"><img  v-if="!menuTerminalClicked(groupItem)" :data-src="'img/trmnl/btns/'+ String(Number(groupItem.position)+9) + '.png'"  alt="" uk-img><img  v-if="menuTerminalClicked(groupItem)" :data-src="'img/trmnl/btns/'+ groupItem.position + '.png'"  alt="" uk-img></h3></a>
+             <a v-for="groupItem in groups.filter((item, index)=>Number(item.position) > 4)" v-if="groupEmpty(groupItem)" @click="menuClick(groupItem)" :class="menuClassTerminal(groupItem) + ''" href="#"><h3 class="uk-position-center mainmenu"><img  v-if="!menuTerminalClicked(groupItem)" :data-src="'img/trmnl/btns/'+ groupItem.corner + '.png'"  alt="" uk-img><img  v-if="menuTerminalClicked(groupItem)" :data-src="'img/trmnl/btns/'+ groupItem.corner + '_selected.png'"  alt="" uk-img></h3></a>
 
 
 
@@ -120,7 +120,7 @@
      <div  v-if="!groupId && !extGroupId && list" id="scrollId" class="uk-panel-scrollable uk-width-expand  uk-grid-collapse uk-flex-center uk-child-width-1-1 uk-text-center" uk-grid>
          <div  v-for="gr in groups" v-if="list.filter(pos=>{if(pos.groupId === gr.id && !pos.coupon && !pos.hiden && !pos.blocked) return true}).length > 0" :key="'gr'+ gr.id">
              <div >
-                 <img class="uk-border-rounded" :data-src="'img/trmnl/headers/'+ gr.position + '.jpg'"  alt="" uk-img>
+                 <img class="uk-border-rounded" :data-src="'img/trmnl/headers/'+ gr.corner + '.jpg'"  alt="" uk-img>
              </div>
 
              <div >

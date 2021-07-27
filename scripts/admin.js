@@ -59,7 +59,8 @@ let app = new Vue({
             cn: "",
             ko: "",
             blocked: false,
-            position: "99"
+            position: "99",
+            corner: ""
         },
         newMainScreen: {
             id: null,
@@ -310,7 +311,8 @@ let app = new Vue({
                 cn: "",
                 ko: "",
                 blocked: false,
-                position: "99"
+                position: "99",
+                corner: "",
             }
 
             //UIkit.modal('#modal-addGroup').show();

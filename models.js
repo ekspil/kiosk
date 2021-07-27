@@ -169,6 +169,10 @@ const Group = sequelize.define('groups', {
         type: Sequelize.DataTypes.STRING,
 
     },
+    corner: {
+        type: Sequelize.DataTypes.STRING,
+
+    },
     name: {
         type: Sequelize.DataTypes.STRING,
         allowNull: false
