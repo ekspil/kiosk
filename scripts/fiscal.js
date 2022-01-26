@@ -252,7 +252,7 @@ function RegisterCheck(NumDevice, TypeCheck, IsBarCode, my_aray_letters, cart, s
         ClientAddress: "test@mail.com",
         // Aдрес электронной почты отправителя чека тег ОФД 1117 (если задан при регистрации можно не указывать)
         // Формат: Email {С}@{C}
-        SenderEmail: "sochi@mama.com",
+        SenderEmail: "info@infiniti-group.ru",
         // Система налогообложения (СНО) применяемая для чека
         // Если не указанно - система СНО настроенная в ККМ по умолчанию
         // 0: Общая ОСН
@@ -329,7 +329,7 @@ function RegisterCheck(NumDevice, TypeCheck, IsBarCode, my_aray_letters, cart, s
               // 5: "ЧАСТИЧНЫЙ РАСЧЕТ И КРЕДИТ (Частичная оплата предмета расчета в момент его передачи с последующей оплатой в кредит )"
               // 6: "ПЕРЕДАЧА В КРЕДИТ (Передача предмета расчета без его оплаты в момент его передачи с последующей оплатой в кредит)"
               // 7: "ОПЛАТА КРЕДИТА (Оплата предмета расчета после его передачи с оплатой в кредит )"
-              SignMethodCalculation: 1,
+              SignMethodCalculation: 4,
               // Признак предмета расчета. тег ОФД 1212. Для ФФД.1.05 и выше обязательное поле
               // 1: "ТОВАР (наименование и иные сведения, описывающие товар)"
               // 2: "ПОДАКЦИЗНЫЙ ТОВАР (наименование и иные сведения, описывающие товар)"
@@ -491,11 +491,13 @@ function ReturnCheck(NumDevice, cart, slip) {
 
     };
 
-  for(let n in slip)  {
+    if(slip){
+        for (let n in slip) {
 
-      let slipString = { PrintText: { Text: slip[n] }, }
-      Data.CheckStrings.push(slipString)
-  }
+            let slipString = {PrintText: {Text: slip[n]},}
+            Data.CheckStrings.push(slipString)
+        }
+    }
 
 
   for(let i in cart){

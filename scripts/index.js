@@ -681,7 +681,10 @@ var app = new Vue({
 
 
             this.timer=this.defaultTimer*5;
-            PaymentByPaymentCard(pinpadDevice, this.cart_sum)
+
+
+            //PaymentByPaymentCard(pinpadDevice, this.cart_sum)
+            this.startPayOneAction()
             UIkit.modal('#modal-pay').show();
 
 
@@ -744,6 +747,30 @@ var app = new Vue({
             UIkit.modal('#modal-pay').hide();
             this.payHelper = "Следуйте указаниям на пинпаде..."
         },
+        startPayOneAction(){
+            setTimeout(()=>{this.payHelper = "Выполняем процедуру оплаты и печати..."}, 100)
+            let newId = this.lastId + 1
+            let strId = ""
+            if (String(newId).length == 1){
+                strId = "00" + newId
+            }
+            if (String(newId).length == 2){
+                strId = "0" + newId
+            }
+            if (String(newId).length >= 3){
+                strId = String(newId).slice(-3)
+            }
+            strId = this.litera+"-"+strId
+            // if(this.phone.number && this.phone.sum !== "" ){
+            //     const sumBP = String(this.cart_sum).slice(0, -2) * 10
+            //     if(sumBP > 0){
+            //         this.payHelper = "Начисляем бонусы..."
+            //         plusBonus(this.phone.number, sumBP)
+            //     }
+            //
+            // }
+            this.printCheck([], strId, true)
+        },
         deviceOk: async function (Rezult, textStatus, jqXHR) {
 
 
@@ -763,6 +790,16 @@ var app = new Vue({
                     strId = String(newId).slice(-3)
                 }
                 strId = this.litera+"-"+strId
+
+                this.printCheck(slip, strId, true)
+
+            }
+            if(Rezult.Command == "RegisterCheck" && Rezult.Status == 0 && this.operation == 0){
+                console.log(Rezult)
+                if(!Rezult.RezultProcessing){
+                    this.payHelper = "Ошибка оплаты! Нет данных о пинпаде в ККМ Сервере. Ваш чек не действителен! Обратитесь к Администратору."
+                    return
+                }
                 if(this.phone.number && this.phone.sum !== "" ){
                     const sumBP = String(this.cart_sum).slice(0, -2) * 10
                     if(sumBP > 0){
@@ -771,19 +808,21 @@ var app = new Vue({
                     }
 
                 }
-                this.printCheck(slip, strId, true)
-
-            }
-            if(Rezult.Command == "RegisterCheck" && Rezult.Status == 0 && this.operation == 0){
 
                 this.registerOrder(Rezult)
 
             }
 
             if(Rezult.Command == "RegisterCheck" && Rezult.Status != 0 && this.operation == 0){
-                this.payHelper = "Ошибка принтера, чек не будет распечатан! Возможно смена превысила 24 часа!"
-                Rezult.CheckNumber = 0
-                this.registerOrder(Rezult)
+                if(Rezult.RezultProcessing && Rezult.RezultProcessing.Error){
+                    this.payHelper = "Ошибка оплаты " + Rezult.RezultProcessing.Error
+                    setTimeout(this.hidePayModal, 5000)
+                }
+                else{
+                    this.payHelper = "Ошибка оплаты или принтера, обратитесь к администратору заведения!"
+                }
+
+                console.log(Rezult)
 
             }
             if(Rezult.Command == "PayByPaymentCard" && Rezult.Status != 0  && this.operation == 0){
@@ -804,6 +843,7 @@ var app = new Vue({
             if(Rezult.Command == "RegisterCheck" && this.operation == 2){
                 this.operation = 3
                 if(Rezult.Status == 0){
+                    this.deletedCheck.order.returnPay = true
                     this.deletedCheck.order.returnCheck = true
                 }
                 this.deleteOrder(Rezult)
@@ -821,8 +861,8 @@ var app = new Vue({
                 orderType: this.orderType,
                 fiscalNum: Rezult.CheckNumber,
                 error: Rezult.Error,
-                RRNCode: this.lastPayData.RRNCode,
-                AuthorizationCode: this.lastPayData.AuthorizationCode,
+                RRNCode: Rezult.RezultProcessing.RRNCode,
+                AuthorizationCode: Rezult.RezultProcessing.AuthorizationCode,
                 bonus: this.phone.ok
             }
             makeOrder(dataCart)
@@ -837,25 +877,7 @@ var app = new Vue({
         },
         deleteOrder: function (data) {
             this.timer=this.defaultTimer;
-            if(this.operation == 1){
-                if(this.deletedCheck.order.returnPay == true){
-                    this.operation = 2
-                }
-                else{
-                    this.delFiscalNumHolder = "Приложите карту"
-                    ReturnPaymentByPaymentCard(pinpadDevice, this.deletedCheck)
-                }
 
-            }
-            if(this.operation == 2){
-                if(this.deletedCheck.order.returnCheck == true){
-                    this.operation = 3
-                }else{
-                    this.delFiscalNumHolder = "Ждите чек"
-                    ReturnCheck(fiscalDevice, this.deletedCheck.positions, data)
-                }
-
-            }
             if(this.operation == 3){
                 const sendData = {
                     fiscalNum: this.deletedCheck.order.fiscalNum,
@@ -863,6 +885,7 @@ var app = new Vue({
                     returnCheck: this.deletedCheck.order.returnCheck
 
                 }
+                console.log(sendData)
                 socketL.emit('deleteOrder', sendData, (answer) => {
                     this.delFiscalNum = []
                     if(!answer){
@@ -879,6 +902,32 @@ var app = new Vue({
 
                 });
             }
+            else {
+                this.operation = 2
+                this.delFiscalNumHolder = "Внимание на пинпад!"
+                ReturnCheck(fiscalDevice, this.deletedCheck.positions)
+            }
+
+
+            // if(this.operation == 1){
+            //     if(this.deletedCheck.order.returnPay == true){
+            //         this.operation = 2
+            //     }
+            //     else{
+            //         this.delFiscalNumHolder = "Приложите карту"
+            //         ReturnPaymentByPaymentCard(pinpadDevice, this.deletedCheck)
+            //     }
+            //
+            // }
+            // if(this.operation == 2){
+            //     if(this.deletedCheck.order.returnCheck == true){
+            //         this.operation = 3
+            //     }else{
+            //         this.delFiscalNumHolder = "Внимание на пинпад!"
+            //         ReturnCheck(fiscalDevice, this.deletedCheck.positions, data)
+                // }
+
+            // }
 
         },
         findOrder: function (id, fiscalNum) {

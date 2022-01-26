@@ -397,11 +397,11 @@ const makeOrder = async function(data){
 
 const findOrder = async function(list){
     const {fiscalNum, id} = list
-    let where = {}
+    let where = {
+        returnPay: false
+    }
     if(fiscalNum){
-        where = {
-            fiscalNum
-        }
+        where.fiscalNum = fiscalNum
     }
     else if(id){
         where = {
