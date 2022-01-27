@@ -57,6 +57,7 @@ var app = new Vue({
 
     },
     data: {
+        bonusPayFlag: false,
         lang: 'ru',
         helperNum: '1',
         phone: {
@@ -570,6 +571,7 @@ var app = new Vue({
                     pinUser: "",
                     pinErrors: 0
             }
+            this.bonusPayFlag = false
             this.lastPayData = {}
             this.mainGroup()
             this.clearTemp();
@@ -731,6 +733,7 @@ var app = new Vue({
         },
         printSlip: function (slip, strId){
             let my_aray_letters = returnArrayLetters(strId)
+            this.bonusPayFlag = true
             PrintSlip(fiscalDevice, my_aray_letters, this.cart)
         },
         closeSh: function () {
@@ -796,11 +799,11 @@ var app = new Vue({
             }
             if(Rezult.Command == "RegisterCheck" && Rezult.Status == 0 && this.operation == 0){
                 console.log(Rezult)
-                if(!Rezult.RezultProcessing){
+                if(!Rezult.RezultProcessing && !this.bonusPayFlag){
                     this.payHelper = "Ошибка оплаты! Нет данных о пинпаде в ККМ Сервере. Ваш чек не действителен! Обратитесь к Администратору."
                     return
                 }
-                if(this.phone.number && this.phone.sum !== "" ){
+                if(this.phone.number && this.phone.sum !== "" && !this.bonusPayFlag){
                     const sumBP = String(this.cart_sum).slice(0, -2) * 10
                     if(sumBP > 0){
                         this.payHelper = "Начисляем бонусы..."
@@ -810,6 +813,7 @@ var app = new Vue({
                 }
 
                 this.registerOrder(Rezult)
+                this.bonusPayFlag = false
 
             }
 
