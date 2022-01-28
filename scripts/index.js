@@ -803,6 +803,10 @@ var app = new Vue({
                     this.payHelper = "Ошибка оплаты! Нет данных о пинпаде в ККМ Сервере. Ваш чек не действителен! Обратитесь к Администратору."
                     return
                 }
+                if(Rezult.Error){
+                    this.payHelper = "Ошибка! Если деньги были списаны, то они вернутся на карту!"
+                    return
+                }
                 if(this.phone.number && this.phone.sum !== "" && !this.bonusPayFlag){
                     const sumBP = String(this.cart_sum).slice(0, -2) * 10
                     if(sumBP > 0){
@@ -821,6 +825,9 @@ var app = new Vue({
                 if(Rezult.RezultProcessing && Rezult.RezultProcessing.Error){
                     this.payHelper = "Ошибка оплаты " + Rezult.RezultProcessing.Error
                     setTimeout(this.hidePayModal, 5000)
+                }
+                else if(Rezult.Error){
+                    this.payHelper = "Ошибка принтера, обратитесь к администратору заведения!"
                 }
                 else{
                     this.payHelper = "Ошибка оплаты или принтера, обратитесь к администратору заведения!"
