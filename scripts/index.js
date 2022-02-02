@@ -827,7 +827,7 @@ var app = new Vue({
                     setTimeout(this.hidePayModal, 5000)
                 }
                 else if(Rezult.Error){
-                    this.payHelper = "Ошибка принтера, обратитесь к администратору заведения!"
+                    this.payHelper = "Ошибка! Если деньги были списаны, то они вернутся на карту!"
                 }
                 else{
                     this.payHelper = "Ошибка оплаты или принтера, обратитесь к администратору заведения!"
@@ -872,8 +872,8 @@ var app = new Vue({
                 orderType: this.orderType,
                 fiscalNum: Rezult.CheckNumber,
                 error: Rezult.Error,
-                RRNCode: Rezult.RezultProcessing.RRNCode,
-                AuthorizationCode: Rezult.RezultProcessing.AuthorizationCode,
+                RRNCode: Rezult.RezultProcessing ? Rezult.RezultProcessing.RRNCode : "",
+                AuthorizationCode: Rezult.RezultProcessing ? Rezult.RezultProcessing.AuthorizationCode : "",
                 bonus: this.phone.ok
             }
             makeOrder(dataCart)
