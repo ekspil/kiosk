@@ -797,7 +797,7 @@ var app = new Vue({
                 this.printCheck(slip, strId, true)
 
             }
-            if(Rezult.Command == "RegisterCheck" && Rezult.Status == 0 && this.operation == 0){
+            if(Rezult.Command == "RegisterCheck" && (Rezult.Status == 0 || Rezult.Status == 1) && this.operation == 0){
                 console.log(Rezult)
                 if(!Rezult.RezultProcessing && !this.bonusPayFlag){
                     this.payHelper = "Ошибка оплаты! Нет данных о пинпаде в ККМ Сервере. Ваш чек не действителен! Обратитесь к Администратору."
@@ -821,7 +821,7 @@ var app = new Vue({
 
             }
 
-            if(Rezult.Command == "RegisterCheck" && Rezult.Status != 0 && this.operation == 0){
+            if(Rezult.Command == "RegisterCheck" && Rezult.Status != 0 && Rezult.Status != 1 && this.operation == 0){
                 if(Rezult.RezultProcessing && Rezult.RezultProcessing.Error){
                     this.payHelper = "Ошибка оплаты " + Rezult.RezultProcessing.Error
                     setTimeout(this.hidePayModal, 5000)
