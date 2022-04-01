@@ -550,8 +550,7 @@ var app = new Vue({
             this.timer=this.defaultTimer;
 
             [coupon] = this.list.filter(li => li.coupon == couponNum)
-            console.log(coupon)
-            if(!coupon){
+            if(!coupon || coupon.blocked || coupon.hiden){
                 this.thisCoupon = [];
                 this.thisCouponHolder = "Купон не найден";
                 return false
